@@ -46,6 +46,19 @@ const translations = {
     "contact_title": "Your next idea<br>deserves a <strong>smart solution.</strong>",
     "contact_desc": "Whether it's a project, engineering integration, or your first smart home plan, let's find the most effective approach together.",
     "contact_btn": "Contact Troy",
+    "nav_articles": "Insights",
+    "articles_title": "Sharing knowledge,<br>building authority.",
+    "articles_desc": "Technical deep dives and solutions for automation and smart living.",
+    "art_1_title": "How to achieve true unattended<br>automation with PAD?",
+    "art_1_desc": "Explore common scheduling and unattended pain points in enterprise PAD automation, and providing practical architecture designs and solutions.",
+    "art_tag_label": "Tags",
+    "art_tag_val": "PAD, RPA, Unattended",
+    "art_read_label": "Read Time",
+    "art_read_val": "5 Min Read",
+    "art_1_link": "Read Article",
+    "art_2_title": "How to Find Your PAD Workflow ID<br>for Orchestrator Deployment",
+    "art_2_desc": "A step-by-step guide on locating the unique ID of your Power Automate Desktop workflow to deploy it for unattended scheduling.",
+    "art_2_link": "Read Guide",
     "back_to_top": "BACK TO TOP ↑"
   },
   "zh-TW": {
@@ -95,6 +108,19 @@ const translations = {
     "contact_title": "你的下一個想法，<br>值得一個<strong>聰明的解法。</strong>",
     "contact_desc": "無論是專題、工程整合，還是你的第一個智慧家庭計畫，讓我們一起找出最有效的做法。",
     "contact_btn": "聯絡 Troy",
+    "nav_articles": "技術專欄",
+    "articles_title": "分享知識，<br>建立專業權威。",
+    "articles_desc": "自動化與智慧生活的技術深究與解決方案。",
+    "art_1_title": "如何用 Power Automate Desktop<br>做到真正的無人值守？",
+    "art_1_desc": "探討 PAD 在企業自動化中常見的排程與無人值守痛點，並提供實務上的架構設計與解決方案，讓 RPA 真正發揮 24/7 自動運作的價值。",
+    "art_tag_label": "標籤",
+    "art_tag_val": "PAD, RPA, 無人值守",
+    "art_read_label": "閱讀時間",
+    "art_read_val": "5 分鐘",
+    "art_1_link": "閱讀文章",
+    "art_2_title": "如何尋找 PAD 工作流程 ID<br>以供 Orchestrator 部署",
+    "art_2_desc": "逐步圖文教學，教你如何找出 Power Automate Desktop 腳本的專屬 ID，讓 PAD Orchestrator 能夠精準呼叫與無人值守執行。",
+    "art_2_link": "閱讀教學",
     "back_to_top": "回到頂部 ↑"
   },
   "zh-CN": {
@@ -144,6 +170,19 @@ const translations = {
     "contact_title": "你的下一个想法，<br>值得一个<strong>聪明的解法。</strong>",
     "contact_desc": "无论是专题、工程集成，还是你的第一个智能家居计划，让我们一起找出最有效的做法。",
     "contact_btn": "联系 Troy",
+    "nav_articles": "技术专栏",
+    "articles_title": "分享知识，<br>建立专业权威。",
+    "articles_desc": "自动化与智能生活的技术深究与解决方案。",
+    "art_1_title": "如何用 Power Automate Desktop<br>做到真正的无人值守？",
+    "art_1_desc": "探讨 PAD 在企业自动化中常见的排程与无人值守痛点，并提供实务上的架构设计与解决方案，让 RPA 真正发挥 24/7 自动运作的价值。",
+    "art_tag_label": "标签",
+    "art_tag_val": "PAD, RPA, 无人值守",
+    "art_read_label": "阅读时间",
+    "art_read_val": "5 分钟",
+    "art_1_link": "阅读文章",
+    "art_2_title": "如何查找 PAD 工作流 ID<br>以供 Orchestrator 部署",
+    "art_2_desc": "逐步图文教学，教你如何找出 Power Automate Desktop 脚本的专属 ID，让 PAD Orchestrator 能够精准调用与无人值守执行。",
+    "art_2_link": "阅读教学",
     "back_to_top": "回到顶部 ↑"
   },
   "ja": {
@@ -193,6 +232,19 @@ const translations = {
     "contact_title": "あなたの次のアイデアは、<br><strong>スマートな解決策</strong>に値する。",
     "contact_desc": "プロジェクト、エンジニアリングの統合、または最初のスマートホーム計画であっても、最も効果的なアプローチを一緒に見つけましょう。",
     "contact_btn": "Troyに連絡する",
+    "nav_articles": "技術コラム",
+    "articles_title": "知識を共有し、<br>専門的権威を築く。",
+    "articles_desc": "自動化とスマートライフのための技術的探求とソリューション。",
+    "art_1_title": "Power Automate Desktopで<br>真の無人実行を実現するには？",
+    "art_1_desc": "企業のPAD自動化における一般的なスケジューリングと無人実行の課題を探求し、実践的なアーキテクチャ設計と解決策を提供します。",
+    "art_tag_label": "タグ",
+    "art_tag_val": "PAD, RPA, 無人実行",
+    "art_read_label": "読了時間",
+    "art_read_val": "5 分",
+    "art_1_link": "記事を読む",
+    "art_2_title": "Orchestrator展開のための<br>PADワークフローIDの見つけ方",
+    "art_2_desc": "PAD Orchestratorが無人実行を正確に呼び出せるように、Power Automate Desktopスクリプトの固有IDを見つけるためのステップバイステップガイド。",
+    "art_2_link": "ガイドを読む",
     "back_to_top": "トップへ戻る ↑"
   },
   "ko": {
@@ -242,6 +294,19 @@ const translations = {
     "contact_title": "당신의 다음 아이디어는<br><strong>스마트한 해결책</strong>을 가질 자격이 있습니다.",
     "contact_desc": "프로젝트, 엔지니어링 통합 또는 첫 번째 스마트 홈 계획이든 상관없이 함께 가장 효과적인 접근 방식을 찾아봅시다.",
     "contact_btn": "Troy에게 연락하기",
+    "nav_articles": "기술 칼럼",
+    "articles_title": "지식을 공유하고,<br>전문적 권위를 구축합니다.",
+    "articles_desc": "자동화 및 스마트 라이프를 위한 기술적 탐구 및 솔루션.",
+    "art_1_title": "Power Automate Desktop으로<br>진정한 무인 실행을 달성하는 방법은?",
+    "art_1_desc": "엔터프라이즈 PAD 자동화의 일반적인 스케줄링 및 무인 실행의 문제점을 탐구하고 실용적인 아키텍처 설계 및 솔루션을 제공합니다.",
+    "art_tag_label": "태그",
+    "art_tag_val": "PAD, RPA, 무인 실행",
+    "art_read_label": "읽는 시간",
+    "art_read_val": "5 분",
+    "art_1_link": "기사 읽기",
+    "art_2_title": "Orchestrator 배포를 위한<br>PAD 워크플로우 ID 찾는 방법",
+    "art_2_desc": "PAD Orchestrator가 무인 실행을 정확하게 호출할 수 있도록 Power Automate Desktop 스크립트의 고유 ID를 찾는 단계별 가이드.",
+    "art_2_link": "가이드 읽기",
     "back_to_top": "맨 위로 이동 ↑"
   }
 };
@@ -278,6 +343,15 @@ function updateLanguage(lang) {
       } else {
         el.textContent = translations[lang][key];
       }
+    }
+  });
+
+  // Toggle content blocks based on language
+  document.querySelectorAll('[data-lang-block]').forEach(el => {
+    if (el.getAttribute('data-lang-block') === lang) {
+      el.style.display = '';
+    } else {
+      el.style.display = 'none';
     }
   });
 

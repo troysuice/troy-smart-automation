@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="zh-TW">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  
+  <title>如何用 Power Automate Desktop 做到真正的無人值守？實務架構與痛點解決 | Troy's Smart Automation</title>
+  <meta name="title" content="如何用 Power Automate Desktop 做到真正的無人值守？實務架構與痛點解決 | Troy's Smart Automation" />
+  <meta name="description" content="深入探討 Power Automate Desktop (PAD) 在企業 RPA 自動化中常見的排程與無人值守痛點，並提供實務上的架構設計與解決方案。" />
+  <meta name="keywords" content="PAD, Power Automate Desktop, 無人值守, Unattended, RPA, 自動化排程, 企業自動化, 痛點解決, Troy Su" />
+  <meta name="author" content="Troy Su" />
+  <meta name="robots" content="index, follow" />
+  
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://troysuice.github.io/troy-smart-automation/pad-unattended-guide.html" />
+  <meta property="og:title" content="如何用 Power Automate Desktop 做到真正的無人值守？" />
+  <meta property="og:description" content="探討 PAD 在企業自動化中常見的排程與無人值守痛點，並提供實務上的架構設計與解決方案。" />
+  <meta property="og:image" content="https://troysuice.github.io/troy-smart-automation/assets/pad-orchestrator.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Noto+Sans+TC:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .article-wrap {
+      padding: 120px 0 80px;
+      max-width: 760px;
+      margin: auto;
+    }
+    .article-header {
+      margin-bottom: 60px;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 40px;
+    }
+    .article-header h1 {
+      font-size: clamp(32px, 5vw, 48px);
+      line-height: 1.2;
+      margin: 20px 0;
+      letter-spacing: -1px;
+    }
+    .article-meta {
+      display: flex;
+      gap: 20px;
+      color: var(--muted);
+      font-family: "DM Mono", monospace;
+      font-size: 12px;
+      margin-top: 20px;
+    }
+    .article-content h2 {
+      font-size: 28px;
+      color: var(--lime);
+      margin: 60px 0 24px;
+      font-weight: 600;
+    }
+    .article-content h3 {
+      font-size: 22px;
+      color: var(--cyan);
+      margin: 40px 0 16px;
+    }
+    .article-content p {
+      font-size: 17px;
+      line-height: 1.8;
+      color: var(--text);
+      margin-bottom: 24px;
+    }
+    .article-content ul, .article-content ol {
+      font-size: 17px;
+      line-height: 1.8;
+      color: var(--muted);
+      margin-bottom: 32px;
+      padding-left: 20px;
+    }
+    .article-content li {
+      margin-bottom: 12px;
+    }
+    .article-content img {
+      width: 100%;
+      border-radius: 8px;
+      border: 1px solid var(--line);
+      margin: 40px 0;
+    }
+    .back-btn {
+      display: inline-block;
+      margin-bottom: 40px;
+      color: var(--cyan);
+      text-decoration: none;
+      font-family: "DM Mono", monospace;
+      font-size: 12px;
+      letter-spacing: 1px;
+    }
+    .back-btn:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="noise" aria-hidden="true"></div>
+  
+  <!-- Updated Header with Language Selector -->
+  <header class="site-header">
+    <a class="brand" href="index.html" aria-label="Home">
+      <span class="brand-mark">T</span>
+      <span>TROY'S<br><b>SMART AUTOMATION</b></span>
+    </a>
+    <button class="menu-toggle" aria-controls="main-nav" aria-expanded="false">
+      <span></span><span></span><span></span><i data-i18n="menu">Menu</i>
+    </button>
+    <nav id="main-nav" class="main-nav" aria-label="Main Navigation">
+      <a href="index.html#about" data-i18n="nav_about">About Troy</a>
+      <a href="index.html#expertise" data-i18n="nav_expertise">Expertise</a>
+      <a href="index.html#work" data-i18n="nav_work">Selected Work</a>
+      <a href="index.html#software" data-i18n="nav_software">Software</a>
+      <a href="articles.html" data-i18n="nav_articles">Insights</a>
+      <a class="nav-cta" href="index.html#contact"><span data-i18n="nav_contact">Start Planning</span> <span>↗</span></a>
+      <div class="lang-selector-wrapper">
+        <select id="lang-select" class="lang-select" aria-label="Select Language">
+          <option value="en">English</option>
+          <option value="zh-TW">繁體中文</option>
+          <option value="zh-CN">简体中文</option>
+          <option value="ja">日本語</option>
+          <option value="ko">한국어</option>
+        </select>
+      </div>
+    </nav>
+  </header>
+
+  <main class="article-wrap">
+    <a href="articles.html" class="back-btn">← BACK TO ARTICLES</a>
+    
+    <!-- Traditional Chinese Block -->
+    <div data-lang-block="zh-TW">
+      <header class="article-header">
+        <p class="eyebrow"><span></span> RPA / Unattended / Automation</p>
+        <h1>如何用 Power Automate Desktop 做到真正的無人值守？實務痛點與解決方案</h1>
+        <div class="article-meta">
+          <span>AUTHOR: Troy Su</span>
+          <span>DATE: 2026-08-06</span>
+          <span>READ: 5 MIN</span>
+        </div>
+      </header>
+      <div class="article-content">
+        <p>Power Automate Desktop (PAD) 是微軟推廣 RPA 的重要工具。它的介面直覺、與 Windows 生態系整合度高，因此許多企業在初步導入自動化時都會選擇它。</p>
+        <p>然而，當自動化專案進入到「必須 24 小時自動排程、不需人工介入」的階段時，許多開發者與 IT 人員會立刻面臨一個巨大的痛點：<strong>PAD 的免費版或標準版在「無人值守 (Unattended)」與「排程觸發」上的功能有相當多的限制</strong>。</p>
+        <h2>常見的三大痛點</h2>
+        <h3>1. 缺乏內建的獨立排程器</h3>
+        <p>許多使用者發現，寫好的流程如果沒有購買高額的 Premium 授權並串接雲端 Power Automate，很難做到精準且多任務的定時觸發。依賴 Windows 工作排程器雖然可行，但在處理多個腳本並行或登入畫面時，經常會遇到中斷或失敗。</p>
+        <h3>2. 鎖定畫面與登入狀態</h3>
+        <p>真正的無人值守環境通常是一台虛擬機 (VM)，而這台 VM 大多數時間處於登出或鎖定狀態。如果沒有特殊的 Agent 協助解鎖與接管桌面，PAD 的 UI 自動化（例如點擊座標、尋找圖片）會直接失效。</p>
+        <h3>3. 錯誤通知與重新啟動</h3>
+        <p>當機器人遇到預期外的錯誤（例如網頁改版、系統跳出更新視窗），如果沒有一個好的控制中心，腳本掛掉後不會自動重試，IT 人員也無法即時收到通知，導致業務中斷。</p>
+        <img src="assets/pad-orchestrator.png" alt="PAD Orchestrator Dashboard" />
+        <h2>實務架構設計與解法</h2>
+        <p>要解決上述問題，我們不能只依賴 PAD 單機軟體，必須建立一個完整的「管理層 (Orchestration Layer)」。以下是我們為企業導入時最常使用的架構策略：</p>
+        <ul>
+          <li><strong>外掛排程控制中心：</strong> 建立一個常駐的服務（例如我們自行開發的 PAD Orchestrator），這個服務負責監控時間、監控資料夾變化、甚至監聽 Webhook API。當條件觸發時，由這個中心透過命令列指令精準啟動對應的 PAD 腳本。</li>
+          <li><strong>Auto-Logon 機制：</strong> 配合 Registry 設定或專用的解鎖程式，確保排程啟動前，VM 能夠自動進入正確的使用者桌面環境，讓 UI 尋找功能正常運作。</li>
+          <li><strong>標準化的 Log 與重試邏輯：</strong> 在 PAD 腳本內部寫入標準的 Try-Catch 邏輯。當錯誤發生時，除了截圖，也要將狀態回傳給控制中心，由控制中心決定是否發送 LINE/Email 通知，或是等 5 分鐘後自動重試。</li>
+        </ul>
+        <h2>結論</h2>
+        <p>RPA 的價值在於釋放人力。如果你正在評估導入 Power Automate Desktop，請務必在設計初期就將「無人值守架構」考量進去，或者尋求專業的架構顧問協助。不要讓自動化軟體變成另一個每天需要你人工去按「執行」的麻煩工具。</p>
+      </div>
+    </div>
+
+    <!-- Simplified Chinese Block -->
+    <div data-lang-block="zh-CN" style="display:none;">
+      <header class="article-header">
+        <p class="eyebrow"><span></span> RPA / Unattended / Automation</p>
+        <h1>如何用 Power Automate Desktop 做到真正的无人值守？实务痛点与解决方案</h1>
+        <div class="article-meta">
+          <span>AUTHOR: Troy Su</span>
+          <span>DATE: 2026-08-06</span>
+          <span>READ: 5 MIN</span>
+        </div>
+      </header>
+      <div class="article-content">
+        <p>Power Automate Desktop (PAD) 是微软推广 RPA 的重要工具。它的界面直觉、与 Windows 生态系整合度高，因此许多企业在初步导入自动化时都会选择它。</p>
+        <p>然而，当自动化专案进入到“必须 24 小时自动排程、不需人工介入”的阶段时，许多开发者与 IT 人员会立刻面临一个巨大的痛点：<strong>PAD 的免费版或标准版在“无人值守 (Unattended)”与“排程触发”上的功能有相当多的限制</strong>。</p>
+        <h2>常见的三大痛点</h2>
+        <h3>1. 缺乏内建的独立排程器</h3>
+        <p>许多使用者发现，写好的流程如果没有购买高额的 Premium 授权并串接云端 Power Automate，很难做到精准且多任务的定时触发。依赖 Windows 任务计划程序虽然可行，但在处理多个脚本并行或登录画面时，经常会遇到中断或失败。</p>
+        <h3>2. 锁定画面与登录状态</h3>
+        <p>真正的无人值守环境通常是一台虚拟机 (VM)，而这台 VM 大多数时间处于登出或锁定状态。如果没有特殊的 Agent 协助解锁与接管桌面，PAD 的 UI 自动化（例如点击坐标、寻找图片）会直接失效。</p>
+        <h3>3. 错误通知与重新启动</h3>
+        <p>当机器人遇到预期外的错误（例如网页改版、系统跳出更新视窗），如果没有一个好的控制中心，脚本挂掉后不会自动重试，IT 人员也无法即时收到通知，导致业务中断。</p>
+        <img src="assets/pad-orchestrator.png" alt="PAD Orchestrator Dashboard" />
+        <h2>实务架构设计与解法</h2>
+        <p>要解决上述问题，我们不能只依赖 PAD 单机软件，必须建立一个完整的“管理层 (Orchestration Layer)”。以下是我们为企业导入时最常使用的架构策略：</p>
+        <ul>
+          <li><strong>外挂排程控制中心：</strong> 建立一个常驻的服务（例如我们自行开发的 PAD Orchestrator），这个服务负责监控时间、监控文件夹变化、甚至监听 Webhook API。当条件触发时，由这个中心通过命令行指令精准启动对应的 PAD 脚本。</li>
+          <li><strong>Auto-Logon 机制：</strong> 配合 Registry 设定或专用的解锁程序，确保排程启动前，VM 能够自动进入正确的使用者桌面环境，让 UI 寻找功能正常运作。</li>
+          <li><strong>标准化的 Log 与重试逻辑：</strong> 在 PAD 脚本内部写入标准的 Try-Catch 逻辑。当错误发生时，除了截图，也要将状态回传给控制中心，由控制中心决定是否发送 LINE/Email 通知，或是等 5 分钟后自动重试。</li>
+        </ul>
+        <h2>结论</h2>
+        <p>RPA 的价值在于释放人力。如果你正在评估导入 Power Automate Desktop，请务必在设计初期就将“无人值守架构”考量进去，或者寻求专业的架构顾问协助。不要让自动化软件变成另一个每天需要你人工去按“执行”的麻烦工具。</p>
+      </div>
+    </div>
+
+    <!-- English Block -->
+    <div data-lang-block="en" style="display:none;">
+      <header class="article-header">
+        <p class="eyebrow"><span></span> RPA / Unattended / Automation</p>
+        <h1>How to Achieve True Unattended Automation with Power Automate Desktop?</h1>
+        <div class="article-meta">
+          <span>AUTHOR: Troy Su</span>
+          <span>DATE: 2026-08-06</span>
+          <span>READ: 5 MIN</span>
+        </div>
+      </header>
+      <div class="article-content">
+        <p>Power Automate Desktop (PAD) is an excellent RPA tool. Its intuitive interface and deep integration with the Windows ecosystem make it a top choice for enterprises starting their automation journey.</p>
+        <p>However, when automation projects reach the stage of requiring "24/7 automated scheduling without human intervention," developers often face a significant hurdle: <strong>the free or standard versions of PAD have considerable limitations regarding "Unattended" execution and "Scheduled Triggers."</strong></p>
+        <h2>Three Common Pain Points</h2>
+        <h3>1. Lack of a Built-in Independent Scheduler</h3>
+        <p>Many users find that without purchasing expensive Premium licenses and connecting to cloud-based Power Automate, it is difficult to achieve precise, multi-task scheduling. Relying on the Windows Task Scheduler is possible, but it frequently fails when handling multiple parallel scripts or dealing with login screens.</p>
+        <h3>2. Lock Screens and Login States</h3>
+        <p>A true unattended environment is usually a Virtual Machine (VM), which spends most of its time logged out or locked. Without a specialized Agent to unlock and take over the desktop, PAD's UI automation (like clicking coordinates or finding images) will completely fail.</p>
+        <h3>3. Error Notifications and Auto-Restarts</h3>
+        <p>When a bot encounters an unexpected error (e.g., a website layout changes, or a system update window pops up), without a robust control center, the script stops without retrying. IT personnel receive no real-time alerts, leading to business disruption.</p>
+        <img src="assets/pad-orchestrator.png" alt="PAD Orchestrator Dashboard" />
+        <h2>Practical Architecture & Solutions</h2>
+        <p>To solve these issues, we cannot rely solely on the standalone PAD software; we must build a complete "Orchestration Layer." Here are the core strategies we use when implementing enterprise solutions:</p>
+        <ul>
+          <li><strong>External Scheduling Control Center:</strong> Deploy a resident service (like our custom PAD Orchestrator) to monitor time, folder changes, or Webhook APIs. When triggered, this center uses command-line instructions to accurately launch the corresponding PAD script.</li>
+          <li><strong>Auto-Logon Mechanisms:</strong> Utilize Registry configurations or dedicated unlocking programs to ensure the VM automatically enters the correct user desktop environment before execution, ensuring UI functions operate normally.</li>
+          <li><strong>Standardized Logging & Retry Logic:</strong> Embed standard Try-Catch logic within PAD scripts. When an error occurs, the script should take a screenshot and send the status back to the control center, which then decides whether to send a notification (Email/Line) or retry automatically after 5 minutes.</li>
+        </ul>
+        <h2>Conclusion</h2>
+        <p>The value of RPA lies in freeing up human resources. If you are evaluating Power Automate Desktop, it is crucial to consider the "unattended architecture" in the early design phases or seek assistance from a professional architecture consultant. Don't let your automation software become just another tool you have to manually click "Run" on every day.</p>
+      </div>
+    </div>
+
+    <!-- Japanese Block -->
+    <div data-lang-block="ja" style="display:none;">
+      <header class="article-header">
+        <p class="eyebrow"><span></span> RPA / Unattended / Automation</p>
+        <h1>Power Automate Desktopで真の無人実行を実現する方法：課題と解決策</h1>
+        <div class="article-meta">
+          <span>AUTHOR: Troy Su</span>
+          <span>DATE: 2026-08-06</span>
+          <span>READ: 5 MIN</span>
+        </div>
+      </header>
+      <div class="article-content">
+        <p>Power Automate Desktop（PAD）は優れたRPAツールです。直感的なインターフェースとWindowsエコシステムとの深い統合により、自動化を始める企業にとって最適な選択肢となっています。</p>
+        <p>しかし、自動化プロジェクトが「人手を介さない24時間365日の自動スケジュール」を必要とする段階に達すると、開発者は大きな壁に直面します。<strong>PADの無料版や標準版では、「無人実行（Unattended）」と「スケジュールトリガー」に関してかなりの制限があるからです。</strong></p>
+        <h2>3つの一般的な課題</h2>
+        <h3>1. 組み込みの独立したスケジューラーの欠如</h3>
+        <p>高価なPremiumライセンスを購入してクラウドのPower Automateに接続しない限り、正確なマルチタスクのスケジュール設定は困難です。Windowsタスクスケジューラに頼ることも可能ですが、複数のスクリプトを並行して処理したり、ログイン画面を処理したりする際に失敗することがよくあります。</p>
+        <h3>2. ロック画面とログイン状態</h3>
+        <p>真の無人環境は通常仮想マシン（VM）であり、そのほとんどの時間はログアウトまたはロックされています。デスクトップのロックを解除して引き継ぐ特別なエージェントがないと、PADのUI自動化（座標のクリックや画像の検索など）は完全に機能しなくなります。</p>
+        <h3>3. エラー通知と自動再起動</h3>
+        <p>ボットが予期しないエラー（Webサイトのレイアウト変更やシステム更新ウィンドウのポップアップなど）に遭遇した場合、堅牢なコントロールセンターがないと、スクリプトは再試行せずに停止します。IT担当者はリアルタイムの警告を受け取れず、ビジネスの中断につながります。</p>
+        <img src="assets/pad-orchestrator.png" alt="PAD Orchestrator Dashboard" />
+        <h2>実践的なアーキテクチャと解決策</h2>
+        <p>これらの問題を解決するには、単体のPADソフトウェアに頼るのではなく、完全な「オーケストレーション層」を構築する必要があります。企業向けソリューションを導入する際に使用するコア戦略は以下の通りです。</p>
+        <ul>
+          <li><strong>外部スケジュールコントロールセンター：</strong> 常駐サービス（カスタムのPAD Orchestratorなど）を展開して、時間、フォルダの変更、またはWebhook APIを監視します。トリガーされると、このセンターはコマンドライン命令を使用して、対応するPADスクリプトを正確に起動します。</li>
+          <li><strong>自動ログオンメカニズム：</strong> レジストリ設定または専用のロック解除プログラムを利用して、実行前にVMが自動的に正しいユーザーデスクトップ環境に入り、UI機能が正常に動作することを保証します。</li>
+          <li><strong>標準化されたログと再試行ロジック：</strong> PADスクリプト内に標準のTry-Catchロジックを組み込みます。エラーが発生した場合、スクリプトはスクリーンショットを撮り、ステータスをコントロールセンターに送り返します。コントロールセンターは、通知（メール/LINEなど）を送信するか、5分後に自動的に再試行するかを決定します。</li>
+        </ul>
+        <h2>結論</h2>
+        <p>RPAの価値は、人的資源を解放することにあります。Power Automate Desktopを評価している場合は、初期の設計段階で「無人アーキテクチャ」を考慮するか、プロのアーキテクチャコンサルタントに支援を求めることが不可欠です。自動化ソフトウェアが、毎日手動で「実行」をクリックしなければならない単なる面倒なツールにならないようにしてください。</p>
+      </div>
+    </div>
+
+    <!-- Korean Block -->
+    <div data-lang-block="ko" style="display:none;">
+      <header class="article-header">
+        <p class="eyebrow"><span></span> RPA / Unattended / Automation</p>
+        <h1>Power Automate Desktop으로 진정한 무인 실행을 달성하는 방법: 과제 및 해결책</h1>
+        <div class="article-meta">
+          <span>AUTHOR: Troy Su</span>
+          <span>DATE: 2026-08-06</span>
+          <span>READ: 5 MIN</span>
+        </div>
+      </header>
+      <div class="article-content">
+        <p>Power Automate Desktop(PAD)은 훌륭한 RPA 도구입니다. 직관적인 인터페이스와 Windows 에코시스템과의 긴밀한 통합으로 인해 자동화를 시작하는 기업에게 최고의 선택입니다.</p>
+        <p>그러나 자동화 프로젝트가 "사람의 개입 없는 연중무휴 자동 스케줄링"이 필요한 단계에 도달하면 개발자는 종종 큰 장애물에 직면합니다. <strong>PAD의 무료 또는 표준 버전은 "무인 실행(Unattended)" 및 "예약된 트리거"와 관련하여 상당한 제한이 있습니다.</strong></p>
+        <h2>3가지 일반적인 문제점</h2>
+        <h3>1. 내장된 독립 스케줄러의 부재</h3>
+        <p>많은 사용자는 비싼 Premium 라이선스를 구입하고 클라우드 기반 Power Automate에 연결하지 않으면 정확한 다중 작업 스케줄링을 달성하기 어렵다는 것을 알게 됩니다. Windows 작업 스케줄러에 의존할 수는 있지만 여러 스크립트를 병렬로 처리하거나 로그인 화면을 처리할 때 자주 실패합니다.</p>
+        <h3>2. 잠금 화면 및 로그인 상태</h3>
+        <p>진정한 무인 환경은 일반적으로 가상 머신(VM)이며 대부분의 시간 동안 로그아웃되거나 잠겨 있습니다. 바탕 화면의 잠금을 해제하고 이어받을 특수 에이전트가 없으면 PAD의 UI 자동화(좌표 클릭 또는 이미지 찾기 등)가 완전히 실패합니다.</p>
+        <h3>3. 오류 알림 및 자동 재시작</h3>
+        <p>봇이 예기치 않은 오류(예: 웹사이트 레이아웃 변경 또는 시스템 업데이트 창 팝업)가 발생했을 때 강력한 제어 센터가 없으면 스크립트가 다시 시도하지 않고 중지됩니다. IT 직원은 실시간 알림을 받지 못하여 비즈니스 중단으로 이어집니다.</p>
+        <img src="assets/pad-orchestrator.png" alt="PAD Orchestrator Dashboard" />
+        <h2>실용적인 아키텍처 및 솔루션</h2>
+        <p>이러한 문제를 해결하려면 독립 실행형 PAD 소프트웨어에만 의존할 수 없으며 완전한 "오케스트레이션 계층"을 구축해야 합니다. 엔터프라이즈 솔루션을 구현할 때 사용하는 핵심 전략은 다음과 같습니다.</p>
+        <ul>
+          <li><strong>외부 스케줄링 제어 센터:</strong> 상주 서비스(예: 맞춤형 PAD Orchestrator)를 배포하여 시간, 폴더 변경 또는 Webhook API를 모니터링합니다. 트리거되면 이 센터는 명령줄 지침을 사용하여 해당 PAD 스크립트를 정확하게 시작합니다.</li>
+          <li><strong>자동 로그온 메커니즘:</strong> 레지스트리 구성 또는 전용 잠금 해제 프로그램을 활용하여 실행 전에 VM이 올바른 사용자 바탕 화면 환경에 자동으로 들어가도록 하여 UI 기능이 정상적으로 작동하도록 합니다.</li>
+          <li><strong>표준화된 로깅 및 재시도 논리:</strong> PAD 스크립트 내에 표준 Try-Catch 논리를 포함합니다. 오류가 발생하면 스크립트는 스크린샷을 찍고 상태를 제어 센터로 다시 전송해야 하며, 제어 센터는 알림(이메일/LINE)을 보낼지 또는 5분 후에 자동으로 다시 시도할지 결정합니다.</li>
+        </ul>
+        <h2>결론</h2>
+        <p>RPA의 가치는 인적 자원을 확보하는 데 있습니다. Power Automate Desktop을 평가하는 경우 초기 설계 단계에서 "무인 아키텍처"를 고려하거나 전문 아키텍처 컨설턴트의 도움을 구하는 것이 중요합니다. 자동화 소프트웨어가 매일 수동으로 "실행"을 클릭해야 하는 또 다른 번거로운 도구가 되지 않도록 하십시오.</p>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer section-wrap" style="border-top: 1px solid var(--line); margin-top: 80px;">
+    <a class="brand" href="index.html">
+      <span class="brand-mark">T</span>
+      <span>TROY'S<br><b>SMART AUTOMATION</b></span>
+    </a>
+    <p>© 2026 Troy's Smart Automation</p>
+  </footer>
+  
+  <script src="script.js"></script>
+</body>
+</html>

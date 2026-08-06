@@ -1,0 +1,396 @@
+<!doctype html>
+<html lang="zh-TW">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  
+  <title>如何尋找 PAD 工作流程 ID 以供 Orchestrator 部署 | Troy's Smart Automation</title>
+  <meta name="title" content="如何尋找 PAD 工作流程 ID 以供 Orchestrator 部署 | Troy's Smart Automation" />
+  <meta name="description" content="逐步圖文教學，教你如何找出 Power Automate Desktop 腳本的專屬 ID，讓 PAD Orchestrator 能夠精準呼叫與無人值守執行。" />
+  <meta name="keywords" content="PAD, Power Automate Desktop, Flow ID, 工作流程 ID, Orchestrator, 無人值守, Unattended, RPA, 自動化排程, Troy Su" />
+  <meta name="author" content="Troy Su" />
+  <meta name="robots" content="index, follow" />
+  
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://troysuice.github.io/troy-smart-automation/find-pad-id-guide.html" />
+  <meta property="og:title" content="如何尋找 PAD 工作流程 ID" />
+  <meta property="og:description" content="教你如何找出 Power Automate Desktop 腳本的專屬 ID，供外部排程器精準呼叫。" />
+  <meta property="og:image" content="https://troysuice.github.io/troy-smart-automation/assets/pad-orchestrator.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Noto+Sans+TC:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .article-wrap {
+      padding: 120px 0 80px;
+      max-width: 760px;
+      margin: auto;
+    }
+    .article-header {
+      margin-bottom: 60px;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 40px;
+    }
+    .article-header h1 {
+      font-size: clamp(32px, 5vw, 48px);
+      line-height: 1.2;
+      margin: 20px 0;
+      letter-spacing: -1px;
+    }
+    .article-meta {
+      display: flex;
+      gap: 20px;
+      color: var(--muted);
+      font-family: "DM Mono", monospace;
+      font-size: 12px;
+      margin-top: 20px;
+    }
+    .article-content h2 {
+      font-size: 28px;
+      color: var(--lime);
+      margin: 60px 0 24px;
+      font-weight: 600;
+    }
+    .article-content h3 {
+      font-size: 22px;
+      color: var(--cyan);
+      margin: 40px 0 16px;
+    }
+    .article-content p {
+      font-size: 17px;
+      line-height: 1.8;
+      color: var(--text);
+      margin-bottom: 24px;
+    }
+    .article-content ul, .article-content ol {
+      font-size: 17px;
+      line-height: 1.8;
+      color: var(--muted);
+      margin-bottom: 32px;
+      padding-left: 20px;
+    }
+    .article-content li {
+      margin-bottom: 12px;
+    }
+    .article-content img {
+      width: 100%;
+      border-radius: 8px;
+      border: 1px solid var(--line);
+      margin: 40px 0;
+    }
+    .code-block {
+      background: rgba(255, 255, 255, 0.05);
+      padding: 20px;
+      border-radius: 8px;
+      font-family: "DM Mono", monospace;
+      color: var(--lime);
+      font-size: 14px;
+      word-break: break-all;
+      margin-bottom: 24px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .back-btn {
+      display: inline-block;
+      margin-bottom: 40px;
+      color: var(--cyan);
+      text-decoration: none;
+      font-family: "DM Mono", monospace;
+      font-size: 12px;
+      letter-spacing: 1px;
+    }
+    .back-btn:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="noise" aria-hidden="true"></div>
+  
+  <header class="site-header">
+    <a class="brand" href="index.html" aria-label="Home">
+      <span class="brand-mark">T</span>
+      <span>TROY'S<br><b>SMART AUTOMATION</b></span>
+    </a>
+    <button class="menu-toggle" aria-controls="main-nav" aria-expanded="false">
+      <span></span><span></span><span></span><i data-i18n="menu">Menu</i>
+    </button>
+    <nav id="main-nav" class="main-nav" aria-label="Main Navigation">
+      <a href="index.html#about" data-i18n="nav_about">About Troy</a>
+      <a href="index.html#expertise" data-i18n="nav_expertise">Expertise</a>
+      <a href="index.html#work" data-i18n="nav_work">Selected Work</a>
+      <a href="index.html#software" data-i18n="nav_software">Software</a>
+      <a href="articles.html" data-i18n="nav_articles">Insights</a>
+      <a class="nav-cta" href="index.html#contact"><span data-i18n="nav_contact">Start Planning</span> <span>↗</span></a>
+      <div class="lang-selector-wrapper">
+        <select id="lang-select" class="lang-select" aria-label="Select Language">
+          <option value="en">English</option>
+          <option value="zh-TW">繁體中文</option>
+          <option value="zh-CN">简体中文</option>
+          <option value="ja">日本語</option>
+          <option value="ko">한국어</option>
+        </select>
+      </div>
+    </nav>
+  </header>
+
+  <main class="article-wrap">
+    <a href="articles.html" class="back-btn">← BACK TO ARTICLES</a>
+    
+    <!-- Traditional Chinese Block -->
+    <div data-lang-block="zh-TW">
+      <header class="article-header">
+        <p class="eyebrow"><span></span> RPA / Tutorial / Orchestrator</p>
+        <h1>如何尋找 PAD 工作流程 ID 以供 Orchestrator 部署</h1>
+        <div class="article-meta">
+          <span>AUTHOR: Troy Su</span>
+          <span>DATE: 2026-08-06</span>
+          <span>READ: 3 MIN</span>
+        </div>
+      </header>
+      <div class="article-content">
+        <p>當我們準備透過 PAD Orchestrator 或是其他外部排程工具（例如 Windows 工作排程器、命令列 CMD）來觸發 Power Automate Desktop 的腳本時，我們不能只提供腳本的「名稱」，而是必須提供該腳本專屬的 <strong>工作流程 ID (Workflow ID)</strong>。</p>
+        <p>這串 ID 通常是一長串包含英數字與連字號的 GUID (例如：<code>12345678-abcd-1234-abcd-1234567890ab</code>)。以下將教你兩種最快找出這串 ID 的方法。</p>
+        
+        <h2>方法一：透過建立桌面捷徑尋找 (最推薦)</h2>
+        <p>這是最簡單且不容易複製錯誤的方法：</p>
+        <ol>
+          <li>打開你的 <strong>Power Automate Desktop</strong> 應用程式主畫面（控制台）。</li>
+          <li>在清單中找到你想要排程執行的工作流程。</li>
+          <li>點擊該工作流程右側的 <strong>三個點 (更多動作)</strong> 圖示。</li>
+          <li>在選單中選擇 <strong>建立桌面捷徑 (Create desktop shortcut)</strong>。</li>
+          <li>回到你的 Windows 桌面，找到剛剛建立的捷徑，對著它點擊 <strong>右鍵 > 內容 (Properties)</strong>。</li>
+          <li>在「捷徑」頁籤中，找到 <strong>目標 (Target)</strong> 欄位。你會看到類似下方這樣的一串指令：</li>
+        </ol>
+        <div class="code-block">
+          "C:\Program Files (x86)\Power Automate Desktop\PAD.Console.Host.exe" -run -workflowId 12345678-abcd-1234-abcd-1234567890ab
+        </div>
+        <p>其中，在 <code>-workflowId</code> 後面的那串代碼 <code>12345678-abcd-1234-abcd-1234567890ab</code> 就是你的 PAD ID！將這串 ID 複製起來，貼到 PAD Orchestrator 的設定檔中即可完成綁定。</p>
+
+        <h2>方法二：透過工作流程屬性尋找</h2>
+        <p>如果你不想在桌面建立捷徑，也可以直接在軟體內查看：</p>
+        <ol>
+          <li>同樣在 Power Automate Desktop 主畫面找到你的工作流程。</li>
+          <li>點擊右側的三個點 (更多動作)。</li>
+          <li>選擇 <strong>屬性 (Properties) 或 詳細資料 (Details)</strong>。</li>
+        </ol>
+        <img src="assets/pad-id-step1.png" alt="點擊三個點選擇屬性" />
+        <ol start="4">
+          <li>在彈出的視窗中，切換到「詳細資料」，找到 <strong>流程識別碼 (Flow ID)</strong> 欄位，直接點擊旁邊的複製按鈕即可。</li>
+        </ol>
+        <img src="assets/pad-id-step2.png" alt="在詳細資料中複製流程識別碼" style="max-width: 400px; display: block; margin: 40px auto;" />
+        <p><em>注意：新版本的 PAD 介面可能會稍微調整屬性視窗的排版，如果找不到，請直接使用「方法一」最為保險。</em></p>
+
+        <h2>部署至 PAD Orchestrator</h2>
+        <p>取得這串 ID 後，將它填入 PAD Orchestrator 的腳本設定欄位中。Orchestrator 就能在指定的時間，或是指定的觸發條件下，精準地呼叫這串 ID，啟動真正的無人值守自動化流程！</p>
+      </div>
+    </div>
+
+    <!-- Simplified Chinese Block -->
+    <div data-lang-block="zh-CN" style="display:none;">
+      <header class="article-header">
+        <p class="eyebrow"><span></span> RPA / Tutorial / Orchestrator</p>
+        <h1>如何查找 PAD 工作流 ID 以供 Orchestrator 部署</h1>
+        <div class="article-meta">
+          <span>AUTHOR: Troy Su</span>
+          <span>DATE: 2026-08-06</span>
+          <span>READ: 3 MIN</span>
+        </div>
+      </header>
+      <div class="article-content">
+        <p>当我们准备通过 PAD Orchestrator 或其他外部排程工具（例如 Windows 任务计划程序、命令行 CMD）来触发 Power Automate Desktop 的脚本时，我们不能只提供脚本的“名称”，而是必须提供该脚本专属的 <strong>工作流 ID (Workflow ID)</strong>。</p>
+        <p>这串 ID 通常是一长串包含英数字与连字符的 GUID (例如：<code>12345678-abcd-1234-abcd-1234567890ab</code>)。以下将教你两种最快找出这串 ID 的方法。</p>
+        
+        <h2>方法一：通过创建桌面快捷方式查找 (最推荐)</h2>
+        <p>这是最简单且不容易复制错误的方法：</p>
+        <ol>
+          <li>打开你的 <strong>Power Automate Desktop</strong> 应用程序主画面（控制台）。</li>
+          <li>在列表中找到你想要排程执行的工作流。</li>
+          <li>点击该工作流右侧的 <strong>三个点 (更多操作)</strong> 图标。</li>
+          <li>在菜单中选择 <strong>创建桌面快捷方式 (Create desktop shortcut)</strong>。</li>
+          <li>回到你的 Windows 桌面，找到刚刚创建的快捷方式，对着它点击 <strong>右键 > 属性 (Properties)</strong>。</li>
+          <li>在“快捷方式”选项卡中，找到 <strong>目标 (Target)</strong> 字段。你会看到类似下方这样的一串指令：</li>
+        </ol>
+        <div class="code-block">
+          "C:\Program Files (x86)\Power Automate Desktop\PAD.Console.Host.exe" -run -workflowId 12345678-abcd-1234-abcd-1234567890ab
+        </div>
+        <p>其中，在 <code>-workflowId</code> 后面的那串代码 <code>12345678-abcd-1234-abcd-1234567890ab</code> 就是你的 PAD ID！将这串 ID 复制起来，贴到 PAD Orchestrator 的配置文件中即可完成绑定。</p>
+
+        <h2>方法二：通过工作流属性查找</h2>
+        <p>如果你不想在桌面创建快捷方式，也可以直接在软件内查看：</p>
+        <ol>
+          <li>同样在 Power Automate Desktop 主画面找到你的工作流。</li>
+          <li>点击右侧的三个点 (更多操作)。</li>
+          <li>选择 <strong>属性 (Properties) 或 详细信息 (Details)</strong>。</li>
+        </ol>
+        <img src="assets/pad-id-step1.png" alt="点击三个点选择属性" />
+        <ol start="4">
+          <li>在弹出的窗口中，切换到“详细信息”，找到 <strong>流程识别码 (Flow ID)</strong> 字段，直接点击旁边的复制按钮即可。</li>
+        </ol>
+        <img src="assets/pad-id-step2.png" alt="在详细信息中复制流程识别码" style="max-width: 400px; display: block; margin: 40px auto;" />
+        <p><em>注意：新版本的 PAD 界面可能会稍微调整属性窗口的排版，如果找不到，请直接使用“方法一”最为保险。</em></p>
+
+        <h2>部署至 PAD Orchestrator</h2>
+        <p>取得这串 ID 后，将它填入 PAD Orchestrator 的脚本设定字段中。Orchestrator 就能在指定的时间，或是指定的触发条件下，精准地调用这串 ID，启动真正的无人值守自动化流程！</p>
+      </div>
+    </div>
+
+    <!-- English Block -->
+    <div data-lang-block="en" style="display:none;">
+      <header class="article-header">
+        <p class="eyebrow"><span></span> RPA / Tutorial / Orchestrator</p>
+        <h1>How to Find Your PAD Workflow ID for Orchestrator Deployment</h1>
+        <div class="article-meta">
+          <span>AUTHOR: Troy Su</span>
+          <span>DATE: 2026-08-06</span>
+          <span>READ: 3 MIN</span>
+        </div>
+      </header>
+      <div class="article-content">
+        <p>When preparing to trigger a Power Automate Desktop script via PAD Orchestrator or other external scheduling tools (such as Windows Task Scheduler or CMD), providing the script's "name" is not enough. You must provide the script's unique <strong>Workflow ID</strong>.</p>
+        <p>This ID is typically a long GUID containing alphanumeric characters and hyphens (e.g., <code>12345678-abcd-1234-abcd-1234567890ab</code>). Here are the two fastest ways to find this ID.</p>
+        
+        <h2>Method 1: Create a Desktop Shortcut (Recommended)</h2>
+        <p>This is the simplest method and minimizes copy-paste errors:</p>
+        <ol>
+          <li>Open your <strong>Power Automate Desktop</strong> main console.</li>
+          <li>Locate the workflow you want to schedule from the list.</li>
+          <li>Click the <strong>three dots (More actions)</strong> icon on the right side of the workflow.</li>
+          <li>Select <strong>Create desktop shortcut</strong> from the menu.</li>
+          <li>Go to your Windows desktop, find the newly created shortcut, and <strong>right-click > Properties</strong>.</li>
+          <li>In the "Shortcut" tab, find the <strong>Target</strong> field. You will see a command similar to this:</li>
+        </ol>
+        <div class="code-block">
+          "C:\Program Files (x86)\Power Automate Desktop\PAD.Console.Host.exe" -run -workflowId 12345678-abcd-1234-abcd-1234567890ab
+        </div>
+        <p>The code immediately following <code>-workflowId</code> (in this case, <code>12345678-abcd-1234-abcd-1234567890ab</code>) is your PAD ID! Copy this ID and paste it into your PAD Orchestrator configuration to complete the binding.</p>
+
+        <h2>Method 2: Check Workflow Properties</h2>
+        <p>If you prefer not to create a desktop shortcut, you can find it within the app:</p>
+        <ol>
+          <li>Locate your workflow on the Power Automate Desktop console.</li>
+          <li>Click the three dots (More actions) on the right.</li>
+          <li>Select <strong>Properties or Details</strong>.</li>
+        </ol>
+        <img src="assets/pad-id-step1.png" alt="Click three dots and select Properties" />
+        <ol start="4">
+          <li>In the pop-up window, switch to the "Details" tab and find the <strong>Flow ID</strong> field. Simply click the copy button next to it.</li>
+        </ol>
+        <img src="assets/pad-id-step2.png" alt="Copy Flow ID in Details tab" style="max-width: 400px; display: block; margin: 40px auto;" />
+        <p><em>Note: Newer versions of PAD might slightly alter the layout of the properties window. If you cannot find it, using Method 1 is the most foolproof approach.</em></p>
+
+        <h2>Deploying to PAD Orchestrator</h2>
+        <p>Once you have obtained this ID, enter it into the script configuration field of PAD Orchestrator. The Orchestrator will then be able to accurately call this ID at specified times or under specific trigger conditions, initiating true unattended automation!</p>
+      </div>
+    </div>
+
+    <!-- Japanese Block -->
+    <div data-lang-block="ja" style="display:none;">
+      <header class="article-header">
+        <p class="eyebrow"><span></span> RPA / Tutorial / Orchestrator</p>
+        <h1>Orchestrator展開のためのPADワークフローIDの見つけ方</h1>
+        <div class="article-meta">
+          <span>AUTHOR: Troy Su</span>
+          <span>DATE: 2026-08-06</span>
+          <span>READ: 3 MIN</span>
+        </div>
+      </header>
+      <div class="article-content">
+        <p>PAD Orchestratorやその他の外部スケジューリングツール（WindowsタスクスケジューラやCMDなど）を使用してPower Automate Desktopスクリプトをトリガーする場合、スクリプトの「名前」を提供するだけでは不十分です。スクリプト固有の<strong>ワークフローID（Workflow ID）</strong>を提供する必要があります。</p>
+        <p>このIDは通常、英数字とハイフンを含む長いGUIDです（例：<code>12345678-abcd-1234-abcd-1234567890ab</code>）。このIDを見つけるための最も早い2つの方法を紹介します。</p>
+        
+        <h2>方法1：デスクトップショートカットを作成する（推奨）</h2>
+        <p>これは最も簡単な方法であり、コピーのミスを防ぎます。</p>
+        <ol>
+          <li><strong>Power Automate Desktop</strong>のメインコンソールを開きます。</li>
+          <li>リストからスケジュールしたいワークフローを見つけます。</li>
+          <li>ワークフローの右側にある<strong>3つの点（その他のアクション）</strong>アイコンをクリックします。</li>
+          <li>メニューから<strong>デスクトップショートカットの作成（Create desktop shortcut）</strong>を選択します。</li>
+          <li>Windowsのデスクトップに移動し、新しく作成されたショートカットを見つけて、<strong>右クリック > プロパティ（Properties）</strong>を選択します。</li>
+          <li>「ショートカット」タブで、<strong>リンク先（Target）</strong>フィールドを見つけます。以下のようなコマンドが表示されます。</li>
+        </ol>
+        <div class="code-block">
+          "C:\Program Files (x86)\Power Automate Desktop\PAD.Console.Host.exe" -run -workflowId 12345678-abcd-1234-abcd-1234567890ab
+        </div>
+        <p><code>-workflowId</code>の直後にあるコード（この例では<code>12345678-abcd-1234-abcd-1234567890ab</code>）があなたのPAD IDです！このIDをコピーして、PAD Orchestratorの構成に貼り付ければ完了です。</p>
+
+        <h2>方法2：ワークフローのプロパティを確認する</h2>
+        <p>デスクトップにショートカットを作成したくない場合は、アプリ内で確認することもできます。</p>
+        <ol>
+          <li>Power Automate Desktopコンソールでワークフローを見つけます。</li>
+          <li>右側の3つの点（その他のアクション）をクリックします。</li>
+          <li><strong>プロパティ（Properties）または 詳細（Details）</strong>を選択します。</li>
+        </ol>
+        <img src="assets/pad-id-step1.png" alt="3つの点をクリックしてプロパティを選択します" />
+        <ol start="4">
+          <li>ポップアップウィンドウで、「詳細」タブに切り替え、<strong>フローID（Flow ID）</strong>フィールドを見つけます。その横にあるコピーボタンをクリックするだけです。</li>
+        </ol>
+        <img src="assets/pad-id-step2.png" alt="詳細タブでフローIDをコピーします" style="max-width: 400px; display: block; margin: 40px auto;" />
+        <p><em>注：新しいバージョンのPADでは、プロパティウィンドウのレイアウトがわずかに変更されている場合があります。見つからない場合は、方法1を使用するのが最も確実です。</em></p>
+
+        <h2>PAD Orchestratorへの展開</h2>
+        <p>このIDを取得したら、PAD Orchestratorのスクリプト構成フィールドに入力します。これにより、Orchestratorは指定された時間または特定のトリガー条件でこのIDを正確に呼び出し、真の無人自動化を開始できるようになります！</p>
+      </div>
+    </div>
+
+    <!-- Korean Block -->
+    <div data-lang-block="ko" style="display:none;">
+      <header class="article-header">
+        <p class="eyebrow"><span></span> RPA / Tutorial / Orchestrator</p>
+        <h1>Orchestrator 배포를 위한 PAD 워크플로우 ID 찾는 방법</h1>
+        <div class="article-meta">
+          <span>AUTHOR: Troy Su</span>
+          <span>DATE: 2026-08-06</span>
+          <span>READ: 3 MIN</span>
+        </div>
+      </header>
+      <div class="article-content">
+        <p>PAD Orchestrator 또는 기타 외부 스케줄링 도구(예: Windows 작업 스케줄러 또는 CMD)를 통해 Power Automate Desktop 스크립트를 트리거할 준비를 할 때 스크립트의 "이름"을 제공하는 것만으로는 충분하지 않습니다. 스크립트의 고유한 <strong>워크플로우 ID(Workflow ID)</strong>를 제공해야 합니다.</p>
+        <p>이 ID는 일반적으로 영숫자 문자와 하이픈이 포함된 긴 GUID입니다(예: <code>12345678-abcd-1234-abcd-1234567890ab</code>). 이 ID를 찾는 가장 빠른 두 가지 방법은 다음과 같습니다.</p>
+        
+        <h2>방법 1: 바탕 화면 바로 가기 만들기 (권장)</h2>
+        <p>이것은 가장 간단한 방법이며 복사 오류를 최소화합니다.</p>
+        <ol>
+          <li><strong>Power Automate Desktop</strong> 기본 콘솔을 엽니다.</li>
+          <li>목록에서 예약할 워크플로우를 찾습니다.</li>
+          <li>워크플로우 오른쪽에 있는 <strong>점 3개(추가 작업)</strong> 아이콘을 클릭합니다.</li>
+          <li>메뉴에서 <strong>바탕 화면 바로 가기 만들기(Create desktop shortcut)</strong>를 선택합니다.</li>
+          <li>Windows 바탕 화면으로 이동하여 새로 만든 바로 가기를 찾은 다음 <strong>마우스 오른쪽 버튼 클릭 > 속성(Properties)</strong>을 선택합니다.</li>
+          <li>"바로 가기" 탭에서 <strong>대상(Target)</strong> 필드를 찾습니다. 다음과 유사한 명령이 표시됩니다.</li>
+        </ol>
+        <div class="code-block">
+          "C:\Program Files (x86)\Power Automate Desktop\PAD.Console.Host.exe" -run -workflowId 12345678-abcd-1234-abcd-1234567890ab
+        </div>
+        <p><code>-workflowId</code> 바로 뒤에 오는 코드(이 경우 <code>12345678-abcd-1234-abcd-1234567890ab</code>)가 PAD ID입니다! 이 ID를 복사하여 PAD Orchestrator 구성에 붙여넣어 바인딩을 완료합니다.</p>
+
+        <h2>방법 2: 워크플로우 속성 확인</h2>
+        <p>바탕 화면에 바로 가기를 만들고 싶지 않은 경우 앱 내에서 찾을 수도 있습니다.</p>
+        <ol>
+          <li>Power Automate Desktop 콘솔에서 워크플로우를 찾습니다.</li>
+          <li>오른쪽에 있는 점 3개(추가 작업)를 클릭합니다.</li>
+          <li><strong>속성(Properties) 또는 세부 정보(Details)</strong>를 선택합니다.</li>
+        </ol>
+        <img src="assets/pad-id-step1.png" alt="점 3개를 클릭하고 속성을 선택합니다" />
+        <ol start="4">
+          <li>팝업 창에서 "세부 정보" 탭으로 전환하고 <strong>흐름 ID (Flow ID)</strong> 필드를 찾습니다. 옆에 있는 복사 버튼을 클릭하기만 하면 됩니다.</li>
+        </ol>
+        <img src="assets/pad-id-step2.png" alt="세부 정보 탭에서 흐름 ID 복사" style="max-width: 400px; display: block; margin: 40px auto;" />
+        <p><em>참고: 최신 버전의 PAD에서는 속성 창의 레이아웃이 약간 변경되었을 수 있습니다. 찾을 수 없는 경우 방법 1을 사용하는 것이 가장 확실한 방법입니다.</em></p>
+
+        <h2>PAD Orchestrator에 배포</h2>
+        <p>이 ID를 얻었으면 PAD Orchestrator의 스크립트 구성 필드에 입력합니다. 그러면 Orchestrator가 지정된 시간이나 특정 트리거 조건에서 이 ID를 정확하게 호출하여 진정한 무인 자동화를 시작할 수 있습니다!</p>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer section-wrap" style="border-top: 1px solid var(--line); margin-top: 80px;">
+    <a class="brand" href="index.html">
+      <span class="brand-mark">T</span>
+      <span>TROY'S<br><b>SMART AUTOMATION</b></span>
+    </a>
+    <p>© 2026 Troy's Smart Automation</p>
+  </footer>
+  
+  <script src="script.js"></script>
+</body>
+</html>
