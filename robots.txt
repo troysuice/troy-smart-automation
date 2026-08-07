@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://troysuice.github.io/troy-smart-automation/sitemap.xml
