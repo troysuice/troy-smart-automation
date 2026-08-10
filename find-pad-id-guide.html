@@ -4,8 +4,8 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   
-  <title>如何尋找 PAD 工作流程 ID 以供 Orchestrator 部署 | Troy's Smart Automation</title>
-  <meta name="title" content="如何尋找 PAD 工作流程 ID 以供 Orchestrator 部署 | Troy's Smart Automation" />
+  <title>如何尋找 PAD 工作流程 ID 以供 Orchestrator 部署 | Troy Su 技術專欄 | Troy's Smart Automation</title>
+  <meta name="title" content="如何尋找 PAD 工作流程 ID 以供 Orchestrator 部署 | Troy Su 技術專欄 | Troy's Smart Automation" />
   <meta name="description" content="逐步圖文教學，教你如何找出 Power Automate Desktop 腳本的專屬 ID，讓 PAD Orchestrator 能夠精準呼叫與無人值守執行。" />
   <meta name="keywords" content="PAD, Power Automate Desktop, Flow ID, 工作流程 ID, Orchestrator, 無人值守, Unattended, RPA, 自動化排程, Troy Su" />
   <meta name="author" content="Troy Su" />
@@ -173,8 +173,11 @@
           <span>READ: 3 MIN</span>
         </div>
       </header>
-      <div class="article-content">
-        <p>當我們準備透過 PAD Orchestrator 或是其他外部排程工具（例如 Windows 工作排程器、命令列 CMD）來觸發 Power Automate Desktop 的腳本時，我們不能只提供腳本的「名稱」，而是必須提供該腳本專屬的 <strong>工作流程 ID (Workflow ID)</strong>。</p>
+      <div class="article-content" data-lang-block="zh-TW">
+      <blockquote style="border-left: 4px solid var(--accent); padding-left: 1rem; margin-bottom: 2rem; color: var(--text-muted); background: rgba(255,255,255,0.03); padding: 1rem;">
+        <strong>作者：Troy Su</strong> | Power Automate Desktop (PAD) 與 RPA 自動化專家
+      </blockquote>
+      <p>在使用 <strong>PAD Orchestrator</strong> 或其他外部工具來觸發 Power Automate Desktop 腳本時，最關鍵的步驟就是取得該腳本專屬的「工作流程 ID (Workflow ID)」。這組 ID 是 PAD 系統辨識腳本的唯一憑證。</p>
         <p>這串 ID 通常是一長串包含英數字與連字號的 GUID (例如：<code>12345678-abcd-1234-abcd-1234567890ab</code>)。以下將教你兩種最快找出這串 ID 的方法。</p>
         
         <h2>方法一：透過建立桌面捷徑尋找 (最推薦)</h2>
