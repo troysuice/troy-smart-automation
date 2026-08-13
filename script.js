@@ -60,6 +60,10 @@ const translations = {
     "art_2_title": "How to Find Your PAD Workflow ID<br>for Orchestrator Deployment",
     "art_2_desc": "A step-by-step guide on locating the unique ID of your Power Automate Desktop workflow to deploy it for unattended scheduling.",
     "art_2_link": "Read Guide",
+    "art_3_title": "PAD Office Survival Guide Ch.1: Black Friday Overtime",
+    "art_3_desc": "A technical comic by Troy Su explaining Power Automate Desktop (PAD) and RPA in a fun, easy-to-understand office scenario.",
+    "art_3_read_val": "4 Min Read",
+    "art_3_link": "Read Comic",
     "back_to_top": "BACK TO TOP ↑"
   },
   "zh-TW": {
@@ -123,6 +127,10 @@ const translations = {
     "art_2_title": "如何尋找 PAD 工作流程 ID<br>以供 Orchestrator 部署",
     "art_2_desc": "逐步圖文教學，教你如何找出 Power Automate Desktop 腳本的專屬 ID，讓 PAD Orchestrator 能夠精準呼叫與無人值守執行。",
     "art_2_link": "閱讀教學",
+    "art_3_title": "《PAD 辦公室生存記》第一章：黑色星期五的加班危機",
+    "art_3_desc": "透過生動的技術漫畫，由 Troy Su 帶你輕鬆認識 Power Automate Desktop (PAD) 與 RPA，解決辦公室無盡複製貼上的加班危機。",
+    "art_3_read_val": "4 分鐘",
+    "art_3_link": "看漫畫",
     "back_to_top": "回到頂部 ↑"
   },
   "zh-CN": {
@@ -186,6 +194,10 @@ const translations = {
     "art_2_title": "如何查找 PAD 工作流 ID<br>以供 Orchestrator 部署",
     "art_2_desc": "逐步图文教学，教你如何找出 Power Automate Desktop 脚本的专属 ID，让 PAD Orchestrator 能够精准调用与无人值守执行。",
     "art_2_link": "阅读教学",
+    "art_3_title": "《PAD 办公室生存记》第一章：黑色星期五的加班危机",
+    "art_3_desc": "透过生动的技术漫画，由 Troy Su 带你轻松认识 Power Automate Desktop (PAD) 与 RPA，解决办公室无尽复制贴上的加班危机。",
+    "art_3_read_val": "4 分钟",
+    "art_3_link": "看漫画",
     "back_to_top": "回到顶部 ↑"
   },
   "ja": {
@@ -249,6 +261,10 @@ const translations = {
     "art_2_title": "Orchestrator展開のための<br>PADワークフローIDの見つけ方",
     "art_2_desc": "PAD Orchestratorが無人実行を正確に呼び出せるように、Power Automate Desktopスクリプトの固有IDを見つけるためのステップバイステップガイド。",
     "art_2_link": "ガイドを読む",
+    "art_3_title": "PADオフィスサバイバルガイド 第一章：ブラックフライデー残業",
+    "art_3_desc": "Troy Suによる技術マンガ。Power Automate Desktop (PAD) とRPAを、楽しく分かりやすいオフィスシナリオで解説します。",
+    "art_3_read_val": "4 分",
+    "art_3_link": "マンガを読む",
     "back_to_top": "トップへ戻る ↑"
   },
   "ko": {
@@ -312,6 +328,10 @@ const translations = {
     "art_2_title": "Orchestrator 배포를 위한<br>PAD 워크플로우 ID 찾는 방법",
     "art_2_desc": "PAD Orchestrator가 무인 실행을 정확하게 호출할 수 있도록 Power Automate Desktop 스크립트의 고유 ID를 찾는 단계별 가이드.",
     "art_2_link": "가이드 읽기",
+    "art_3_title": "PAD 오피스 서바이벌 가이드 1장: 블랙 프라이데이 야근",
+    "art_3_desc": "Troy Su의 기술 만화로, 재미있고 이해하기 쉬운 사무실 시나리오를 통해 Power Automate Desktop(PAD)과 RPA를 설명합니다.",
+    "art_3_read_val": "4 분",
+    "art_3_link": "만화 보기",
     "back_to_top": "맨 위로 이동 ↑"
   }
 };
