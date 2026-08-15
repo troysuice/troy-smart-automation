@@ -1,0 +1,422 @@
+<!doctype html>
+<html lang="zh-TW">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  
+  <title>打造專屬 AI 助理：LINE x Gemini 無人值守自動化展示 | Troy Su | Troy's Smart Automation</title>
+  <meta name="title" content="打造專屬 AI 助理：LINE x Gemini 無人值守自動化展示 | Troy Su | Troy's Smart Automation" />
+  <meta name="description" content="零 API 成本！展示如何透過 PAD Orchestrator 完美串接 LINE、RPA 與 Gemini，打造真正的無人值守智能助理。" />
+  <meta name="keywords" content="PAD, Power Automate Desktop, RPA, 無人值守, Gemini, LINE 機器人, AI 助理, Troy Su" />
+  <meta name="author" content="Troy Su" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://troysuice.github.io/troy-smart-automation/line-gemini-demo.html" />
+  <meta property="og:title" content="打造專屬 AI 助理：LINE x Gemini 無人值守自動化" />
+  <meta property="og:description" content="零 API 成本！展示如何透過 PAD Orchestrator 完美串接 LINE、RPA 與 Gemini，打造真正的無人值守智能助理。" />
+  <meta property="og:image" content="https://troysuice.github.io/troy-smart-automation/assets/pad-orchestrator.png" />
+
+  <meta property="twitter:card" content="summary_large_image" />
+  <meta property="twitter:url" content="https://troysuice.github.io/troy-smart-automation/line-gemini-demo.html" />
+  <meta property="twitter:title" content="打造專屬 AI 助理：LINE x Gemini 無人值守自動化" />
+  <meta property="twitter:description" content="零 API 成本！展示如何透過 PAD Orchestrator 完美串接 LINE、RPA 與 Gemini，打造真正的無人值守智能助理。" />
+  <meta property="twitter:image" content="https://troysuice.github.io/troy-smart-automation/assets/pad-orchestrator.png" />
+
+  <link rel="canonical" href="https://troysuice.github.io/troy-smart-automation/line-gemini-demo.html" />
+  
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "打造專屬 AI 助理：LINE x Gemini 無人值守自動化",
+    "image": [
+      "https://troysuice.github.io/troy-smart-automation/assets/pad-orchestrator.png"
+    ],
+    "author": {
+      "@type": "Person",
+      "name": "Troy Su"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Troy's Smart Automation"
+    },
+    "datePublished": "2026-08-15",
+    "dateModified": "2026-08-15",
+    "description": "零 API 成本！展示如何透過 PAD Orchestrator 完美串接 LINE、RPA 與 Gemini，打造真正的無人值守智能助理。",
+    "keywords": "PAD, RPA, Gemini, LINE 機器人, AI 助理"
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Noto+Sans+TC:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css?v=1.1" />
+  <style>
+    .article-wrap {
+      padding: 120px 0 80px;
+      max-width: 760px;
+      margin: auto;
+    }
+    .article-header {
+      margin-bottom: 60px;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 40px;
+    }
+    .article-header h1 {
+      font-size: clamp(32px, 5vw, 48px);
+      line-height: 1.2;
+      margin: 20px 0;
+      letter-spacing: -1px;
+    }
+    .article-meta {
+      display: flex;
+      gap: 20px;
+      color: var(--muted);
+      font-family: "DM Mono", monospace;
+      font-size: 12px;
+      margin-top: 20px;
+    }
+    .article-content h2 {
+      font-size: 28px;
+      color: var(--lime);
+      margin: 60px 0 24px;
+      font-weight: 600;
+    }
+    .article-content h3 {
+      font-size: 22px;
+      color: var(--cyan);
+      margin: 40px 0 16px;
+    }
+    .article-content p {
+      font-size: 17px;
+      line-height: 1.8;
+      color: var(--text);
+      margin-bottom: 24px;
+    }
+    .article-content ul, .article-content ol {
+      font-size: 17px;
+      line-height: 1.8;
+      color: var(--muted);
+      margin-bottom: 32px;
+      padding-left: 20px;
+    }
+    .article-content li {
+      margin-bottom: 12px;
+    }
+    .article-content video {
+      width: 100%;
+      border-radius: 8px;
+      border: 1px solid var(--line);
+      margin: 20px 0 40px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+    .back-btn {
+      display: inline-block;
+      margin-bottom: 40px;
+      color: var(--cyan);
+      text-decoration: none;
+      font-family: "DM Mono", monospace;
+      font-size: 12px;
+      letter-spacing: 1px;
+    }
+    .back-btn:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="noise" aria-hidden="true"></div>
+  
+  <header class="site-header">
+    <a class="brand" href="index.html" aria-label="Home">
+      <span class="brand-mark">T</span>
+      <span>TROY'S<br><b>SMART AUTOMATION</b></span>
+    </a>
+    <button class="menu-toggle" aria-controls="main-nav" aria-expanded="false">
+      <span></span><span></span><span></span><i data-i18n="menu">Menu</i>
+    </button>
+    <nav id="main-nav" class="main-nav" aria-label="Main Navigation">
+      <a href="index.html#about" data-i18n="nav_about">About Troy</a>
+      <a href="index.html#expertise" data-i18n="nav_expertise">Expertise</a>
+      <a href="index.html#work" data-i18n="nav_work">Selected Work</a>
+      <a href="index.html#software" data-i18n="nav_software">Software</a>
+      <a href="articles.html" data-i18n="nav_articles">Insights</a>
+      <a class="nav-cta" href="index.html#contact"><span data-i18n="nav_contact">Start Planning</span> <span>↗</span></a>
+      <div class="lang-selector-wrapper">
+        <select id="lang-select" class="lang-select" aria-label="Select Language">
+          <option value="en">English</option>
+          <option value="zh-TW">繁體中文</option>
+          <option value="zh-CN">简体中文</option>
+          <option value="ja">日本語</option>
+          <option value="ko">한국어</option>
+        </select>
+      </div>
+    </nav>
+  </header>
+
+  <main class="article-wrap">
+    <a href="articles.html" class="back-btn">← BACK TO ARTICLES</a>
+    
+    <!-- English Block -->
+    <div data-lang-block="en">
+      <header class="article-header">
+        <p class="eyebrow"><span></span> RPA / SHOWCASE / AI</p>
+        <h1>Build a 24/7 AI Assistant: LINE x Gemini Unattended Automation</h1>
+        <div class="article-meta">
+          <span>AUTHOR: Troy Su</span>
+          <span>DATE: 2026-08-15</span>
+          <span>READ: 4 MIN</span>
+        </div>
+      </header>
+      <div class="article-content">
+        <video controls>
+          <source src="assets/LINE_GEMINI_DEMO.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+        
+        <p>The video demonstrates a complete closed-loop automation workflow, perfectly integrating communication software, RPA tools, and a large language model:</p>
+        <ul>
+          <li><strong>Terminal Trigger (LINE):</strong> The user types a natural language question in LINE ("What is the weather like in Kaohsiung today?").</li>
+          <li><strong>Central Dispatch (PAD Orchestrator):</strong> After receiving the message in the background, the PAD Orchestrator is successfully triggered and accurately calls the corresponding Power Automate Desktop (PAD) workflow.</li>
+          <li><strong>RPA Execution (PAD + Edge):</strong> PAD automatically opens the Edge browser and navigates to the Google Gemini page. It demonstrates excellent Prompt Engineering skills by automatically typing a prompt that specifically requests "no images," "plain text content," and "a convenient copy button," paving the way for subsequent data extraction.</li>
+          <li><strong>Data Extraction and Return:</strong> Once Gemini generates the answer, PAD automatically clicks the copy button to extract the plain text. Finally, through the Orchestrator, the result is sent completely intact back to the user's LINE chat.</li>
+        </ul>
+        <p>The biggest highlight of this workflow is that it requires <strong>"absolutely no human intervention."</strong> Furthermore, by using RPA to directly interact with the web version of the AI, it cleverly eliminates the high cost of calling LLM APIs. It is a highly commercially valuable, lightweight smart assistant architecture.</p>
+        
+        <h2>🚀 Build a 24/7 Exclusive AI Assistant: PAD Orchestrator Unattended Solution</h2>
+        <p>Do you want a 24/7 online smart customer service or personal assistant, but worry about high AI API costs and complex system integration?</p>
+        <p>The brand-new PAD Orchestrator brings you a disruptive automation experience! We have successfully perfectly integrated the most commonly used LINE, Microsoft's powerful Power Automate Desktop (RPA), and top-tier Gemini AI to build a true "Unattended" automated workflow for you.</p>
+        
+        <h3>💡 Why Choose PAD Orchestrator?</h3>
+        <ol>
+          <li><strong>📱 On-Demand LINE Smart Interaction</strong><br>As long as you can send a LINE message, you can command your exclusive robot! Whether it's checking the weather, fetching stock market data, or compiling reports, with just one sentence, the system immediately works for you in the background and sends the final result directly back to your phone.</li>
+          <li><strong>💰 Zero API Costs, Enjoy Top-Tier AI Computing Power</strong><br>Say goodbye to the heavy burden of paying per token! Through precise RPA web automation technology, PAD Orchestrator directly drives the web version of generative AI (like Gemini). The system can automatically input highly customized prompts and precisely extract plain text results, allowing you to use powerful AI computation unlimited times, drastically reducing costs.</li>
+          <li><strong>⚙️ Enterprise-Grade Unattended Architecture (Unattended RPA)</strong><br>No need to stare at the screen anymore! Our Orchestrator possesses powerful scheduling and task distribution capabilities, supporting workflow triggers via schedules, API requests, or specific keywords. It runs stably in the background, maximizing your equipment's efficiency and achieving true smart operations.</li>
+          <li><strong>🔗 Infinite Cross-System Possibilities</strong><br>Besides connecting AI, PAD Orchestrator is the bridge for your digital transformation. Whether it's operating traditional ERP systems, writing sensor data into a database, or automating tedious administrative paperwork, as long as a computer can do it, it can do it for you automatically.</li>
+        </ol>
+        
+        <h3>🎯 Practical Application Scenarios</h3>
+        <ul>
+          <li><strong>Automated Customer Service Replies:</strong> Combines AI to understand customer intent, automatically operates internal systems to check order status, and replies.</li>
+          <li><strong>Daily Operation Report Generation:</strong> Scheduled triggered workflows automatically log into systems to fetch data, let AI compile and analyze it, and then push it to the manager's LINE group.</li>
+          <li><strong>Personal Productivity Plugin:</strong> Assign tasks via LINE anytime while outside, letting the office computer automatically collect data and file documents for you.</li>
+        </ul>
+        
+        <p>Upgrade your working model immediately, and let automation and AI become your most powerful productivity weapons!</p>
+        <a class="button primary" href="index.html#contact" style="display:inline-block; margin-top: 10px;">Contact Us to Learn More</a>
+      </div>
+    </div>
+
+    <!-- Traditional Chinese Block -->
+    <div data-lang-block="zh-TW">
+      <header class="article-header">
+        <p class="eyebrow"><span></span> RPA / SHOWCASE / AI</p>
+        <h1>打造專屬 AI 助理：LINE x Gemini 無人值守自動化展示</h1>
+        <div class="article-meta">
+          <span>AUTHOR: Troy Su</span>
+          <span>DATE: 2026-08-15</span>
+          <span>READ: 4 MIN</span>
+        </div>
+      </header>
+      <div class="article-content">
+        <video controls>
+          <source src="assets/LINE_GEMINI_DEMO.mp4" type="video/mp4">
+          您的瀏覽器不支援影片播放。
+        </video>
+        
+        <p>影片中展示了一個完整的閉環式自動化流程，完美串接了通訊軟體、RPA 工具與大型語言模型：</p>
+        <ul>
+          <li><strong>終端觸發 (LINE)：</strong>使用者在 LINE 上輸入自然語言問題（「請問高雄今天天氣如何？」）。</li>
+          <li><strong>中樞調度 (PAD Orchestrator)：</strong>系統在背景接收到訊息後，PAD Orchestrator 成功被觸發，並精準地呼叫對應的 Power Automate Desktop (PAD) 流程。</li>
+          <li><strong>RPA 執行 (PAD + Edge)：</strong>PAD 自動開啟 Edge 瀏覽器並進入 Google Gemini 頁面。這裡展現了極佳的 Prompt Engineering 技巧，自動輸入的提示詞中特別要求「不要提供圖片」、「純文字內容」以及「方便點擊複製按鈕」，為後續的資料擷取鋪路。</li>
+          <li><strong>資料擷取與回傳：</strong>Gemini 生成解答後，PAD 自動點擊複製按鈕擷取純文字，最後再透過 Orchestrator 將結果原封不動地回傳至使用者的 LINE 聊天室中。</li>
+        </ul>
+        <p>這個流程最大的亮點在於<strong>「完全無需人工干預」</strong>，且透過 RPA 直接操作網頁版 AI，巧妙地省去了呼叫 LLM API 的高昂成本，是一套極具商業價值的輕量級智能助理架構。</p>
+        
+        <h2>🚀 打造全天候專屬 AI 助理：PAD Orchestrator 無人值守解決方案</h2>
+        <p>想要擁有 24 小時在線的智能客服或個人助理，卻擔心高昂的 AI API 費用與複雜的系統整合嗎？</p>
+        <p>全新的 PAD Orchestrator 為您帶來顛覆性的自動化體驗！我們成功將日常最常用的 LINE、微軟強大的 Power Automate Desktop (RPA) 以及頂尖的 Gemini AI 完美融合，為您打造一套真正的「無人值守 (Unattended)」自動化工作流。</p>
+        
+        <h3>💡 為什麼選擇 PAD Orchestrator？</h3>
+        <ol>
+          <li><strong>📱 隨傳隨到的 LINE 智能互動</strong><br>只要會傳 LINE，就能指揮您的專屬機器人！無論是查詢天氣、抓取股市數據、還是統整報表，只需一句話，系統立即在背景為您奔波處理，並將最終結果直接回傳到您的手機裡。</li>
+          <li><strong>💰 零 API 成本，享受頂級 AI 算力</strong><br>告別按字數計費的沉重負擔！PAD Orchestrator 透過精準的 RPA 網頁自動化技術，直接驅動網頁版的生成式 AI (如 Gemini)。系統能自動輸入高度客製化的提示詞 (Prompt)，並精準擷取純文字結果，讓您無限次使用強大的 AI 運算，成本大幅度降低。</li>
+          <li><strong>⚙️ 企業級的無人值守架構 (Unattended RPA)</strong><br>不再需要緊盯螢幕！我們的 Orchestrator 具備強大的排程與任務分發能力，支援透過排程、API 請求或特定關鍵字觸發流程。它能在背景穩定運行，讓您的設備發揮最大效益，實現真正的智慧化營運。</li>
+          <li><strong>🔗 跨系統的無限可能</strong><br>除了串接 AI，PAD Orchestrator 更是您數位轉型的橋樑。無論是操作傳統的進銷存系統、將感測器數據寫入資料庫，還是自動化處理繁瑣的行政文書，只要是電腦能做的，它都能自動為您完成。</li>
+        </ol>
+        
+        <h3>🎯 實際應用場景</h3>
+        <ul>
+          <li><strong>自動化客服回覆：</strong>結合 AI 理解客戶語意，自動操作內部系統查詢訂單狀態並回覆。</li>
+          <li><strong>每日營運報表生成：</strong>定時觸發流程，自動登入系統抓取數據，交由 AI 統整分析後推播至主管的 LINE 群組。</li>
+          <li><strong>個人生產力外掛：</strong>在外隨時用 LINE 交代任務，讓辦公室的電腦自動為您蒐集資料與建檔。</li>
+        </ul>
+        
+        <p>立即升級您的工作模式，讓自動化與 AI 成為您最強大的生產力武器！</p>
+        <a class="button primary" href="index.html#contact" style="display:inline-block; margin-top: 10px;">立即聯絡我們 / 了解更多</a>
+      </div>
+    </div>
+
+    <!-- Simplified Chinese Block -->
+    <div data-lang-block="zh-CN">
+      <header class="article-header">
+        <p class="eyebrow"><span></span> RPA / SHOWCASE / AI</p>
+        <h1>打造专属 AI 助理：LINE x Gemini 无人值守自动化展示</h1>
+        <div class="article-meta">
+          <span>AUTHOR: Troy Su</span>
+          <span>DATE: 2026-08-15</span>
+          <span>READ: 4 MIN</span>
+        </div>
+      </header>
+      <div class="article-content">
+        <video controls>
+          <source src="assets/LINE_GEMINI_DEMO.mp4" type="video/mp4">
+          您的浏览器不支持视频播放。
+        </video>
+        
+        <p>视频中展示了一个完整的闭环式自动化流程，完美串接了通讯软件、RPA 工具与大型语言模型：</p>
+        <ul>
+          <li><strong>终端触发 (LINE)：</strong>用户在 LINE 上输入自然语言问题（“请问高雄今天天气如何？”）。</li>
+          <li><strong>中枢调度 (PAD Orchestrator)：</strong>系统在背景接收到讯息后，PAD Orchestrator 成功被触发，并精准地呼叫对应的 Power Automate Desktop (PAD) 流程。</li>
+          <li><strong>RPA 执行 (PAD + Edge)：</strong>PAD 自动开启 Edge 浏览器并进入 Google Gemini 页面。这里展现了极佳的 Prompt Engineering 技巧，自动输入的提示词中特别要求“不要提供图片”、“纯文本内容”以及“方便点击复制按钮”，为后续的数据抓取铺路。</li>
+          <li><strong>数据抓取与回传：</strong>Gemini 生成解答后，PAD 自动点击复制按钮抓取纯文本，最后再透过 Orchestrator 将结果原封不动地回传至用户的 LINE 聊天室中。</li>
+        </ul>
+        <p>这个流程最大的亮点在于<strong>“完全无需人工干预”</strong>，且透过 RPA 直接操作网页版 AI，巧妙地省去了呼叫 LLM API 的高昂成本，是一套极具商业价值的轻量级智能助理架构。</p>
+        
+        <h2>🚀 打造全天候专属 AI 助理：PAD Orchestrator 无人值守解决方案</h2>
+        <p>想要拥有 24 小时在线的智能客服或个人助理，却担心高昂的 AI API 费用与复杂的系统整合吗？</p>
+        <p>全新的 PAD Orchestrator 为您带来颠覆性的自动化体验！我们成功将日常最常用的 LINE、微软强大的 Power Automate Desktop (RPA) 以及顶尖的 Gemini AI 完美融合，为您打造一套真正的“无人值守 (Unattended)”自动化工作流。</p>
+        
+        <h3>💡 为什么选择 PAD Orchestrator？</h3>
+        <ol>
+          <li><strong>📱 随传随到的 LINE 智能互动</strong><br>只要会传 LINE，就能指挥您的专属机器人！无论是查询天气、抓取股市数据、还是统整报表，只需一句话，系统立即在背景为您奔波处理，并将最终结果直接回传到您的手机里。</li>
+          <li><strong>💰 零 API 成本，享受顶级 AI 算力</strong><br>告别按字数计费的沉重负担！PAD Orchestrator 透过精准的 RPA 网页自动化技术，直接驱动网页版的生成式 AI (如 Gemini)。系统能自动输入高度定制化的提示词 (Prompt)，并精准抓取纯文本结果，让您无限次使用强大的 AI 运算，成本大幅度降低。</li>
+          <li><strong>⚙️ 企业级的无人值守架构 (Unattended RPA)</strong><br>不再需要紧盯屏幕！我们的 Orchestrator 具备强大的排程与任务分发能力，支持透过排程、API 请求或特定关键字触发流程。它能在背景稳定运行，让您的设备发挥最大效益，实现真正的智慧化运营。</li>
+          <li><strong>🔗 跨系统的无限可能</strong><br>除了串接 AI，PAD Orchestrator 更是您数字化转型的桥梁。无论是操作传统的进销存系统、将传感器数据写入数据库，还是自动化处理繁琐的行政文书，只要是电脑能做的，它都能自动为您完成。</li>
+        </ol>
+        
+        <h3>🎯 实际应用场景</h3>
+        <ul>
+          <li><strong>自动化客服回复：</strong>结合 AI 理解客户语意，自动操作内部系统查询订单状态并回复。</li>
+          <li><strong>每日运营报表生成：</strong>定时触发流程，自动登录系统抓取数据，交由 AI 统整分析后推播至主管的 LINE 群组。</li>
+          <li><strong>个人生产力外挂：</strong>在外随时用 LINE 交代任务，让办公室的电脑自动为您搜集数据与建档。</li>
+        </ul>
+        
+        <p>立即升级您的工作模式，让自动化与 AI 成为您最强大的生产力武器！</p>
+        <a class="button primary" href="index.html#contact" style="display:inline-block; margin-top: 10px;">立即联络我们 / 了解更多</a>
+      </div>
+    </div>
+
+    <!-- Japanese Block -->
+    <div data-lang-block="ja">
+      <header class="article-header">
+        <p class="eyebrow"><span></span> RPA / SHOWCASE / AI</p>
+        <h1>専用AIアシスタントの構築：LINE x Gemini 無人自動化のショーケース</h1>
+        <div class="article-meta">
+          <span>AUTHOR: Troy Su</span>
+          <span>DATE: 2026-08-15</span>
+          <span>READ: 4 MIN</span>
+        </div>
+      </header>
+      <div class="article-content">
+        <video controls>
+          <source src="assets/LINE_GEMINI_DEMO.mp4" type="video/mp4">
+          お使いのブラウザは動画タグをサポートしていません。
+        </video>
+        
+        <p>この動画では、コミュニケーションツール、RPAツール、大規模言語モデルを完全に統合した、閉ループの自動化ワークフローをご紹介します。</p>
+        <ul>
+          <li><strong>端末のトリガー (LINE)：</strong>ユーザーがLINEで自然言語の質問を入力します（「今日の高雄の天気は？」）。</li>
+          <li><strong>中央ディスパッチ (PAD Orchestrator)：</strong>バックグラウンドでメッセージを受信すると、PAD Orchestratorがトリガーされ、対応するPower Automate Desktop (PAD) ワークフローを正確に呼び出します。</li>
+          <li><strong>RPAの実行 (PAD + Edge)：</strong>PADが自動的にEdgeブラウザを開き、Google Geminiのページにアクセスします。ここでは、データ抽出を容易にするため、「画像を提供しないこと」「テキストのみ」「コピーボタンを押しやすくすること」といった高度なプロンプトエンジニアリングのスキルが発揮されています。</li>
+          <li><strong>データ抽出と返信：</strong>Geminiが回答を生成した後、PADが自動的にコピーボタンをクリックしてテキストを抽出し、Orchestrator経由でユーザーのLINEチャットにそのまま送信します。</li>
+        </ul>
+        <p>このワークフローの最大のハイライトは、<strong>「人手が一切不要である」</strong>という点です。さらに、RPAを利用してウェブ版のAIを直接操作することで、高額なLLM APIの呼び出しコストを削減しています。非常に商業価値の高い、軽量なスマートアシスタントアーキテクチャです。</p>
+        
+        <h2>🚀 24時間稼働の専用AIアシスタントの構築：PAD Orchestrator 無人化ソリューション</h2>
+        <p>24時間オンラインのスマートカスタマーサービスやパーソナルアシスタントが欲しいけれど、高額なAI APIコストや複雑なシステム統合が心配ではありませんか？</p>
+        <p>最新のPAD Orchestratorが、革新的な自動化体験をもたらします！私たちは、日常的に最も使われるLINE、強力なPower Automate Desktop (RPA)、そしてトップクラスのGemini AIを見事に融合させ、真の「無人化 (Unattended)」自動化ワークフローを構築しました。</p>
+        
+        <h3>💡 PAD Orchestratorが選ばれる理由</h3>
+        <ol>
+          <li><strong>📱 オンデマンドのLINEスマート連携</strong><br>LINEが使えれば、あなた専用のロボットに指示を出せます！天気の確認、株価データの取得、レポートの作成など、一言でシステムがバックグラウンドで処理し、最終結果を直接スマホに送信します。</li>
+          <li><strong>💰 APIコストゼロでトップレベルのAI計算能力を享受</strong><br>トークンごとの課金に悩む必要はありません！精巧なRPAウェブ自動化技術により、PAD Orchestratorはウェブ版の生成AI（Geminiなど）を直接駆動します。高度にカスタマイズされたプロンプトを自動入力し、テキスト結果を正確に抽出するため、強力なAI演算を無制限に使用でき、コストを大幅に削減できます。</li>
+          <li><strong>⚙️ エンタープライズレベルの無人アーキテクチャ (Unattended RPA)</strong><br>もう画面を見つめる必要はありません！Orchestratorは強力なスケジュールとタスク分散機能を備えており、スケジュール、APIリクエスト、または特定のキーワードによるトリガーをサポートします。バックグラウンドで安定して稼働し、機器の効率を最大化します。</li>
+          <li><strong>🔗 クロスシステムの無限の可能性</strong><br>AIとの接続だけでなく、PAD Orchestratorはデジタル変革の架け橋となります。レガシーシステムの操作、センサーデータのデータベースへの書き込み、煩雑な管理文書の自動処理など、PCができることなら何でも自動で行います。</li>
+        </ol>
+        
+        <h3>🎯 実践的な利用シナリオ</h3>
+        <ul>
+          <li><strong>カスタマーサービスの自動返信：</strong>AIが顧客の意図を理解し、内部システムを自動的に操作して注文状況を確認し、返信します。</li>
+          <li><strong>日次レポートの自動生成：</strong>スケジュールされたワークフローが自動でシステムにログインしてデータを取得し、AIに分析・集計させてから管理者のLINEグループにプッシュ通知します。</li>
+          <li><strong>個人の生産性プラグイン：</strong>外出先からいつでもLINEでタスクを指示し、オフィスのPCに自動でデータを収集・ファイル作成させます。</li>
+        </ul>
+        
+        <p>今すぐワークスタイルをアップグレードし、自動化とAIを最も強力な生産性の武器にしましょう！</p>
+        <a class="button primary" href="index.html#contact" style="display:inline-block; margin-top: 10px;">お問い合わせ / 詳細を知る</a>
+      </div>
+    </div>
+
+    <!-- Korean Block -->
+    <div data-lang-block="ko">
+      <header class="article-header">
+        <p class="eyebrow"><span></span> RPA / SHOWCASE / AI</p>
+        <h1>전용 AI 비서 구축: LINE x Gemini 무인 자동화 쇼케이스</h1>
+        <div class="article-meta">
+          <span>AUTHOR: Troy Su</span>
+          <span>DATE: 2026-08-15</span>
+          <span>READ: 4 MIN</span>
+        </div>
+      </header>
+      <div class="article-content">
+        <video controls>
+          <source src="assets/LINE_GEMINI_DEMO.mp4" type="video/mp4">
+          브라우저가 비디오 태그를 지원하지 않습니다.
+        </video>
+        
+        <p>이 비디오는 커뮤니케이션 소프트웨어, RPA 도구 및 대규모 언어 모델을 완벽하게 통합하는 완전한 폐쇄 루프 자동화 워크플로우를 보여줍니다.</p>
+        <ul>
+          <li><strong>터미널 트리거 (LINE):</strong> 사용자가 LINE에 자연어 질문을 입력합니다("오늘 가오슝 날씨 어때?").</li>
+          <li><strong>중앙 디스패치 (PAD Orchestrator):</strong> 백그라운드에서 메시지를 수신한 후 PAD Orchestrator가 성공적으로 트리거되고 해당 Power Automate Desktop(PAD) 워크플로우를 정확하게 호출합니다.</li>
+          <li><strong>RPA 실행 (PAD + Edge):</strong> PAD가 자동으로 Edge 브라우저를 열고 Google Gemini 페이지로 이동합니다. 여기서는 데이터 추출을 용이하게 하기 위해 "이미지 금지", "일반 텍스트 콘텐츠", "클릭하기 쉬운 복사 버튼"을 특별히 요청하는 프롬프트를 자동으로 입력하여 뛰어난 프롬프트 엔지니어링 기술을 보여줍니다.</li>
+          <li><strong>데이터 추출 및 반환:</strong> Gemini가 답변을 생성하면 PAD가 자동으로 복사 버튼을 클릭하여 일반 텍스트를 추출합니다. 마지막으로 Orchestrator를 통해 결과가 사용자의 LINE 채팅으로 그대로 전송됩니다.</li>
+        </ul>
+        <p>이 워크플로우의 가장 큰 장점은 <strong>"인적 개입이 전혀 필요하지 않다"</strong>는 것입니다. 또한 RPA를 사용하여 웹 버전의 AI와 직접 상호 작용함으로써 LLM API 호출에 따른 높은 비용을 지능적으로 없앴습니다. 상업적 가치가 매우 높은 경량의 스마트 비서 아키텍처입니다.</p>
+        
+        <h2>🚀 연중무휴 전용 AI 비서 구축: PAD Orchestrator 무인 솔루션</h2>
+        <p>24시간 온라인 스마트 고객 서비스나 개인 비서를 원하지만 높은 AI API 비용과 복잡한 시스템 통합이 걱정되십니까?</p>
+        <p>완전히 새로운 PAD Orchestrator가 혁신적인 자동화 경험을 선사합니다! 가장 일반적으로 사용되는 LINE, Microsoft의 강력한 Power Automate Desktop(RPA) 및 최상위 Gemini AI를 성공적으로 완벽하게 통합하여 진정한 "무인(Unattended)" 자동화 워크플로우를 구축했습니다.</p>
+        
+        <h3>💡 왜 PAD Orchestrator를 선택해야 할까요?</h3>
+        <ol>
+          <li><strong>📱 온디맨드 LINE 스마트 상호 작용</strong><br>LINE 메시지를 보낼 수만 있다면 전용 로봇에 명령을 내릴 수 있습니다! 날씨 확인, 주식 시장 데이터 가져오기, 보고서 작성 등 클릭 한 번이면 시스템이 백그라운드에서 즉시 작업을 수행하고 최종 결과를 휴대폰으로 직접 보냅니다.</li>
+          <li><strong>💰 API 비용 제로, 최고 수준의 AI 컴퓨팅 성능 즐기기</strong><br>글자 수에 따라 비용을 지불해야 하는 무거운 부담과 작별하세요! 정확한 RPA 웹 자동화 기술을 통해 PAD Orchestrator는 생성형 AI(예: Gemini)의 웹 버전을 직접 구동합니다. 시스템은 고도로 맞춤화된 프롬프트를 자동으로 입력하고 일반 텍스트 결과를 정확하게 추출할 수 있으므로 강력한 AI 연산을 무제한으로 사용하고 비용을 대폭 줄일 수 있습니다.</li>
+          <li><strong>⚙️ 엔터프라이즈급 무인 아키텍처 (Unattended RPA)</strong><br>더 이상 화면을 쳐다볼 필요가 없습니다! 저희의 Orchestrator는 강력한 예약 및 작업 분배 기능을 갖추고 있으며 예약, API 요청 또는 특정 키워드를 통한 워크플로우 트리거를 지원합니다. 백그라운드에서 안정적으로 실행되어 장비 효율성을 극대화하고 진정한 스마트 운영을 달성합니다.</li>
+          <li><strong>🔗 무한한 크로스 시스템 가능성</strong><br>AI를 연결하는 것 외에도 PAD Orchestrator는 디지털 전환의 가교 역할을 합니다. 기존 ERP 시스템을 운영하든, 센서 데이터를 데이터베이스에 쓰든, 지루한 행정 서류 작업을 자동화하든, 컴퓨터가 할 수 있는 일이라면 자동으로 해낼 수 있습니다.</li>
+        </ol>
+        
+        <h3>🎯 실제 적용 시나리오</h3>
+        <ul>
+          <li><strong>자동화된 고객 서비스 회신:</strong> AI와 결합하여 고객의 의도를 이해하고 내부 시스템을 자동으로 작동하여 주문 상태를 확인하고 회신합니다.</li>
+          <li><strong>일일 운영 보고서 생성:</strong> 예약된 트리거 워크플로우가 자동으로 시스템에 로그인하여 데이터를 가져오고 AI가 이를 컴파일 및 분석하도록 한 다음 관리자의 LINE 그룹으로 푸시합니다.</li>
+          <li><strong>개인 생산성 플러그인:</strong> 외부에 있을 때 언제든지 LINE을 통해 작업을 할당하면 사무실 컴퓨터가 자동으로 데이터를 수집하고 문서를 제출합니다.</li>
+        </ul>
+        
+        <p>지금 바로 업무 방식을 업그레이드하고 자동화와 AI를 가장 강력한 생산성 무기로 만드세요!</p>
+        <a class="button primary" href="index.html#contact" style="display:inline-block; margin-top: 10px;">문의하기 / 자세히 알아보기</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer section-wrap" style="border-top: 1px solid var(--line); margin-top: 80px;">
+    <a class="brand" href="index.html">
+      <span class="brand-mark">T</span>
+      <span>TROY'S<br><b>SMART AUTOMATION</b></span>
+    </a>
+    <p>© 2026 Troy's Smart Automation</p>
+  </footer>
+  
+  <script src="script.js?v=1.5"></script>
+</body>
+</html>

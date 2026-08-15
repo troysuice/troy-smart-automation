@@ -64,6 +64,10 @@ const translations = {
     "art_3_desc": "A technical comic by Troy Su explaining Power Automate Desktop (PAD) and RPA in a fun, easy-to-understand office scenario.",
     "art_3_read_val": "4 Min Read",
     "art_3_link": "Read Comic",
+    "art_4_title": "Build a 24/7 AI Assistant: LINE x Gemini Unattended Automation",
+    "art_4_desc": "Zero API Costs! Showcase how PAD Orchestrator perfectly connects LINE, RPA, and Gemini to build a true unattended smart assistant.",
+    "art_4_read_val": "4 Min Read",
+    "art_4_link": "Watch Demo",
     "back_to_top": "BACK TO TOP ↑"
   },
   "zh-TW": {
@@ -131,6 +135,10 @@ const translations = {
     "art_3_desc": "透過生動的技術漫畫，由 Troy Su 帶你輕鬆認識 Power Automate Desktop (PAD) 與 RPA，解決辦公室無盡複製貼上的加班危機。",
     "art_3_read_val": "4 分鐘",
     "art_3_link": "看漫畫",
+    "art_4_title": "打造專屬 AI 助理：LINE x Gemini 無人值守自動化展示",
+    "art_4_desc": "零 API 成本！展示如何透過 PAD Orchestrator 完美串接 LINE、RPA 與 Gemini，打造真正的無人值守智能助理。",
+    "art_4_read_val": "4 分鐘",
+    "art_4_link": "觀看展示",
     "back_to_top": "回到頂部 ↑"
   },
   "zh-CN": {
@@ -198,6 +206,10 @@ const translations = {
     "art_3_desc": "透过生动的技术漫画，由 Troy Su 带你轻松认识 Power Automate Desktop (PAD) 与 RPA，解决办公室无尽复制贴上的加班危机。",
     "art_3_read_val": "4 分钟",
     "art_3_link": "看漫画",
+    "art_4_title": "打造专属 AI 助理：LINE x Gemini 无人值守自动化展示",
+    "art_4_desc": "零 API 成本！展示如何透过 PAD Orchestrator 完美串接 LINE、RPA 与 Gemini，打造真正的无人值守智能助理。",
+    "art_4_read_val": "4 分钟",
+    "art_4_link": "观看展示",
     "back_to_top": "回到顶部 ↑"
   },
   "ja": {
@@ -265,6 +277,10 @@ const translations = {
     "art_3_desc": "Troy Suによる技術マンガ。Power Automate Desktop (PAD) とRPAを、楽しく分かりやすいオフィスシナリオで解説します。",
     "art_3_read_val": "4 分",
     "art_3_link": "マンガを読む",
+    "art_4_title": "専用AIアシスタントの構築：LINE x Gemini 無人自動化のショーケース",
+    "art_4_desc": "APIコストゼロ！PAD OrchestratorがLINE、RPA、Geminiを完璧に接続し、真の無人スマートアシスタントを構築する方法を紹介します。",
+    "art_4_read_val": "4 分",
+    "art_4_link": "デモを見る",
     "back_to_top": "トップへ戻る ↑"
   },
   "ko": {
@@ -329,9 +345,13 @@ const translations = {
     "art_2_desc": "PAD Orchestrator가 무인 실행을 정확하게 호출할 수 있도록 Power Automate Desktop 스크립트의 고유 ID를 찾는 단계별 가이드.",
     "art_2_link": "가이드 읽기",
     "art_3_title": "PAD 오피스 서바이벌 가이드 1장: 블랙 프라이데이 야근",
-    "art_3_desc": "Troy Su의 기술 만화로, 재미있고 이해하기 쉬운 사무실 시나리오를 통해 Power Automate Desktop(PAD)과 RPA를 설명합니다.",
+    "art_3_desc": "Troy Su의 기술 만화로, 재미있고 이해하기 쉬운 사무실 시나리오를 통해 Power Automate Desktop(PAD)과 RPA를 설명합니다。",
     "art_3_read_val": "4 분",
     "art_3_link": "만화 보기",
+    "art_4_title": "전용 AI 비서 구축: LINE x Gemini 무인 자동화 쇼케이스",
+    "art_4_desc": "API 비용 제로! PAD Orchestrator가 LINE, RPA 및 Gemini를 완벽하게 연결하여 진정한 무인 스마트 비서를 구축하는 방법을 보여줍니다.",
+    "art_4_read_val": "4 분",
+    "art_4_link": "데모 보기",
     "back_to_top": "맨 위로 이동 ↑"
   }
 };
