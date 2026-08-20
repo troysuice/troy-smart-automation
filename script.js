@@ -1,4 +1,4 @@
-const translations = {
+﻿const translations = {
   "en": {
     "menu": "Menu",
     "nav_about": "About Troy",
@@ -68,6 +68,10 @@ const translations = {
     "art_4_desc": "Zero API Costs! Showcase how PAD Orchestrator perfectly connects LINE, RPA, and Gemini to build a true unattended smart assistant.",
     "art_4_read_val": "4 Min Read",
     "art_4_link": "Watch Demo",
+    "art_5_title": "PAD Office Survival Guide Ch.2: Taming the Data Beast",
+    "art_5_desc": "Master PAD variables and For Each loops to automatically merge 50 branch Excel reports and leave work on time!",
+    "art_5_read_val": "5 Min Read",
+    "art_5_link": "Read Comic",
     "back_to_top": "BACK TO TOP ↑"
   },
   "zh-TW": {
@@ -139,6 +143,10 @@ const translations = {
     "art_4_desc": "零 API 成本！展示如何透過 PAD Orchestrator 完美串接 LINE、RPA 與 Gemini，打造真正的無人值守智能助理。",
     "art_4_read_val": "4 分鐘",
     "art_4_link": "觀看展示",
+    "art_5_title": "《PAD 辦公室生存記》第二章：馴服資料巨獸",
+    "art_5_desc": "學會 PAD 兩大核心法寶「變數收納盒」與「For Each 迴圈」，自動合併 50 份分公司 Excel 報表，準時下班！",
+    "art_5_read_val": "5 分鐘",
+    "art_5_link": "看漫畫",
     "back_to_top": "回到頂部 ↑"
   },
   "zh-CN": {
@@ -210,6 +218,10 @@ const translations = {
     "art_4_desc": "零 API 成本！展示如何透过 PAD Orchestrator 完美串接 LINE、RPA 与 Gemini，打造真正的无人值守智能助理。",
     "art_4_read_val": "4 分钟",
     "art_4_link": "观看展示",
+    "art_5_title": "《PAD 办公室生存记》第二章：驯服数据巨兽",
+    "art_5_desc": "学会 PAD 两大核心法宝“变量收纳盒”与“For Each 循环”，自动合并 50 份分公司 Excel 报表，准时下班！",
+    "art_5_read_val": "5 分钟",
+    "art_5_link": "看漫画",
     "back_to_top": "回到顶部 ↑"
   },
   "ja": {
@@ -281,6 +293,10 @@ const translations = {
     "art_4_desc": "APIコストゼロ！PAD OrchestratorがLINE、RPA、Geminiを完璧に接続し、真の無人スマートアシスタントを構築する方法を紹介します。",
     "art_4_read_val": "4 分",
     "art_4_link": "デモを見る",
+    "art_5_title": "PADオフィスサバイバルガイド 第二章：データの怪物を手懐ける",
+    "art_5_desc": "PADの2大魔法「変数」と「For Eachループ」をマスターし、50支店のExcel売上月報を自動集計して定時退社！",
+    "art_5_read_val": "5 分",
+    "art_5_link": "マンガを読む",
     "back_to_top": "トップへ戻る ↑"
   },
   "ko": {
@@ -352,6 +368,10 @@ const translations = {
     "art_4_desc": "API 비용 제로! PAD Orchestrator가 LINE, RPA 및 Gemini를 완벽하게 연결하여 진정한 무인 스마트 비서를 구축하는 방법을 보여줍니다.",
     "art_4_read_val": "4 분",
     "art_4_link": "데모 보기",
+    "art_5_title": "PAD 오피스 서바이벌 가이드 2장: 데이터 몬스터 길들이기",
+    "art_5_desc": "PAD의 핵심 필살기 '변수 수납함'과 'For Each 루프'를 마스터하여 50개 지점 Excel 보고서를 자동 취합하고 칼퇴근하세요!",
+    "art_5_read_val": "5 분",
+    "art_5_link": "만화 보기",
     "back_to_top": "맨 위로 이동 ↑"
   }
 };

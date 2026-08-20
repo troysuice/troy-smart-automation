@@ -1,0 +1,520 @@
+﻿<!doctype html>
+<html lang="zh-TW">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  
+  <title>《PAD 辦公室生存記》第二章：馴服資料巨獸（變數與 Excel 自動化） | Troy Su 技術專欄 | Troy's Smart Automation</title>
+  <meta name="title" content="《PAD 辦公室生存記》第二章：馴服資料巨獸（變數與 Excel 自動化） | Troy Su 技術專欄 | Troy's Smart Automation" />
+  <meta name="description" content="50 份分公司 Excel 銷售月報下班前要彙整完？透過 Troy Su 的生動技術漫畫，帶你掌握 PAD 兩大法寶「變數收納盒」與「For Each 迴圈」，自動合併報表準時下班！" />
+  <meta name="keywords" content="PAD, Power Automate Desktop, Excel 自動化, RPA, 變數, 迴圈, For Each, 自動化教學漫畫, 辦公室生存記, Troy Su" />
+  <meta name="author" content="Troy Su" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://troysuice.github.io/troy-smart-automation/pad-office-survival-guide-ch2.html" />
+  <meta property="og:title" content="《PAD 辦公室生存記》第二章：馴服資料巨獸（變數與 Excel 自動化） | Troy Su" />
+  <meta property="og:description" content="50 份分公司 Excel 銷售月報下班前要彙整完？透過 Troy Su 的生動技術漫畫，帶你掌握 PAD 兩大法寶「變數收納盒」與「For Each 迴圈」，自動合併報表準時下班！" />
+  <meta property="og:image" content="https://troysuice.github.io/troy-smart-automation/assets/comic-2-1.jpg" />
+
+  <meta property="twitter:card" content="summary_large_image" />
+  <meta property="twitter:url" content="https://troysuice.github.io/troy-smart-automation/pad-office-survival-guide-ch2.html" />
+  <meta property="twitter:title" content="《PAD 辦公室生存記》第二章：馴服資料巨獸（變數與 Excel 自動化） | Troy Su" />
+  <meta property="twitter:description" content="50 份分公司 Excel 銷售月報下班前要彙整完？透過 Troy Su 的生動技術漫畫，帶你掌握 PAD 兩大法寶「變數收納盒」與「For Each 迴圈」，自動合併報表準時下班！" />
+  <meta property="twitter:image" content="https://troysuice.github.io/troy-smart-automation/assets/comic-2-1.jpg" />
+
+  <link rel="canonical" href="https://troysuice.github.io/troy-smart-automation/pad-office-survival-guide-ch2.html" />
+  
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "《PAD 辦公室生存記》第二章：馴服資料巨獸（變數與 Excel 自動化）",
+    "image": [
+      "https://troysuice.github.io/troy-smart-automation/assets/comic-2-1.jpg"
+    ],
+    "author": {
+      "@type": "Person",
+      "name": "Troy Su"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Troy's Smart Automation"
+    },
+    "datePublished": "2026-08-20",
+    "dateModified": "2026-08-20",
+    "description": "50 份分公司 Excel 銷售月報下班前要彙整完？透過 Troy Su 的生動技術漫畫，帶你掌握 PAD 兩大法寶「變數收納盒」與「For Each 迴圈」，自動合併報表準時下班！",
+    "keywords": "PAD, Power Automate Desktop, Excel 自動化, RPA, 變數, 迴圈, For Each, 自動化教學漫畫"
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Noto+Sans+TC:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;700&family=Noto+Sans+KR:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css?v=1.1" />
+  <style>
+    .article-wrap {
+      padding: 120px 0 80px;
+      max-width: 760px;
+      margin: auto;
+    }
+    .article-header {
+      margin-bottom: 60px;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 40px;
+    }
+    .article-header h1 {
+      font-size: clamp(30px, 4.5vw, 44px);
+      line-height: 1.25;
+      margin: 20px 0;
+      letter-spacing: -0.5px;
+    }
+    .article-meta {
+      display: flex;
+      gap: 20px;
+      color: var(--muted);
+      font-family: "DM Mono", monospace;
+      font-size: 12px;
+      margin-top: 20px;
+    }
+    .article-content h2 {
+      font-size: 26px;
+      color: var(--lime);
+      margin: 50px 0 20px;
+      font-weight: 600;
+      border-left: 4px solid var(--lime);
+      padding-left: 12px;
+    }
+    .article-content h3 {
+      font-size: 20px;
+      color: var(--cyan);
+      margin: 36px 0 14px;
+    }
+    .article-content p {
+      font-size: 17px;
+      line-height: 1.85;
+      color: var(--text);
+      margin-bottom: 24px;
+    }
+    .article-content ul, .article-content ol {
+      font-size: 16px;
+      line-height: 1.8;
+      color: var(--muted);
+      margin-bottom: 32px;
+      padding-left: 24px;
+    }
+    .article-content li {
+      margin-bottom: 12px;
+    }
+    .article-content li strong {
+      color: var(--text);
+    }
+    .article-content img {
+      width: 100%;
+      border-radius: 8px;
+      border: 1px solid var(--line);
+      margin: 32px 0;
+      display: block;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+    }
+    .back-btn {
+      display: inline-block;
+      margin-bottom: 40px;
+      color: var(--cyan);
+      text-decoration: none;
+      font-family: "DM Mono", monospace;
+      font-size: 12px;
+      letter-spacing: 1px;
+    }
+    .back-btn:hover {
+      text-decoration: underline;
+    }
+    blockquote.author-note {
+      border-left: 4px solid var(--accent);
+      padding-left: 1rem;
+      margin-bottom: 2rem;
+      color: var(--text-muted);
+      background: rgba(255,255,255,0.03);
+      padding: 1rem;
+      border-radius: 0 8px 8px 0;
+    }
+    .chapter-nav {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      margin-top: 60px;
+      padding-top: 30px;
+      border-top: 1px solid var(--line);
+      font-family: "DM Mono", monospace;
+      font-size: 13px;
+    }
+    .chapter-nav a {
+      color: var(--cyan);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .chapter-nav a:hover {
+      text-decoration: underline;
+    }
+    .code-pill {
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--lime);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: "DM Mono", monospace;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="noise" aria-hidden="true"></div>
+  
+  <header class="site-header">
+    <a class="brand" href="index.html" aria-label="Home">
+      <span class="brand-mark">T</span>
+      <span>TROY'S<br><b>SMART AUTOMATION</b></span>
+    </a>
+    <button class="menu-toggle" aria-controls="main-nav" aria-expanded="false">
+      <span></span><span></span><span></span><i data-i18n="menu">Menu</i>
+    </button>
+    <nav id="main-nav" class="main-nav" aria-label="Main Navigation">
+      <a href="index.html#about" data-i18n="nav_about">About Troy</a>
+      <a href="index.html#expertise" data-i18n="nav_expertise">Expertise</a>
+      <a href="index.html#work" data-i18n="nav_work">Selected Work</a>
+      <a href="index.html#software" data-i18n="nav_software">Software</a>
+      <a href="articles.html" data-i18n="nav_articles">Insights</a>
+      <a class="nav-cta" href="index.html#contact"><span data-i18n="nav_contact">Start Planning</span> <span>↗</span></a>
+      <div class="lang-selector-wrapper">
+        <select id="lang-select" class="lang-select" aria-label="Select Language">
+          <option value="en">English</option>
+          <option value="zh-TW">繁體中文</option>
+          <option value="zh-CN">简体中文</option>
+          <option value="ja">日本語</option>
+          <option value="ko">한국어</option>
+        </select>
+      </div>
+    </nav>
+  </header>
+
+  <main class="article-wrap">
+    <a href="articles.html" class="back-btn">← BACK TO ARTICLES</a>
+    
+    <!-- ==================== English Block ==================== -->
+    <div data-lang-block="en">
+      <header class="article-header">
+        <p class="eyebrow"><span></span> RPA / COMIC / TUTORIAL</p>
+        <h1>PAD Office Survival Guide Ch.2: Taming the Data Beast (Variables & Excel Automation)</h1>
+        <div class="article-meta">
+          <span>AUTHOR: Troy Su</span>
+          <span>DATE: 2026-08-20</span>
+          <span>READ: 5 MIN</span>
+        </div>
+      </header>
+      <div class="article-content">
+        <blockquote class="author-note">
+          <strong>Author: Troy Su</strong> | Power Automate Desktop (PAD) & RPA Automation Expert
+        </blockquote>
+        <p>In Chapter 1, Xiaolin witnessed the amazing power of PAD PDF automation and was eager to try more. But workplace emergencies always arrive without warning!</p>
+        <p>Just when Xiaolin thought it was time to pack up and go home, the sales manager burst into the office pushing a cart overloaded with urgent files: <em>"Xiaolin! Urgent assignment from the sales department! Consolidate the monthly sales reports from these 50 branch offices into one master Excel workbook before you leave! Real urgent!"</em></p>
+        <p>Staring at 50 Excel files, manual copying and pasting would take at least 150 minutes. Xiaolin was on the verge of breakdown. At this critical moment, Brother Mo stepped in with his warm tea: <em>"Don't panic. Throw away Ctrl+C/V! Let our software robot handle this piece of cake."</em></p>
+        
+        <img src="assets/comic-2-1.jpg" alt="PAD Office Survival Guide Ch2: 50 Excel Files Overtime Crisis" loading="lazy">
+        <img src="assets/comic-2-2.jpg" alt="PAD Office Survival Guide Ch2: Core Concepts - Variables and Loops" loading="lazy">
+        
+        <h2>Core Concepts: The Two Secret Weapons of Automation</h2>
+        <p>Processing dozens or hundreds of files does not mean creating 50 repetitive steps manually. In Power Automate Desktop, you only need to master two core building blocks:</p>
+        
+        <h3>1. Variables — The "Magic Storage Box"</h3>
+        <p>A variable is like a labeled container used to store folder paths, text, numbers, or entire data tables dynamically. In PAD, variables are wrapped in percent symbols, such as <code class="code-pill">%FolderName%</code> or <code class="code-pill">%ExcelData%</code>. Whenever you point actions to a variable name rather than hardcoding static text, your workflow becomes fully dynamic!</p>
+
+        <h3>2. Loops (For Each) — The "Rubber Stamp Robot"</h3>
+        <p>A loop instructs the robot to execute the exact same set of actions repeatedly across a list. Think of stamping 50 documents one by one: you only configure the steps (Open Excel ➔ Read Data ➔ Write Data ➔ Close) once, and the <code class="code-pill">For Each</code> loop automatically repeats them for all 50 branch files.</p>
+        
+        <img src="assets/comic-2-3.jpg" alt="PAD Office Survival Guide Ch2: Setting Variables and Launching Excel" loading="lazy">
+        <img src="assets/comic-2-4.jpg" alt="PAD Office Survival Guide Ch2: Reading Data and Writing to Blank Rows" loading="lazy">
+        
+        <h2>Step-by-Step Tutorial: Build Your Excel Consolidator in PAD</h2>
+        <ol>
+          <li><strong>Set Variable for Folder Path:</strong> In the Actions pane, add <code class="code-pill">Set variable</code>. Name it <code class="code-pill">%FolderName%</code> and set its value to your reports folder path (e.g. <code class="code-pill">C:\Reports\</code>).</li>
+          <li><strong>Launch Excel with Dynamic Path:</strong> Add <code class="code-pill">Launch Excel</code>. Instead of picking a fixed file name, use the variable <code class="code-pill">%FolderName%</code> so PAD can dynamically process every file.</li>
+          <li><strong>Read & Dynamic Append:</strong> Use <code class="code-pill">Read from Excel worksheet</code> into variable <code class="code-pill">%ExcelData%</code>. Then, in the master summary workbook, use <code class="code-pill">Get first free column/row</code> and <code class="code-pill">Write to Excel worksheet</code> to append each branch's data to the first blank row without overwriting previous entries!</li>
+        </ol>
+
+        <img src="assets/comic-2-5.jpg" alt="PAD Office Survival Guide Ch2: Dragging Actions into For Each Loop" loading="lazy">
+        <img src="assets/comic-2-6.jpg" alt="PAD Office Survival Guide Ch2: Running the 50x Automated Workflow" loading="lazy">
+        
+        <h2>Assembling the Flow: One-Click Execution with For Each</h2>
+        <p>In the Actions pane, drag a <code class="code-pill">For each</code> loop onto the canvas and set the target list variable. Move your complete block—<strong>Launch Excel ➔ Read ➔ Find Blank Row ➔ Write ➔ Close Excel</strong>—directly inside the loop.</p>
+        <p>Xiaolin took a deep breath and clicked <strong>Run</strong>! Windows flashed rapidly on the screen as the robot effortlessly opened, extracted, appended, and saved all 50 files in just a few minutes!</p>
+        
+        <img src="assets/comic-2-7.jpg" alt="PAD Office Survival Guide Ch2: Mission Complete & Next Chapter Preview" loading="lazy">
+        
+        <h2>Victory: Leaving Work on Time!</h2>
+        <p>A popup flashed: <strong>"Execution Succeeded!"</strong> Opening the consolidated workbook, all 50 branches' sales figures lined up with 100% precision. What originally took 150 minutes of painful manual work was completed automatically in under 3 minutes.</p>
+        <p><strong>Sneak Peek at Chapter 3:</strong> What if branch sales data is not saved locally in folders, but locked behind internal ERP web portals requiring daily logins? In Chapter 3, we will conquer the <em>"Web Maze"</em> with PAD Web Automation! Stay tuned!</p>
+
+        <div class="chapter-nav">
+          <a href="pad-office-survival-guide.html">← Chapter 1: Black Friday Overtime</a>
+          <a href="articles.html">All Articles ↑</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== Traditional Chinese Block ==================== -->
+    <div data-lang-block="zh-TW">
+      <header class="article-header">
+        <p class="eyebrow"><span></span> RPA / COMIC / TUTORIAL</p>
+        <h1>《PAD 辦公室生存記》第二章：馴服資料巨獸（變數與 Excel 自動化）</h1>
+        <div class="article-meta">
+          <span>AUTHOR: Troy Su</span>
+          <span>DATE: 2026-08-20</span>
+          <span>READ: 5 MIN</span>
+        </div>
+      </header>
+      <div class="article-content">
+        <blockquote class="author-note">
+          <strong>作者：Troy Su</strong> | Power Automate Desktop (PAD) 與 RPA 自動化專家
+        </blockquote>
+        <p>在第一章中，小林親身體會了 PAD 處理 PDF 自動化的強大威力，正躍躍欲試想多學幾招。然而，職場上的危機總是來得猝不及防——</p>
+        <p>正當小林以為今天終於能準時收拾包袱下班時，辦公室大門被猛然推開！業務部經理推著整整一推車的「急件」檔案大喊：<em>「小林！業務部緊急交辦，把這 50 個分公司的 Excel 銷售月報，下班前整理成一個彙整檔案。很急！（順手嘛！）」</em></p>
+        <p>看著眼前堆積如山的 50 份檔案，手動複製貼上少說要 150 分鐘，眼看黑色星期五又要淪陷為加班地獄……這時，莫哥再次端著保溫杯現身救援：<em>「別哭了，把 Ctrl+C / Ctrl+V 丟掉吧。這點小事，讓機器人幫你做好啦！」</em></p>
+        
+        <img src="assets/comic-2-1.jpg" alt="PAD 辦公室生存記 第二章第1頁：50 份 Excel 的加班危機" loading="lazy">
+        <img src="assets/comic-2-2.jpg" alt="PAD 辦公室生存記 第二章第2頁：認識自動化的兩大法寶：變數與迴圈" loading="lazy">
+        
+        <h2>核心觀念：自動化的兩大關鍵法寶</h2>
+        <p>想要一次性批次處理幾十個、甚至上百個檔案，根本不需要重複寫 50 次一模一樣的動作。在 RPA 的世界裡，只要掌握兩個核心概念：</p>
+        
+        <h3>1. 變數（Variable）—— 數據的「魔法收納盒」</h3>
+        <p>變數就像一個貼了標籤的收納盒，用來隨時存放資料夾路徑、文字、數字或整張資料表。在 PAD 中，變數會用前後百分比符號包起來，例如 <code class="code-pill">%FolderName%</code> 或 <code class="code-pill">%ExcelData%</code>。只要把積木參數指向變數名稱，就能讓流程動態讀取不同資料，不再被寫死的數值綁架！</p>
+
+        <h3>2. 迴圈（For Each Loop）—— 蓋印章機器人</h3>
+        <p>迴圈就是讓機器人重複執行同一套動作。就像拿著同一顆印章依序在 50 份文件上蓋章一樣：我們只需要把「開啟 Excel ➔ 讀取數據 ➔ 寫入總表 ➔ 關閉檔案」的標準動作設定好一次，放進 <code class="code-pill">For Each</code> 迴圈中，機器人就會自動把 50 份檔案依序處理完畢。</p>
+        
+        <img src="assets/comic-2-3.jpg" alt="PAD 辦公室生存記 第二章第3頁：設定變數與啟動 Excel" loading="lazy">
+        <img src="assets/comic-2-4.jpg" alt="PAD 辦公室生存記 第二章第4頁：讀取資料與動態寫入空白列" loading="lazy">
+        
+        <h2>實戰教學：4 步打造 Excel 自動彙整機器人</h2>
+        <ol>
+          <li><strong>設定變數存放資料夾路徑：</strong>在動作清單找到 <code class="code-pill">設定變數 (Set variable)</code>，變數名稱設為 <code class="code-pill">%FolderName%</code>，值指向存放 50 份月報的資料夾（如 <code class="code-pill">C:\Reports\</code>）。</li>
+          <li><strong>動態啟動 Excel：</strong>加入 <code class="code-pill">啟動 Excel (Launch Excel)</code>，路徑設定使用變數 <code class="code-pill">%FolderName%</code>，<strong>不需要寫死固定檔案名稱</strong>。</li>
+          <li><strong>讀取與動態寫入空白列：</strong>使用 <code class="code-pill">從 Excel 工作表讀取</code> 存入變數 <code class="code-pill">%ExcelData%</code>；在彙整總表中使用 <code class="code-pill">取得 Excel 工作表中第一個空閒的欄/列</code> 找到最新空行，再透過 <code class="code-pill">寫入 Excel 工作表</code> 依序寫入，確保資料絕不互相覆蓋！</li>
+        </ol>
+
+        <img src="assets/comic-2-5.jpg" alt="PAD 辦公室生存記 第二章第5頁：將動作放進 For Each 迴圈" loading="lazy">
+        <img src="assets/comic-2-6.jpg" alt="PAD 辦公室生存記 第二章第6頁：按下執行，50 次重複工作自動跑完" loading="lazy">
+        
+        <h2>組合魔法：套入 For Each 迴圈一鍵執行</h2>
+        <p>在動作清單找到 <code class="code-pill">迴圈 (For each)</code> 拖入流程，設定重複處理對象為檔案清單變數。將剛才設定好的 <strong>啟動 Excel ➔ 讀取資料 ➔ 尋找空白列 ➔ 寫入資料 ➔ 關閉 Excel</strong> 動作積木全部拖入迴圈內部。</p>
+        <p>小林深吸一口氣，按下綠色的 <strong>「執行 (Run)」</strong> 按鈕！螢幕視窗飛速自動切換，機器人不知疲倦地在幾分鐘內自動讀取、合併並儲存了所有報表！</p>
+        
+        <img src="assets/comic-2-7.jpg" alt="PAD 辦公室生存記 第二章第7頁：數據完美彙整！預告第三章網頁自動化" loading="lazy">
+        
+        <h2>成果驗收：準時下班的奇蹟！</h2>
+        <p>螢幕跳出 <strong>「執行成功」</strong> 的對話框！打開彙整完成的 Excel 總表，50 家分公司的數據整整齊齊排好隊，數千筆資料分毫不差！原本需要苦幹 150 分鐘的複製貼上，機器人 3 分鐘零失誤搞定！</p>
+        <p><strong>下一章精彩預告：</strong>如果分公司的銷售數據不在本機資料夾，而是分散在每天都需要帳號密碼登入的內部 ERP 系統或廠商後台呢？第三章我們將正式制服「網頁迷宮」，學習 PAD 網頁自動登入與抓取！敬請期待！</p>
+
+        <div class="chapter-nav">
+          <a href="pad-office-survival-guide.html">← 第一章：黑色星期五的加班危機</a>
+          <a href="articles.html">返回專欄列表 ↑</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== Simplified Chinese Block ==================== -->
+    <div data-lang-block="zh-CN">
+      <header class="article-header">
+        <p class="eyebrow"><span></span> RPA / COMIC / TUTORIAL</p>
+        <h1>《PAD 办公室生存记》第二章：驯服数据巨兽（变量与 Excel 自动化）</h1>
+        <div class="article-meta">
+          <span>AUTHOR: Troy Su</span>
+          <span>DATE: 2026-08-20</span>
+          <span>READ: 5 MIN</span>
+        </div>
+      </header>
+      <div class="article-content">
+        <blockquote class="author-note">
+          <strong>作者：Troy Su</strong> | Power Automate Desktop (PAD) 与 RPA 自动化专家
+        </blockquote>
+        <p>在第一章中，小林亲身体会了 PAD 处理 PDF 自动化的强大威力，正跃跃欲试想多学几招。然而，职场上的危机总是来得猝不及防——</p>
+        <p>正当小林以为今天终于能准时收拾包袱下班时，办公室大门被猛然推开！业务部经理推着整整一推车的“急件”档案大喊：<em>“小林！业务部紧急交办，把这 50 个分公司的 Excel 销售月报，下班前整理成一个汇总档案。很急！（顺手嘛！）”</em></p>
+        <p>看着眼前堆积如山的 50 份档案，手动复制粘贴少说要 150 分钟，眼看黑色星期五又要沦陷为加班地狱……这时，莫哥再次端着保温杯现身救援：<em>“别哭了，把 Ctrl+C / Ctrl+V 丢掉吧。这点小事，让机器人帮你做好啦！”</em></p>
+        
+        <img src="assets/comic-2-1.jpg" alt="PAD 办公室生存记 第二章第1页：50 份 Excel 的加班危机" loading="lazy">
+        <img src="assets/comic-2-2.jpg" alt="PAD 办公室生存记 第二章第2页：认识自动化的两大法宝：变量与循环" loading="lazy">
+        
+        <h2>核心观念：自动化的两大关键法宝</h2>
+        <p>想要一次性批量处理几十个、甚至上百个文件，根本不需要重复写 50 次一模一样的动作。在 RPA 的世界里，只要掌握两个核心概念：</p>
+        
+        <h3>1. 变量（Variable）—— 数据的“魔法收纳盒”</h3>
+        <p>变量就像一个贴了标签的收纳盒，用来随时存放文件夹路径、文本、数字或整张数据表。在 PAD 中，变量会用前后百分比符号包起来，例如 <code class="code-pill">%FolderName%</code> 或 <code class="code-pill">%ExcelData%</code>。只要把积木参数指向变量名称，就能让流程动态读取不同数据，不再被写死的数值绑架！</p>
+
+        <h3>2. 循环（For Each Loop）—— 盖印章机器人</h3>
+        <p>循环就是让机器人重复执行同一套动作。就像拿着同一颗印章依次在 50 份文件上盖章一样：我们只需要把“打开 Excel ➔ 读取数据 ➔ 写入总表 ➔ 关闭文件”的标准动作设定好一次，放进 <code class="code-pill">For Each</code> 循环中，机器人就会自动把 50 份文件依次处理完毕。</p>
+        
+        <img src="assets/comic-2-3.jpg" alt="PAD 办公室生存记 第二章第3页：设定变量与启动 Excel" loading="lazy">
+        <img src="assets/comic-2-4.jpg" alt="PAD 办公室生存记 第二章第4页：读取数据与动态写入空白行" loading="lazy">
+        
+        <h2>实战教学：4 步打造 Excel 自动汇总机器人</h2>
+        <ol>
+          <li><strong>设定变量存放文件夹路径：</strong>在动作清单找到 <code class="code-pill">设定变量 (Set variable)</code>，变量名称设为 <code class="code-pill">%FolderName%</code>，值指向存放 50 份月报的文件夹（如 <code class="code-pill">C:\Reports\</code>）。</li>
+          <li><strong>动态启动 Excel：</strong>加入 <code class="code-pill">启动 Excel (Launch Excel)</code>，路径设定使用变量 <code class="code-pill">%FolderName%</code>，<strong>不需要写死固定文件名称</strong>。</li>
+          <li><strong>读取与动态写入空白行：</strong>使用 <code class="code-pill">从 Excel 工作表读取</code> 存入变量 <code class="code-pill">%ExcelData%</code>；在汇总总表中使用 <code class="code-pill">取得 Excel 工作表中第一个空闲的列/行</code> 找到最新空行，再通过 <code class="code-pill">写入 Excel 工作表</code> 依次写入，确保数据绝不互相覆盖！</li>
+        </ol>
+
+        <img src="assets/comic-2-5.jpg" alt="PAD 办公室生存记 第二章第5页：将动作放进 For Each 循环" loading="lazy">
+        <img src="assets/comic-2-6.jpg" alt="PAD 办公室生存记 第二章第6页：按下执行，50 次重复工作自动跑完" loading="lazy">
+        
+        <h2>组合魔法：套入 For Each 循环一键执行</h2>
+        <p>在动作清单找到 <code class="code-pill">循环 (For each)</code> 拖入流程，设定重复处理对象为文件清单变量。将刚才设定好的 <strong>启动 Excel ➔ 读取数据 ➔ 寻找空白行 ➔ 写入数据 ➔ 关闭 Excel</strong> 动作积木全部拖入循环内部。</p>
+        <p>小林深吸一口气，按下绿色的 <strong>“执行 (Run)”</strong> 按钮！屏幕窗口飞速自动切换，机器人在几分钟内自动读取、合并并保存了所有报表！</p>
+        
+        <img src="assets/comic-2-7.jpg" alt="PAD 办公室生存记 第二章第7页：数据完美汇总！预告第三章网页自动化" loading="lazy">
+        
+        <h2>成果验收：准时下班的奇迹！</h2>
+        <p>屏幕跳出 <strong>“执行成功”</strong> 的对话框！打开汇总完成的 Excel 总表，50 家分公司的数据整整齐齐排好队，数千条数据分毫不差！原本需要苦干 150 分钟的复制粘贴，机器人 3 分钟零失误搞定！</p>
+        <p><strong>下一章精彩预告：</strong>如果分公司的销售数据不在本机文件夹，而是分散在每天都需要账号密码登录的内部 ERP 系统或厂商后台呢？第三章我们将正式制服“网页迷宫”，学习 PAD 网页自动登录与抓取！敬请期待！</p>
+
+        <div class="chapter-nav">
+          <a href="pad-office-survival-guide.html">← 第一章：黑色星期五的加班危机</a>
+          <a href="articles.html">返回专栏列表 ↑</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== Japanese Block ==================== -->
+    <div data-lang-block="ja">
+      <header class="article-header">
+        <p class="eyebrow"><span></span> RPA / COMIC / TUTORIAL</p>
+        <h1>PADオフィスサバイバルガイド 第二章：データの怪物を手懐ける（変数とExcel自動化）</h1>
+        <div class="article-meta">
+          <span>AUTHOR: Troy Su</span>
+          <span>DATE: 2026-08-20</span>
+          <span>READ: 5 MIN</span>
+        </div>
+      </header>
+      <div class="article-content">
+        <blockquote class="author-note">
+          <strong>著者：Troy Su</strong> | Power Automate Desktop (PAD) および RPA 自動化エキスパート
+        </blockquote>
+        <p>第1章でPADによるPDF自動化の威力を体感した小林は、さらなる挑戦に意欲を燃やしていました。しかし、職場のピンチは常に突然訪れます——</p>
+        <p>定時で帰ろうとしたその時、営業部長がワゴンいっぱいの至急書類を押して飛び込んできました：<em>「小林さん！営業部からの至急案件だ。この50支店のExcel売上月報を退社までに1つのファイルにまとめてくれ！（ついでに頼むよ！）」</em></p>
+        <p>山積みの50ファイルを前に、手動コピー＆ペーストなら最低でも150分……絶望する小林の元に、莫兄（モー・ガー）が温かいお茶を持って現れました：<em>「泣かないで、Ctrl+CとCtrl+Vは捨てちゃいな。こんなのロボットにやらせれば一瞬だよ！」</em></p>
+        
+        <img src="assets/comic-2-1.jpg" alt="PADオフィスサバイバルガイド 第2章 1/7" loading="lazy">
+        <img src="assets/comic-2-2.jpg" alt="PADオフィスサバイバルガイド 第2章 2/7" loading="lazy">
+        
+        <h2>核心概念：自動化を支える2大魔法</h2>
+        <p>何十、何百ものファイルを処理するために、50回同じ手順を書く必要はありません。RPAでは次の2つの概念さえ押さえれば完璧です：</p>
+        
+        <h3>1. 変数（Variable）—— データの「魔法の収納ボックス」</h3>
+        <p>変数は、フォルダパスやテキスト、数値、データ表を保管しておくラベル付きの箱です。PADでは <code class="code-pill">%FolderName%</code> や <code class="code-pill">%ExcelData%</code> のようにパーセント記号で囲みます。固定値ではなく変数名を指定することで、動的に柔軟な処理が可能になります。</p>
+
+        <h3>2. ループ（For Each）—— スタンプ押しロボット</h3>
+        <p>ループとは、ロボットに同じ動作を繰り返し実行させる仕組みです。50通の書類に順番にスタンプを押すように、「Excel起動 ➔ データ読取 ➔ 集計表書込 ➔ 閉じる」という一連の動作を1度設定して <code class="code-pill">For Each</code> に入れるだけで、全ファイルを自動処理します。</p>
+        
+        <img src="assets/comic-2-3.jpg" alt="PADオフィスサバイバルガイド 第2章 3/7" loading="lazy">
+        <img src="assets/comic-2-4.jpg" alt="PADオフィスサバイバルガイド 第2章 4/7" loading="lazy">
+        
+        <h2>実践ガイド：Excel自動集計フローの構築</h2>
+        <ol>
+          <li><strong>フォルダパスを変数に設定：</strong>アクションから <code class="code-pill">変数の設定</code> を配置し、変数名 <code class="code-pill">%FolderName%</code> にレポート格納先パス（例: <code class="code-pill">C:\Reports\</code>）を設定します。</li>
+          <li><strong>動的にExcelを起動：</strong><code class="code-pill">Excel の起動</code> アクションで、ファイル名を直接固定せず変数 <code class="code-pill">%FolderName%</code> を指定します。</li>
+          <li><strong>データの読取と空白行への追記：</strong><code class="code-pill">Excel ワークシートからの読み取り</code> でデータを <code class="code-pill">%ExcelData%</code> に格納。集計先では <code class="code-pill">Excel ワークシートの最初の空の列/行を取得</code> を使って空行を特定し、<code class="code-pill">Excel ワークシートへの書き込み</code> でデータを追記します。</li>
+        </ol>
+
+        <img src="assets/comic-2-5.jpg" alt="PADオフィスサバイバルガイド 第2章 5/7" loading="lazy">
+        <img src="assets/comic-2-6.jpg" alt="PADオフィスサバイバルガイド 第2章 6/7" loading="lazy">
+        
+        <h2>フローの結合：For Eachループでワンクリック実行</h2>
+        <p><code class="code-pill">For each</code> ループを配置し、ファイル一覧変数を対象に設定します。先ほど作成した「Excel起動 ➔ 読取 ➔ 空白行取得 ➔ 書込 ➔ 閉じる」のブロックをループ内にドラッグします。</p>
+        <p>小林が深呼吸して <strong>「実行 (Run)」</strong> ボタンを押すと、画面が自動で切り替わり、ロボットが瞬く間に50ファイルの集計を完了させました！</p>
+        
+        <img src="assets/comic-2-7.jpg" alt="PADオフィスサバイバルガイド 第2章 7/7" loading="lazy">
+        
+        <h2>成果と次回予告：定時退社の奇跡！</h2>
+        <p>画面に「実行成功」のダイアログが表示されました。完成した集計表を開くと、50支店の全データが完璧に並んでいます。手作業で150分かかっていた作業が、わずか3分でノーミス完了です！</p>
+        <p><strong>第3章の予告：</strong>売上データがローカルフォルダではなく、毎日のログインが必要な社内ERPシステムにある場合はどうする？次回はPADで「Webの迷宮」を攻略します！お楽しみに！</p>
+
+        <div class="chapter-nav">
+          <a href="pad-office-survival-guide.html">← 第一章：ブラックフライデー残業</a>
+          <a href="articles.html">記事一覧に戻る ↑</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== Korean Block ==================== -->
+    <div data-lang-block="ko">
+      <header class="article-header">
+        <p class="eyebrow"><span></span> RPA / COMIC / TUTORIAL</p>
+        <h1>PAD 오피스 서바이벌 가이드 2장: 데이터 몬스터 길들이기 (변수와 Excel 자동화)</h1>
+        <div class="article-meta">
+          <span>AUTHOR: Troy Su</span>
+          <span>DATE: 2026-08-20</span>
+          <span>READ: 5 MIN</span>
+        </div>
+      </header>
+      <div class="article-content">
+        <blockquote class="author-note">
+          <strong>저자: Troy Su</strong> | Power Automate Desktop (PAD) 및 RPA 자동화 전문가
+        </blockquote>
+        <p>1장에서 PAD의 PDF 자동화 위력을 체험한 샤오린은 자신감이 붙었습니다. 하지만 직장의 위기는 늘 예고 없이 찾아옵니다——</p>
+        <p>정시 퇴근을 준비하던 순간, 영업부장이 서류 카트를 밀고 들어와 외칩니다: <em>"샤오린! 긴급 업무야. 50개 지점의 Excel 매출 월보를 퇴근 전까지 하나의 종합 파일로 정리해 줘! 급해!"</em></p>
+        <p>산더미 같은 50개 파일을 수동으로 복사·붙여넣기 하려면 최소 150분…… 절망에 빠진 샤오린에게 모 형(Mo-ge)이 다가옵니다: <em>"울지 마, Ctrl+C / Ctrl+V는 버려! 이런 일은 소프트웨어 로봇에게 맡기면 돼."</em></p>
+        
+        <img src="assets/comic-2-1.jpg" alt="PAD 오피스 서바이벌 가이드 2장 1/7" loading="lazy">
+        <img src="assets/comic-2-2.jpg" alt="PAD 오피스 서바이벌 가이드 2장 2/7" loading="lazy">
+        
+        <h2>핵심 개념: 자동화의 2대 필살기</h2>
+        <p>수십, 수백 개의 파일을 처리하기 위해 똑같은 작업을 50번 반복할 필요가 없습니다. RPA에서는 다음 두 가지만 알면 충분합니다:</p>
+        
+        <h3>1. 변수 (Variable) —— 데이터의 "마법 수납함"</h3>
+        <p>변수는 폴더 경로, 텍스트, 숫자, 표 데이터를 담아두는 이름표 달린 상자입니다. PAD에서는 <code class="code-pill">%FolderName%</code>, <code class="code-pill">%ExcelData%</code>와 같이 퍼센트 기호로 감쌉니다. 고정된 값을 쓰지 않고 변수명을 지정하면 프로세스가 데이터를 동적으로 처리합니다.</p>
+
+        <h3>2. 루프 (For Each Loop) —— 도장 찍기 로봇</h3>
+        <p>루프는 로봇이 동일한 동작을 반복 수행하도록 합니다. 50장의 서류에 차례대로 도장을 찍듯이, 'Excel 실행 ➔ 데이터 읽기 ➔ 종합표 쓰기 ➔ 닫기' 단계를 한 번만 구성하여 <code class="code-pill">For Each</code>에 넣으면 로봇이 50개 파일을 자동으로 순회합니다.</p>
+        
+        <img src="assets/comic-2-3.jpg" alt="PAD 오피스 서바이벌 가이드 2장 3/7" loading="lazy">
+        <img src="assets/comic-2-4.jpg" alt="PAD 오피스 서바이벌 가이드 2장 4/7" loading="lazy">
+        
+        <h2>실전 튜토리얼: Excel 자동 취합 로봇 만들기</h2>
+        <ol>
+          <li><strong>폴더 경로 변수 설정:</strong> 작업 목록에서 <code class="code-pill">변수 설정</code>을 추가하고, 변수명 <code class="code-pill">%FolderName%</code>에 보고서 폴더 경로(예: <code class="code-pill">C:\Reports\</code>)를 지정합니다.</li>
+          <li><strong>동적 Excel 실행:</strong> <code class="code-pill">Excel 시작</code> 작업에서 고정 파일명 대신 변수 <code class="code-pill">%FolderName%</code>을 사용합니다.</li>
+          <li><strong>데이터 읽기 및 빈 행 동적 쓰기:</strong> <code class="code-pill">Excel 워크시트에서 읽기</code>로 데이터를 <code class="code-pill">%ExcelData%</code>에 저장한 후, 종합 파일에서 <code class="code-pill">Excel 워크시트의 첫 번째 빈 열/행 가져오기</code>로 빈 줄을 찾아 <code class="code-pill">Excel 워크시트에 쓰기</code>로 순서대로 입력합니다.</li>
+        </ol>
+
+        <img src="assets/comic-2-5.jpg" alt="PAD 오피스 서바이벌 가이드 2장 5/7" loading="lazy">
+        <img src="assets/comic-2-6.jpg" alt="PAD 오피스 서바이벌 가이드 2장 6/7" loading="lazy">
+        
+        <h2>흐름 결합: For Each 루프로 원클릭 실행</h2>
+        <p><code class="code-pill">For each</code> 루프를 배치하고 파일 목록 변수를 지정한 뒤, <strong>Excel 실행 ➔ 읽기 ➔ 빈 행 찾기 ➔ 쓰기 ➔ 닫기</strong> 블록 전체를 루프 안으로 넣습니다.</p>
+        <p>샤오린이 심호흡 후 <strong>실행 (Run)</strong> 버튼을 누르자 화면이 빠르게 전환되며 로봇이 단 몇 분 만에 50개 파일을 완벽하게 취합했습니다!</p>
+        
+        <img src="assets/comic-2-7.jpg" alt="PAD 오피스 서바이벌 가이드 2장 7/7" loading="lazy">
+        
+        <h2>성공과 다음 장 예고: 정시 퇴근의 기적!</h2>
+        <p>화면에 "실행 성공" 알림이 떴습니다! 종합 문서를 열어보니 50개 지점의 데이터가 오차 없이 깔끔하게 정리되어 있었습니다. 150분 걸릴 작업을 단 3분 만에 무결점으로 끝냈습니다!</p>
+        <p><strong>3장 예고:</strong> 지점 매출 데이터가 로컬 폴더가 아니라 매일 로그인이 필요한 내부 ERP 웹 시스템에 있다면? 다음 장에서는 PAD 웹 자동화로 '웹의 미로'를 정복합니다!</p>
+
+        <div class="chapter-nav">
+          <a href="pad-office-survival-guide.html">← 1장: 블랙 프라이데이 야근</a>
+          <a href="articles.html">게시글 목록으로 ↑</a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer section-wrap" style="border-top: 1px solid var(--line); margin-top: 80px;">
+    <a class="brand" href="index.html">
+      <span class="brand-mark">T</span>
+      <span>TROY'S<br><b>SMART AUTOMATION</b></span>
+    </a>
+    <p>© 2026 Troy's Smart Automation</p>
+  </footer>
+  
+  <script src="script.js?v=1.4"></script>
+</body>
+</html>
