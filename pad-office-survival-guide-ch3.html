@@ -1,0 +1,538 @@
+﻿<!doctype html>
+<html lang="zh-TW">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  
+  <title>《PAD 辦公室生存記》第三章：網頁資料抓取與自動郵寄大作戰 | Troy Su 技術專欄 | Troy's Smart Automation</title>
+  <meta name="title" content="《PAD 辦公室生存記》第三章：網頁資料抓取與自動郵寄大作戰 | Troy Su 技術專欄 | Troy's Smart Automation" />
+  <meta name="description" content="30 家供應商最新報價下午兩點前要整理完？跟著 Troy Su 掌握 PAD「網頁小精靈」與「自動郵差」，學會網頁表格擷取、If 條件門衛與 Outlook 自動發信，準時下班！" />
+  <meta name="keywords" content="PAD, Power Automate Desktop, 網頁爬蟲, 網頁自動化, Outlook 自動發信, If 條件判斷, RPA, 自動化教學漫畫, 辦公室生存記, Troy Su" />
+  <meta name="author" content="Troy Su" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://troysuice.github.io/troy-smart-automation/pad-office-survival-guide-ch3.html" />
+  <meta property="og:title" content="《PAD 辦公室生存記》第三章：網頁資料抓取與自動郵寄大作戰 | Troy Su" />
+  <meta property="og:description" content="30 家供應商最新報價下午兩點前要整理完？跟著 Troy Su 掌握 PAD「網頁小精靈」與「自動郵差」，學會網頁表格擷取、If 條件門衛與 Outlook 自動發信，準時下班！" />
+  <meta property="og:image" content="https://troysuice.github.io/troy-smart-automation/assets/comic-3-1.jpg" />
+
+  <meta property="twitter:card" content="summary_large_image" />
+  <meta property="twitter:url" content="https://troysuice.github.io/troy-smart-automation/pad-office-survival-guide-ch3.html" />
+  <meta property="twitter:title" content="《PAD 辦公室生存記》第三章：網頁資料抓取與自動郵寄大作戰 | Troy Su" />
+  <meta property="twitter:description" content="30 家供應商最新報價下午兩點前要整理完？跟著 Troy Su 掌握 PAD「網頁小精靈」與「自動郵差」，學會網頁表格擷取、If 條件門衛與 Outlook 自動發信，準時下班！" />
+  <meta property="twitter:image" content="https://troysuice.github.io/troy-smart-automation/assets/comic-3-1.jpg" />
+
+  <link rel="canonical" href="https://troysuice.github.io/troy-smart-automation/pad-office-survival-guide-ch3.html" />
+  
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "《PAD 辦公室生存記》第三章：網頁資料抓取與自動郵寄大作戰",
+    "image": [
+      "https://troysuice.github.io/troy-smart-automation/assets/comic-3-1.jpg"
+    ],
+    "author": {
+      "@type": "Person",
+      "name": "Troy Su"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Troy's Smart Automation"
+    },
+    "datePublished": "2026-08-23",
+    "dateModified": "2026-08-23",
+    "description": "30 家供應商最新報價下午兩點前要整理完？跟著 Troy Su 掌握 PAD「網頁小精靈」與「自動郵差」，學會網頁表格擷取、If 條件門衛與 Outlook 自動發信，準時下班！",
+    "keywords": "PAD, Power Automate Desktop, 網頁資料抓取, Outlook 自動化, If 條件判斷, RPA, 自動化教學漫畫"
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Noto+Sans+TC:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;700&family=Noto+Sans+KR:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css?v=1.1" />
+  <style>
+    .article-wrap {
+      padding: 120px 0 80px;
+      max-width: 760px;
+      margin: auto;
+    }
+    .article-header {
+      margin-bottom: 60px;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 40px;
+    }
+    .article-header h1 {
+      font-size: clamp(30px, 4.5vw, 44px);
+      line-height: 1.25;
+      margin: 20px 0;
+      letter-spacing: -0.5px;
+    }
+    .article-meta {
+      display: flex;
+      gap: 20px;
+      color: var(--muted);
+      font-family: "DM Mono", monospace;
+      font-size: 12px;
+      margin-top: 20px;
+    }
+    .article-content h2 {
+      font-size: 26px;
+      color: var(--lime);
+      margin: 50px 0 20px;
+      font-weight: 600;
+      border-left: 4px solid var(--lime);
+      padding-left: 12px;
+    }
+    .article-content h3 {
+      font-size: 20px;
+      color: var(--cyan);
+      margin: 36px 0 14px;
+    }
+    .article-content p {
+      font-size: 17px;
+      line-height: 1.85;
+      color: var(--text);
+      margin-bottom: 24px;
+    }
+    .article-content ul, .article-content ol {
+      font-size: 16px;
+      line-height: 1.8;
+      color: var(--muted);
+      margin-bottom: 32px;
+      padding-left: 24px;
+    }
+    .article-content li {
+      margin-bottom: 12px;
+    }
+    .article-content li strong {
+      color: var(--text);
+    }
+    .article-content img {
+      width: 100%;
+      border-radius: 8px;
+      border: 1px solid var(--line);
+      margin: 32px 0;
+      display: block;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+    }
+    .back-btn {
+      display: inline-block;
+      margin-bottom: 40px;
+      color: var(--cyan);
+      text-decoration: none;
+      font-family: "DM Mono", monospace;
+      font-size: 12px;
+      letter-spacing: 1px;
+    }
+    .back-btn:hover {
+      text-decoration: underline;
+    }
+    blockquote.author-note {
+      border-left: 4px solid var(--accent);
+      padding-left: 1rem;
+      margin-bottom: 2rem;
+      color: var(--text-muted);
+      background: rgba(255,255,255,0.03);
+      padding: 1rem;
+      border-radius: 0 8px 8px 0;
+    }
+    .chapter-nav {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      margin-top: 60px;
+      padding-top: 30px;
+      border-top: 1px solid var(--line);
+      font-family: "DM Mono", monospace;
+      font-size: 13px;
+    }
+    .chapter-nav a {
+      color: var(--cyan);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .chapter-nav a:hover {
+      text-decoration: underline;
+    }
+    .code-pill {
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--lime);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: "DM Mono", monospace;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="noise" aria-hidden="true"></div>
+  
+  <header class="site-header">
+    <a class="brand" href="index.html" aria-label="Home">
+      <span class="brand-mark">T</span>
+      <span>TROY'S<br><b>SMART AUTOMATION</b></span>
+    </a>
+    <button class="menu-toggle" aria-controls="main-nav" aria-expanded="false">
+      <span></span><span></span><span></span><i data-i18n="menu">Menu</i>
+    </button>
+    <nav id="main-nav" class="main-nav" aria-label="Main Navigation">
+      <a href="index.html#about" data-i18n="nav_about">About Troy</a>
+      <a href="index.html#expertise" data-i18n="nav_expertise">Expertise</a>
+      <a href="index.html#work" data-i18n="nav_work">Selected Work</a>
+      <a href="index.html#software" data-i18n="nav_software">Software</a>
+      <a href="articles.html" data-i18n="nav_articles">Insights</a>
+      <a class="nav-cta" href="index.html#contact"><span data-i18n="nav_contact">Start Planning</span> <span>↗</span></a>
+      <div class="lang-selector-wrapper">
+        <select id="lang-select" class="lang-select" aria-label="Select Language">
+          <option value="en">English</option>
+          <option value="zh-TW">繁體中文</option>
+          <option value="zh-CN">简体中文</option>
+          <option value="ja">日本語</option>
+          <option value="ko">한국어</option>
+        </select>
+      </div>
+    </nav>
+  </header>
+
+  <main class="article-wrap">
+    <a href="articles.html" class="back-btn">← BACK TO ARTICLES</a>
+    
+    <!-- ==================== English Block ==================== -->
+    <div data-lang-block="en">
+      <header class="article-header">
+        <p class="eyebrow"><span></span> RPA / COMIC / TUTORIAL</p>
+        <h1>PAD Office Survival Guide Ch.3: Web Scraping & Automated Email Operation</h1>
+        <div class="article-meta">
+          <span>AUTHOR: Troy Su</span>
+          <span>DATE: 2026-08-23</span>
+          <span>READ: 5 MIN</span>
+        </div>
+      </header>
+      <div class="article-content">
+        <blockquote class="author-note">
+          <strong>Author: Troy Su</strong> | Power Automate Desktop (PAD) & RPA Automation Expert
+        </blockquote>
+        <p>Just after mastering Excel automation in Chapter 2, a new workplace crisis strikes! At 1:00 PM, the sales manager bursts in with another sudden task: <em>"Xiaolin! Urgent assignment from sales: scrape the latest price lists from all 30 supplier websites and compile them into a master report before 2:00 PM! Real urgent!"</em></p>
+        <p>30 websites, manual browsing, copying and pasting would take at least 180 minutes! Xiaolin is once again on the verge of despair. But Brother Mo steps in with a smile: <em>"Don't panic, Xiaolin. Let our software robots handle this small task. That's the real power of PAD!"</em></p>
+        
+        <img src="assets/comic-3-1.jpg" alt="PAD Office Survival Guide Ch3: 30 Supplier Web Scraping Crisis" loading="lazy">
+        <img src="assets/comic-3-2.jpg" alt="PAD Office Survival Guide Ch3: Core Concepts - Web Elf and Auto Postman" loading="lazy">
+        
+        <h2>Core Concepts: The Two Secret Weapons of Web & Email Automation</h2>
+        <p>Instead of manually opening browser tabs one by one, PAD provides two specialized action groups that work seamlessly together:</p>
+        
+        <h3>1. Web Elf (Browser Automation) — The Invisible Data Harvester</h3>
+        <p>Like an invisible assistant, PAD can automatically launch Chrome or Edge, navigate through 30 supplier URLs, accurately scrape target price tables, and store all structured data directly into variable <code class="code-pill">%SupplierPrices%</code> (or <code class="code-pill">%ExtractedData%</code>) without touching your mouse!</p>
+
+        <h3>2. Auto Postman (Outlook Actions) — Headless Email Dispatcher</h3>
+        <p>No need to open the Outlook app and type manually! PAD connects directly to the email backend. It takes the freshly extracted price table, pairs it with dynamically generated subject lines <code class="code-pill">%MailSubject%</code>, and dispatches the alert email straight to your manager.</p>
+        
+        <img src="assets/comic-3-3.jpg" alt="PAD Office Survival Guide Ch3: Browser Launch and Web Data Extraction" loading="lazy">
+        <img src="assets/comic-3-4.jpg" alt="PAD Office Survival Guide Ch3: If Condition Gatekeeper for Dynamic Subjects" loading="lazy">
+        
+        <h2>Step-by-Step Tutorial: Building the End-to-End Automation Flow</h2>
+        <ol>
+          <li><strong>Launch Browser Instance:</strong> Use <code class="code-pill">Launch new Chrome / Edge</code>. This creates a browser instance variable <code class="code-pill">%Browser%</code>, allowing all subsequent actions to control the web page precisely.</li>
+          <li><strong>Extract Data from Web Page:</strong> Add <code class="code-pill">Extract data from web page</code>. Select the target price table visually, and rename the output variable to <code class="code-pill">%SupplierPrices%</code> for clean readability.</li>
+          <li><strong>If Condition Gatekeeper:</strong> Add an <code class="code-pill">If [ Price > Threshold ]</code> logic block.
+            <ul>
+              <li><strong>If True (Price too high):</strong> Set <code class="code-pill">%MailSubject%</code> to <code class="code-pill">[High Price Alert! Item: %CurrentProduct%, Price: %CurrentPrice%]</code>.</li>
+              <li><strong>Else (Normal price):</strong> Set <code class="code-pill">%MailSubject%</code> to <code class="code-pill">[Normal Price: Item: %CurrentProduct%]</code>.</li>
+            </ul>
+          </li>
+        </ol>
+
+        <img src="assets/comic-3-5.jpg" alt="PAD Office Survival Guide Ch3: Outlook Dispatch and Flow Integration" loading="lazy">
+        <img src="assets/comic-3-6.jpg" alt="PAD Office Survival Guide Ch3: Mission Accomplished and Leaving on Time" loading="lazy">
+        
+        <h2>Assembling the Flow: Automated Dispatch & Resource Cleanup</h2>
+        <p>After checking prices with the If condition, add <code class="code-pill">Send email message through Outlook</code>:</p>
+        <ul>
+          <li><strong>To:</strong> Manager's Email</li>
+          <li><strong>Subject:</strong> <code class="code-pill">%MailSubject%</code></li>
+          <li><strong>Body:</strong> <code class="code-pill">%ExtractedData%</code> (HTML table or summary)</li>
+        </ul>
+        <p>Finally, add <code class="code-pill">Close web browser</code> to release system resources. Wrap everything inside a <code class="code-pill">For each</code> loop across all 30 supplier URLs, and click <strong>Run</strong>!</p>
+        
+        <h2>Victory: 100% Accuracy and On-Time Dismissal!</h2>
+        <p>In less than 5 minutes, 30 supplier websites were scraped and all alert emails were dispatched seamlessly! The manager checked the report and praised Xiaolin's amazing efficiency. Xiaolin and Brother Mo walked out of the office on time with coffee in hand.</p>
+        
+        <div class="chapter-nav">
+          <a href="pad-office-survival-guide-ch2.html">← Chapter 2: Taming the Data Beast</a>
+          <a href="articles.html">All Articles ↑</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== Traditional Chinese Block ==================== -->
+    <div data-lang-block="zh-TW">
+      <header class="article-header">
+        <p class="eyebrow"><span></span> RPA / COMIC / TUTORIAL</p>
+        <h1>《PAD 辦公室生存記》第三章：網頁資料抓取與自動郵寄大作戰</h1>
+        <div class="article-meta">
+          <span>AUTHOR: Troy Su</span>
+          <span>DATE: 2026-08-23</span>
+          <span>READ: 5 MIN</span>
+        </div>
+      </header>
+      <div class="article-content">
+        <blockquote class="author-note">
+          <strong>作者：Troy Su</strong> | Power Automate Desktop (PAD) 與 RPA 自動化專家
+        </blockquote>
+        <p>剛在第二章學會 Excel 自動彙整的小林，信心大增！然而下午一點，辦公室大門又被猛然推開——業務經理帶著新的急件殺到：<em>「小林！業務部又臨時交辦，把這 30 家供應商官網的最新報價抓下來！下午兩點前整理成一個表格檔案。很急！（順手嘛！）」</em></p>
+        <p>30 家供應商網站、手動開網頁複製貼上至少要 180 分鐘！眼看兩點死線就要到了，莫哥再次端著保溫杯帥氣登場：<em>「別慌，小林。這點小事，讓機器人幫你做好啦。這就是 PAD 的威力！」</em></p>
+        
+        <img src="assets/comic-3-1.jpg" alt="PAD 辦公室生存記 第三章第1頁：30 家供應商網頁報價的緊急任務" loading="lazy">
+        <img src="assets/comic-3-2.jpg" alt="PAD 辦公室生存記 第三章第2頁：觀念引導 - 網頁小精靈與自動郵差" loading="lazy">
+        
+        <h2>核心觀念：PAD 網頁與郵件自動化的兩大魔法</h2>
+        <p>要搞定跨網頁資料擷取與即時通報，不需要手忙腳亂開幾十個瀏覽器分頁。在 PAD 中，我們有兩大核心幫手：</p>
+        
+        <h3>1. 網頁小精靈（網頁動作群）—— 隱形資料收割機</h3>
+        <p>它就像隱形助手，能自動開啟 Chrome 或 Edge 瀏覽器、精準定位並擷取 30 家供應商網頁上的價格表格，不用動手點滑鼠，就能把資料整整齊齊收進變數 <code class="code-pill">%SupplierPrices%</code>（或 <code class="code-pill">%ExtractedData%</code>）中！</p>
+
+        <h3>2. 自動郵差（Outlook 動作群）—— 背景發信專家</h3>
+        <p>不需要打開 Outlook 軟體介面手動打字！它能直接讀取剛剛抓到的報價資料，配上根據規則動態產生的高價警示主旨 <code class="code-pill">%MailSubject%</code>，直接在背景寄給主管！</p>
+        
+        <img src="assets/comic-3-3.jpg" alt="PAD 辦公室生存記 第三章第3頁：實戰積木1 - 啟動瀏覽器與網頁資料抓取" loading="lazy">
+        <img src="assets/comic-3-4.jpg" alt="PAD 辦公室生存記 第三章第4頁：實戰積木2 - 條件判斷 If 魔法與動態主旨" loading="lazy">
+        
+        <h2>實戰教學：3 步打造「網頁抓取 + 條件發信」全自動流</h2>
+        <ol>
+          <li><strong>建立並控制瀏覽器實例：</strong>加入 <code class="code-pill">啟動新 Chrome / Edge</code> 動作，產生瀏覽器實例變數 <code class="code-pill">%Browser%</code>，這是所有網頁自動化的基石。</li>
+          <li><strong>從網頁擷取表格資料：</strong>使用 <code class="code-pill">從網頁擷取資料 (Extract data from web page)</code>，選定供應商官網的報價表格，將資料存入變數並命名為 <code class="code-pill">%SupplierPrices%</code>。</li>
+          <li><strong>條件判斷 If 門衛積木：</strong>加入 <code class="code-pill">If [ 價格 > 閾值 ]</code> 邏輯：
+            <ul>
+              <li><strong>若價格過高：</strong>設定變數 <code class="code-pill">%MailSubject%</code> 為 <code class="code-pill">[價格過高警示！商品: %CurrentProduct%, 價格: %CurrentPrice%]</code>。</li>
+              <li><strong>若價格正常 (Else)：</strong>設定變數 <code class="code-pill">%MailSubject%</code> 為 <code class="code-pill">[正常價格: 商品: %CurrentProduct%]</code>。</li>
+            </ul>
+          </li>
+        </ol>
+
+        <img src="assets/comic-3-5.jpg" alt="PAD 辦公室生存記 第三章第5頁：實戰積木3 - Outlook 發信與流程串接" loading="lazy">
+        <img src="assets/comic-3-6.jpg" alt="PAD 辦公室生存記 第三章第6頁：任務達成！全自動化準時下班" loading="lazy">
+        
+        <h2>流程串接與自動發信</h2>
+        <p>在判斷完價格與動態主旨後，加入 <code class="code-pill">透過 Outlook 傳送電子郵件訊息</code>：</p>
+        <ul>
+          <li><strong>收件者 (To)：</strong>主管信箱</li>
+          <li><strong>主旨 (Subject)：</strong><code class="code-pill">%MailSubject%</code>（動態主旨）</li>
+          <li><strong>內文 (Body)：</strong><code class="code-pill">%ExtractedData%</code>（抓取到的表格資料）</li>
+        </ul>
+        <p>最後加上 <code class="code-pill">關閉網頁瀏覽器</code> 釋放電腦資源。將這套標準動作放進 <code class="code-pill">For each</code> 迴圈遍歷 30 家供應商網址，按下 <strong>執行 (Run)</strong>！</p>
+        
+        <h2>成果驗收：準時下班的奇蹟再現！</h2>
+        <p>不到 5 分鐘，30 家供應商的最新報價全部自動抓取完畢，高價警示信也一封不漏地寄送到主管信箱！主管看著即時又準確的報表連聲稱讚，小林與莫哥準時下班喝咖啡，完美結束充實的一天！</p>
+
+        <div class="chapter-nav">
+          <a href="pad-office-survival-guide-ch2.html">← 第二章：馴服資料巨獸</a>
+          <a href="articles.html">返回專欄列表 ↑</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== Simplified Chinese Block ==================== -->
+    <div data-lang-block="zh-CN">
+      <header class="article-header">
+        <p class="eyebrow"><span></span> RPA / COMIC / TUTORIAL</p>
+        <h1>《PAD 办公室生存记》第三章：网页数据抓取与自动邮件大作战</h1>
+        <div class="article-meta">
+          <span>AUTHOR: Troy Su</span>
+          <span>DATE: 2026-08-23</span>
+          <span>READ: 5 MIN</span>
+        </div>
+      </header>
+      <div class="article-content">
+        <blockquote class="author-note">
+          <strong>作者：Troy Su</strong> | Power Automate Desktop (PAD) 与 RPA 自动化专家
+        </blockquote>
+        <p>刚在第二章学会 Excel 自动汇总的小林，信心大增！然而下午一点，办公室大门又被猛然推开——业务经理带着新的急件杀到：<em>“小林！业务部又临时交办，把这 30 家供应商官网的最新报价抓下来！下午两点前整理成一个表格档案。很急！（顺手嘛！）”</em></p>
+        <p>30 家供应商网站、手动开网页复制粘贴至少要 180 分钟！眼看两点死线就要到了，莫哥再次端着保温杯帅气登场：<em>“别慌，小林。这点小事，让机器人帮你做好啦。这就是 PAD 的威力！”</em></p>
+        
+        <img src="assets/comic-3-1.jpg" alt="PAD 办公室生存记 第三章第1页：30 家供应商网页报价的紧急任务" loading="lazy">
+        <img src="assets/comic-3-2.jpg" alt="PAD 办公室生存记 第三章第2页：观念引导 - 网页小精灵与自动邮差" loading="lazy">
+        
+        <h2>核心观念：PAD 网页与邮件自动化的两大魔法</h2>
+        <p>要搞定跨网页数据提取与实时通报，不需要手忙脚乱开几十个浏览器标签页。在 PAD 中，我们有两大核心帮手：</p>
+        
+        <h3>1. 网页小精灵（网页动作群）—— 隐形数据收割机</h3>
+        <p>它就像隐形助手，能自动开启 Chrome 或 Edge 浏览器、精准定位并提取 30 家供应商网页上的价格表格，不用动手点鼠标，就能把数据整整齐齐收进变量 <code class="code-pill">%SupplierPrices%</code>（或 <code class="code-pill">%ExtractedData%</code>）中！</p>
+
+        <h3>2. 自动邮差（Outlook 动作群）—— 后台发信专家</h3>
+        <p>不需要打开 Outlook 软件界面手动打字！它能直接读取刚刚抓到的报价数据，配上根据规则动态产生的高价警示主题 <code class="code-pill">%MailSubject%</code>，直接在后台寄给主管！</p>
+        
+        <img src="assets/comic-3-3.jpg" alt="PAD 办公室生存记 第三章第3页：实战积木1 - 启动浏览器与网页数据抓取" loading="lazy">
+        <img src="assets/comic-3-4.jpg" alt="PAD 办公室生存记 第三章第4页：实战积木2 - 条件判断 If 魔法与动态主题" loading="lazy">
+        
+        <h2>实战教学：3 步打造“网页抓取 + 条件发信”全自动流</h2>
+        <ol>
+          <li><strong>建立并控制浏览器实例：</strong>加入 <code class="code-pill">启动新 Chrome / Edge</code> 动作，产生浏览器实例变量 <code class="code-pill">%Browser%</code>，这是所有网页自动化的基石。</li>
+          <li><strong>从网页提取表格数据：</strong>使用 <code class="code-pill">从网页提取数据 (Extract data from web page)</code>，选定供应商官网的报价表格，将数据存入变量并命名为 <code class="code-pill">%SupplierPrices%</code>。</li>
+          <li><strong>条件判断 If 门卫积木：</strong>加入 <code class="code-pill">If [ 价格 > 阈值 ]</code> 逻辑：
+            <ul>
+              <li><strong>若价格过高：</strong>设定变量 <code class="code-pill">%MailSubject%</code> 为 <code class="code-pill">[价格过高警示！商品: %CurrentProduct%, 价格: %CurrentPrice%]</code>。</li>
+              <li><strong>若价格正常 (Else)：</strong>设定变量 <code class="code-pill">%MailSubject%</code> 为 <code class="code-pill">[正常价格: 商品: %CurrentProduct%]</code>。</li>
+            </ul>
+          </li>
+        </ol>
+
+        <img src="assets/comic-3-5.jpg" alt="PAD 办公室生存记 第三章第5页：实战积木3 - Outlook 发信与流程串接" loading="lazy">
+        <img src="assets/comic-3-6.jpg" alt="PAD 办公室生存记 第三章第6页：任务达成！全自动化准时下班" loading="lazy">
+        
+        <h2>流程串接与自动发信</h2>
+        <p>在判断完价格与动态主题后，加入 <code class="code-pill">透过 Outlook 传送电子邮件讯息</code>：</p>
+        <ul>
+          <li><strong>收件人 (To)：</strong>主管邮箱</li>
+          <li><strong>主题 (Subject)：</strong><code class="code-pill">%MailSubject%</code>（动态主题）</li>
+          <li><strong>正文 (Body)：</strong><code class="code-pill">%ExtractedData%</code>（抓取到的表格数据）</li>
+        </ul>
+        <p>最后加上 <code class="code-pill">关闭网页浏览器</code> 释放电脑资源。将这套标准动作放进 <code class="code-pill">For each</code> 循环遍历 30 家供应商网址，按下 <strong>执行 (Run)</strong>！</p>
+        
+        <h2>成果验收：准时下班的奇迹再现！</h2>
+        <p>不到 5 分钟，30 家供应商的最新报价全部自动抓取完毕，高价警示信也一封不漏地寄送到主管邮箱！主管看着实时又准确的报表连声称赞，小林与莫哥准时下班喝咖啡，完美结束充实的一天！</p>
+
+        <div class="chapter-nav">
+          <a href="pad-office-survival-guide-ch2.html">← 第二章：驯服数据巨兽</a>
+          <a href="articles.html">返回专栏列表 ↑</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== Japanese Block ==================== -->
+    <div data-lang-block="ja">
+      <header class="article-header">
+        <p class="eyebrow"><span></span> RPA / COMIC / TUTORIAL</p>
+        <h1>PADオフィスサバイバルガイド 第三章：Webスクレイピングと自動メール大作戦</h1>
+        <div class="article-meta">
+          <span>AUTHOR: Troy Su</span>
+          <span>DATE: 2026-08-23</span>
+          <span>READ: 5 MIN</span>
+        </div>
+      </header>
+      <div class="article-content">
+        <blockquote class="author-note">
+          <strong>著者：Troy Su</strong> | Power Automate Desktop (PAD) および RPA 自動化エキスパート
+        </blockquote>
+        <p>第2章でExcel自動集計をマスターした小林。しかし午後1時、営業部長が新たな緊急案件を持って現れました：<em>「小林さん！サプライヤー30社の最新見積もりを各社サイトから取得して、14時までに一覧にしてくれ！急ぎで！（ついでに頼むよ！）」</em></p>
+        <p>30サイトを手動で巡回してコピペすれば最低180分……締め切りまで1時間しかない絶望的な状況に、莫兄（モー・ガー）が再び登場：<em>「慌てないで小林さん。これくらいロボットに任せれば一瞬だよ。それがPADの威力さ！」</em></p>
+        
+        <img src="assets/comic-3-1.jpg" alt="PADオフィスサバイバルガイド 第3章 1/6" loading="lazy">
+        <img src="assets/comic-3-2.jpg" alt="PADオフィスサバイバルガイド 第3章 2/6" loading="lazy">
+        
+        <h2>核心概念：Webとメール自動化の2大魔法</h2>
+        <p>何十ものブラウザタブを手動で開く必要はありません。PADの2大アクション群を組み合わせます：</p>
+        
+        <h3>1. Webの妖精（ブラウザ自動化）—— 見えないデータ収集機</h3>
+        <p>ChromeやEdgeを自動起動し、30社のWebサイトを巡回して価格表を正確にスクレイピング。マウス操作なしで、抽出データを変数 <code class="code-pill">%SupplierPrices%</code> に格納します。</p>
+
+        <h3>2. 自動郵便配達人（Outlookアクション）—— バックグラウンド送信</h3>
+        <p>Outlookアプリを開いて手入力する必要はありません！抽出したデータを読み込み、条件に応じた件名 <code class="code-pill">%MailSubject%</code> を動的に設定して、自動で上司宛てにメールを送信します。</p>
+        
+        <img src="assets/comic-3-3.jpg" alt="PADオフィスサバイバルガイド 第3章 3/6" loading="lazy">
+        <img src="assets/comic-3-4.jpg" alt="PADオフィスサバイバルガイド 第3章 4/6" loading="lazy">
+        
+        <h2>実践ガイド：Webデータ抽出と条件分岐メールフロー</h2>
+        <ol>
+          <li><strong>ブラウザインスタンスの制御：</strong><code class="code-pill">新しい Chrome / Edge を起動</code> を配置し、インスタンス変数 <code class="code-pill">%Browser%</code> を生成します。</li>
+          <li><strong>Webページからデータを抽出：</strong><code class="code-pill">Web ページからデータを抽出する</code> で価格表を選択し、変数 <code class="code-pill">%SupplierPrices%</code> に保存します。</li>
+          <li><strong>If条件分岐：</strong><code class="code-pill">If [ 価格 > 閾値 ]</code> ブロックを追加：
+            <ul>
+              <li><strong>高額な場合：</strong>件名変数 <code class="code-pill">%MailSubject%</code> を <code class="code-pill">[価格高騰警告！商品: %CurrentProduct%, 価格: %CurrentPrice%]</code> に設定。</li>
+              <li><strong>通常価格の場合 (Else)：</strong><code class="code-pill">[通常価格: 商品: %CurrentProduct%]</code> に設定。</li>
+            </ul>
+          </li>
+        </ol>
+
+        <img src="assets/comic-3-5.jpg" alt="PADオフィスサバイバルガイド 第3章 5/6" loading="lazy">
+        <img src="assets/comic-3-6.jpg" alt="PADオフィスサバイバルガイド 第3章 6/6" loading="lazy">
+        
+        <h2>フローの結合と自動送信</h2>
+        <p><code class="code-pill">Outlook を介してメール メッセージを送信</code> を追加し、宛先、動的件名 <code class="code-pill">%MailSubject%</code>、本文 <code class="code-pill">%ExtractedData%</code> を設定。<code class="code-pill">Web ブラウザーを閉じる</code> でメモリを解放し、<code class="code-pill">For each</code> ループで30社分を自動実行します！</p>
+        
+        <h2>成果：わずか5分で完了、定時退社！</h2>
+        <p>全30社の見積もりがミスなく取得され、高額警告メールも完璧に送信されました。上司からの高評価を受け、小林と莫兄は今日も定時退社を達成しました！</p>
+
+        <div class="chapter-nav">
+          <a href="pad-office-survival-guide-ch2.html">← 第二章：データの怪物を手懐ける</a>
+          <a href="articles.html">記事一覧に戻る ↑</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== Korean Block ==================== -->
+    <div data-lang-block="ko">
+      <header class="article-header">
+        <p class="eyebrow"><span></span> RPA / COMIC / TUTORIAL</p>
+        <h1>PAD 오피스 서바이벌 가이드 3장: 웹 스크래핑과 자동 이메일 대작전</h1>
+        <div class="article-meta">
+          <span>AUTHOR: Troy Su</span>
+          <span>DATE: 2026-08-23</span>
+          <span>READ: 5 MIN</span>
+        </div>
+      </header>
+      <div class="article-content">
+        <blockquote class="author-note">
+          <strong>저자: Troy Su</strong> | Power Automate Desktop (PAD) 및 RPA 자동화 전문가
+        </blockquote>
+        <p>2장에서 Excel 자동 취합을 마스터한 샤오린! 하지만 오후 1시, 영업부장이 새 긴급 과제를 들고 뛰어옵니다: <em>"샤오린! 30개 공급사 웹사이트의 최신 단가를 스크래핑해서 오후 2시 전까지 표로 정리해 줘! 진짜 급해!"</em></p>
+        <p>30개 사이트를 수동으로 열어 복사·붙여넣기 하면 최소 180분…… 마감까지 1시간 남은 절망의 순간, 모 형(Mo-ge)이 다시 등장합니다: <em>"당황하지 마, 샤오린. 이런 작은 일은 로봇에게 맡기면 돼. 이게 바로 PAD의 힘이야!"</em></p>
+        
+        <img src="assets/comic-3-1.jpg" alt="PAD 오피스 서바이벌 가이드 3장 1/6" loading="lazy">
+        <img src="assets/comic-3-2.jpg" alt="PAD 오피스 서바이벌 가이드 3장 2/6" loading="lazy">
+        
+        <h2>핵심 개념: 웹 및 이메일 자동화의 2대 필살기</h2>
+        <p>수십 개의 브라우저 탭을 열 필요 없이, PAD의 두 가지 핵심 작업 그룹을 사용합니다:</p>
+        
+        <h3>1. 웹 요정 (브라우저 자동화) —— 보이지 않는 데이터 수집기</h3>
+        <p>Chrome이나 Edge를 자동 실행하여 30개 공급사 웹페이지를 순회하고, 단가 표를 정확하게 스크래핑하여 변수 <code class="code-pill">%SupplierPrices%</code>에 깔끔하게 저장합니다.</p>
+
+        <h3>2. 자동 우체부 (Outlook 작업) —— 백그라운드 발송 전문가</h3>
+        <p>Outlook 앱을 열고 일일이 작성할 필요가 없습니다! 추출된 데이터를 불러와 조건에 따른 동적 제목 <code class="code-pill">%MailSubject%</code>과 함께 상사에게 이메일을 자동 발송합니다.</p>
+        
+        <img src="assets/comic-3-3.jpg" alt="PAD 오피스 서바이벌 가이드 3장 3/6" loading="lazy">
+        <img src="assets/comic-3-4.jpg" alt="PAD 오피스 서바이벌 가이드 3장 4/6" loading="lazy">
+        
+        <h2>실전 튜토리얼: 웹 스크래핑 + 조건부 이메일 발송 흐름 구축</h2>
+        <ol>
+          <li><strong>브라우저 인스턴스 시작:</strong> <code class="code-pill">새 Chrome / Edge 시작</code>을 추가하고 브라우저 제어 변수 <code class="code-pill">%Browser%</code>를 생성합니다.</li>
+          <li><strong>웹페이지에서 데이터 추출:</strong> <code class="code-pill">웹 페이지에서 데이터 추출</code>을 사용하여 가격표를 선택하고 변수 <code class="code-pill">%SupplierPrices%</code>에 저장합니다.</li>
+          <li><strong>If 조건문 문지기:</strong> <code class="code-pill">If [ 가격 > 임계값 ]</code> 블록을 추가:
+            <ul>
+              <li><strong>고가인 경우:</strong> 제목 변수 <code class="code-pill">%MailSubject%</code>를 <code class="code-pill">[가격 과다 경고! 상품: %CurrentProduct%, 가격: %CurrentPrice%]</code>로 설정.</li>
+              <li><strong>정상 가격인 경우 (Else):</strong> <code class="code-pill">[정상 가격: 상품: %CurrentProduct%]</code>로 설정.</li>
+            </ul>
+          </li>
+        </ol>
+
+        <img src="assets/comic-3-5.jpg" alt="PAD 오피스 서바이벌 가이드 3장 5/6" loading="lazy">
+        <img src="assets/comic-3-6.jpg" alt="PAD 오피스 서바이벌 가이드 3장 6/6" loading="lazy">
+        
+        <h2>흐름 결합 및 자동 발송</h2>
+        <p><code class="code-pill">Outlook을 통해 이메일 메시지 보내기</code>를 추가하여 받는 사람, 동적 제목 <code class="code-pill">%MailSubject%</code>, 본문 <code class="code-pill">%ExtractedData%</code>를 설정하고, <code class="code-pill">웹 브라우저 닫기</code>로 리소스를 정리합니다. <code class="code-pill">For each</code> 루프로 30개사를 묶어 <strong>실행 (Run)</strong>!</p>
+        
+        <h2>성공: 5분 만에 완료, 정시 퇴근 달성!</h2>
+        <p>30개 사의 단가가 완벽하게 추출되고 고가 경고 메일까지 완벽히 발송되었습니다! 부장의 극찬을 받으며 샤오린과 모 형은 오늘도 여유롭게 정시 퇴근합니다!</p>
+
+        <div class="chapter-nav">
+          <a href="pad-office-survival-guide-ch2.html">← 2장: 데이터 몬스터 길들이기</a>
+          <a href="articles.html">게시글 목록으로 ↑</a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer section-wrap" style="border-top: 1px solid var(--line); margin-top: 80px;">
+    <a class="brand" href="index.html">
+      <span class="brand-mark">T</span>
+      <span>TROY'S<br><b>SMART AUTOMATION</b></span>
+    </a>
+    <p>© 2026 Troy's Smart Automation</p>
+  </footer>
+  
+  <script src="script.js?v=1.4"></script>
+</body>
+</html>

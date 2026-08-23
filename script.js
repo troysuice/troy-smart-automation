@@ -72,6 +72,10 @@
     "art_5_desc": "Master PAD variables and For Each loops to automatically merge 50 branch Excel reports and leave work on time!",
     "art_5_read_val": "5 Min Read",
     "art_5_link": "Read Comic",
+    "art_6_title": "PAD Office Survival Guide Ch.3: Web Scraping & Auto Email",
+    "art_6_desc": "Conquer 30 supplier websites with PAD Web Scraper and Auto Postman, paired with If condition gatekeepers to leave work on time!",
+    "art_6_read_val": "5 Min Read",
+    "art_6_link": "Read Comic",
     "back_to_top": "BACK TO TOP ↑"
   },
   "zh-TW": {
@@ -147,6 +151,10 @@
     "art_5_desc": "學會 PAD 兩大核心法寶「變數收納盒」與「For Each 迴圈」，自動合併 50 份分公司 Excel 報表，準時下班！",
     "art_5_read_val": "5 分鐘",
     "art_5_link": "看漫畫",
+    "art_6_title": "《PAD 辦公室生存記》第三章：網頁資料抓取與自動郵寄大作戰",
+    "art_6_desc": "掌握 PAD「網頁小精靈」與「自動郵差」，學會網頁表格擷取、If 條件門衛與 Outlook 自動發信，準時下班！",
+    "art_6_read_val": "5 分鐘",
+    "art_6_link": "看漫畫",
     "back_to_top": "回到頂部 ↑"
   },
   "zh-CN": {
@@ -222,6 +230,10 @@
     "art_5_desc": "学会 PAD 两大核心法宝“变量收纳盒”与“For Each 循环”，自动合并 50 份分公司 Excel 报表，准时下班！",
     "art_5_read_val": "5 分钟",
     "art_5_link": "看漫画",
+    "art_6_title": "《PAD 办公室生存记》第三章：网页数据抓取与自动邮件大作战",
+    "art_6_desc": "掌握 PAD“网页小精灵”与“自动邮差”，学会网页表格提取、If 条件门卫与 Outlook 自动发信，准时下班！",
+    "art_6_read_val": "5 分钟",
+    "art_6_link": "看漫画",
     "back_to_top": "回到顶部 ↑"
   },
   "ja": {
@@ -297,6 +309,10 @@
     "art_5_desc": "PADの2大魔法「変数」と「For Eachループ」をマスターし、50支店のExcel売上月報を自動集計して定時退社！",
     "art_5_read_val": "5 分",
     "art_5_link": "マンガを読む",
+    "art_6_title": "PADオフィスサバイバルガイド 第三章：Webスクレイピングと自動メール大作戦",
+    "art_6_desc": "PAD「Webの妖精」と「自動郵便配達人」をマスターし、Webデータ抽出とIf条件分岐メールで定時退社！",
+    "art_6_read_val": "5 分",
+    "art_6_link": "マンガを読む",
     "back_to_top": "トップへ戻る ↑"
   },
   "ko": {
@@ -372,6 +388,10 @@
     "art_5_desc": "PAD의 핵심 필살기 '변수 수납함'과 'For Each 루프'를 마스터하여 50개 지점 Excel 보고서를 자동 취합하고 칼퇴근하세요!",
     "art_5_read_val": "5 분",
     "art_5_link": "만화 보기",
+    "art_6_title": "PAD 오피스 서바이벌 가이드 3장: 웹 스크래핑과 자동 이메일 대작전",
+    "art_6_desc": "PAD '웹 요정'과 '자동 우체부'를 마스터하여 30개 공급사 웹 스크래핑 및 If 조건부 이메일 자동 발송으로 칼퇴근하세요!",
+    "art_6_read_val": "5 분",
+    "art_6_link": "만화 보기",
     "back_to_top": "맨 위로 이동 ↑"
   }
 };
