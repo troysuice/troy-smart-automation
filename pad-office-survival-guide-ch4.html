@@ -1,0 +1,500 @@
+﻿<!doctype html>
+<html lang="zh-TW">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  
+  <title>《PAD 辦公室生存記》第四章：流程守護者 —— 馴服系統異常與檔案路徑的動態魔法 | Troy Su 技術專欄 | Troy's Smart Automation</title>
+  <meta name="title" content="《PAD 辦公室生存記》第四章：流程守護者 —— 馴服系統異常與檔案路徑的動態魔法 | Troy Su 技術專欄 | Troy's Smart Automation" />
+  <meta name="description" content="分公司 Excel 檔名混亂、還要存入當日動態資料夾？遇到損毀壞檔流程就崩潰？跟著 Troy Su 掌握 PAD 動態日期路徑魔法與 On Error 例外處理防護罩，打造堅不可摧的自動化流程！" />
+  <meta name="keywords" content="PAD, Power Automate Desktop, 例外處理, On Error, 異常處理, 動態路徑, 日期轉換, 建立資料夾, RPA, 自動化教學漫畫, 辦公室生存記, Troy Su" />
+  <meta name="author" content="Troy Su" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://troysuice.github.io/troy-smart-automation/pad-office-survival-guide-ch4.html" />
+  <meta property="og:title" content="《PAD 辦公室生存記》第四章：流程守護者 —— 馴服系統異常與檔案路徑的動態魔法 | Troy Su" />
+  <meta property="og:description" content="分公司 Excel 檔名混亂、還要存入當日動態資料夾？遇到損毀壞檔流程就崩潰？跟著 Troy Su 掌握 PAD 動態日期路徑魔法與 On Error 例外處理防護罩，打造堅不可摧的自動化流程！" />
+  <meta property="og:image" content="https://troysuice.github.io/troy-smart-automation/assets/comic-4-1.jpg" />
+
+  <meta property="twitter:card" content="summary_large_image" />
+  <meta property="twitter:url" content="https://troysuice.github.io/troy-smart-automation/pad-office-survival-guide-ch4.html" />
+  <meta property="twitter:title" content="《PAD 辦公室生存記》第四章：流程守護者 —— 馴服系統異常與檔案路徑的動態魔法 | Troy Su" />
+  <meta property="twitter:description" content="分公司 Excel 檔名混亂、還要存入當日動態資料夾？遇到損毀壞檔流程就崩潰？跟著 Troy Su 掌握 PAD 動態日期路徑魔法與 On Error 例外處理防護罩，打造堅不可摧的自動化流程！" />
+  <meta property="twitter:image" content="https://troysuice.github.io/troy-smart-automation/assets/comic-4-1.jpg" />
+
+  <link rel="canonical" href="https://troysuice.github.io/troy-smart-automation/pad-office-survival-guide-ch4.html" />
+  
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "《PAD 辦公室生存記》第四章：流程守護者 —— 馴服系統異常與檔案路徑的動態魔法",
+    "image": [
+      "https://troysuice.github.io/troy-smart-automation/assets/comic-4-1.jpg"
+    ],
+    "author": {
+      "@type": "Person",
+      "name": "Troy Su"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Troy's Smart Automation"
+    },
+    "datePublished": "2026-08-25",
+    "dateModified": "2026-08-25",
+    "description": "分公司 Excel 檔名混亂、還要存入當日動態資料夾？遇到損毀壞檔流程就崩潰？跟著 Troy Su 掌握 PAD 動態日期路徑魔法與 On Error 例外處理防護罩，打造堅不可摧的自動化流程！",
+    "keywords": "PAD, Power Automate Desktop, 例外處理, On Error, 異常處理, 動態路徑, 日期轉換, RPA, 自動化教學漫畫"
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Noto+Sans+TC:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;700&family=Noto+Sans+KR:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css?v=1.1" />
+  <style>
+    .article-wrap {
+      padding: 120px 0 80px;
+      max-width: 760px;
+      margin: auto;
+    }
+    .article-header {
+      margin-bottom: 60px;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 40px;
+    }
+    .article-header h1 {
+      font-size: clamp(28px, 4vw, 42px);
+      line-height: 1.25;
+      margin: 20px 0;
+      letter-spacing: -0.5px;
+    }
+    .article-meta {
+      display: flex;
+      gap: 20px;
+      color: var(--muted);
+      font-family: "DM Mono", monospace;
+      font-size: 12px;
+      margin-top: 20px;
+    }
+    .article-content h2 {
+      font-size: 26px;
+      color: var(--lime);
+      margin: 50px 0 20px;
+      font-weight: 600;
+      border-left: 4px solid var(--lime);
+      padding-left: 12px;
+    }
+    .article-content h3 {
+      font-size: 20px;
+      color: var(--cyan);
+      margin: 36px 0 14px;
+    }
+    .article-content p {
+      font-size: 17px;
+      line-height: 1.85;
+      color: var(--text);
+      margin-bottom: 24px;
+    }
+    .article-content ul, .article-content ol {
+      font-size: 16px;
+      line-height: 1.8;
+      color: var(--muted);
+      margin-bottom: 32px;
+      padding-left: 24px;
+    }
+    .article-content li {
+      margin-bottom: 12px;
+    }
+    .article-content li strong {
+      color: var(--text);
+    }
+    .article-content img {
+      width: 100%;
+      border-radius: 8px;
+      border: 1px solid var(--line);
+      margin: 32px 0;
+      display: block;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+    }
+    .back-btn {
+      display: inline-block;
+      margin-bottom: 40px;
+      color: var(--cyan);
+      text-decoration: none;
+      font-family: "DM Mono", monospace;
+      font-size: 12px;
+      letter-spacing: 1px;
+    }
+    .back-btn:hover {
+      text-decoration: underline;
+    }
+    blockquote.author-note {
+      border-left: 4px solid var(--accent);
+      padding-left: 1rem;
+      margin-bottom: 2rem;
+      color: var(--text-muted);
+      background: rgba(255,255,255,0.03);
+      padding: 1rem;
+      border-radius: 0 8px 8px 0;
+    }
+    .chapter-nav {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      margin-top: 60px;
+      padding-top: 30px;
+      border-top: 1px solid var(--line);
+      font-family: "DM Mono", monospace;
+      font-size: 13px;
+    }
+    .chapter-nav a {
+      color: var(--cyan);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .chapter-nav a:hover {
+      text-decoration: underline;
+    }
+    .code-pill {
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--lime);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: "DM Mono", monospace;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="noise" aria-hidden="true"></div>
+  
+  <header class="site-header">
+    <a class="brand" href="index.html" aria-label="Home">
+      <span class="brand-mark">T</span>
+      <span>TROY'S<br><b>SMART AUTOMATION</b></span>
+    </a>
+    <button class="menu-toggle" aria-controls="main-nav" aria-expanded="false">
+      <span></span><span></span><span></span><i data-i18n="menu">Menu</i>
+    </button>
+    <nav id="main-nav" class="main-nav" aria-label="Main Navigation">
+      <a href="index.html#about" data-i18n="nav_about">About Troy</a>
+      <a href="index.html#expertise" data-i18n="nav_expertise">Expertise</a>
+      <a href="index.html#work" data-i18n="nav_work">Selected Work</a>
+      <a href="index.html#software" data-i18n="nav_software">Software</a>
+      <a href="articles.html" data-i18n="nav_articles">Insights</a>
+      <a class="nav-cta" href="index.html#contact"><span data-i18n="nav_contact">Start Planning</span> <span>↗</span></a>
+      <div class="lang-selector-wrapper">
+        <select id="lang-select" class="lang-select" aria-label="Select Language">
+          <option value="en">English</option>
+          <option value="zh-TW">繁體中文</option>
+          <option value="zh-CN">简体中文</option>
+          <option value="ja">日本語</option>
+          <option value="ko">한국어</option>
+        </select>
+      </div>
+    </nav>
+  </header>
+
+  <main class="article-wrap">
+    <a href="articles.html" class="back-btn">← BACK TO ARTICLES</a>
+    
+    <!-- ==================== English Block ==================== -->
+    <div data-lang-block="en">
+      <header class="article-header">
+        <p class="eyebrow"><span></span> RPA / COMIC / TUTORIAL</p>
+        <h1>PAD Office Survival Guide Ch.4: The Flow Guardian (Exceptions & Dynamic Paths)</h1>
+        <div class="article-meta">
+          <span>AUTHOR: Troy Su</span>
+          <span>DATE: 2026-08-25</span>
+          <span>READ: 5 MIN</span>
+        </div>
+      </header>
+      <div class="article-content">
+        <blockquote class="author-note">
+          <strong>Author: Troy Su</strong> | Power Automate Desktop (PAD) & RPA Automation Expert
+        </blockquote>
+        <p>Just when Xiaolin felt confident in her automation skills, real-world office chaos struck with a vengeance!</p>
+        <p>The sales manager dashed in with a new demanding request: <em>"Xiaolin! Urgent assignment! These 20 branch office Excel files have completely inconsistent file names! Plus, the consolidated output must be saved into a dynamic folder named after today's date! Real urgent!"</em></p>
+        <p>To make matters worse, one corrupted file could instantly crash the entire automated script. But Brother Mo stepped in with a smile: <em>"Don't panic, Xiaolin. It's time to unlock PAD's two greatest defense skills: <strong>Dynamic Date Paths</strong> and <strong>On Error Exception Shields</strong>!"</em></p>
+        
+        <img src="assets/comic-4-1.jpg" alt="PAD Office Survival Guide Ch4: Inconsistent Names and Dynamic Date Folder Crisis" loading="lazy">
+        <img src="assets/comic-4-2.jpg" alt="PAD Office Survival Guide Ch4: Core Concepts - Exception Handling Shield and Firewall" loading="lazy">
+        
+        <h2>Core Concepts: The Two Guardians of Resilient Automation</h2>
+        
+        <h3>1. Dynamic Path Magic — Automatic Date Formatting & Folder Creation</h3>
+        <p>In real-world workflows, output folders must change every day (e.g. <code class="code-pill">C:\Reports\20260825\</code>), and input files rarely follow a clean naming pattern. By pairing <code class="code-pill">Get current date and time</code> with <code class="code-pill">Convert datetime to text</code> and <code class="code-pill">Get files in folder</code>, PAD dynamically handles any file structure without hardcoded strings!</p>
+
+        <h3>2. Exception Handling (On Error) — The Never-Crash Shield</h3>
+        <p>What happens if 1 out of 20 files is password-protected or corrupted? Without error handling, the flow crashes immediately. By configuring <code class="code-pill">On Error</code> on critical actions, PAD captures the error snapshot into <code class="code-pill">%LastError%</code>, logs the damaged file, and seamlessly skips to the next item!</p>
+        
+        <img src="assets/comic-4-3.jpg" alt="PAD Office Survival Guide Ch4: Building Dynamic Date Paths and File Loops" loading="lazy">
+        <img src="assets/comic-4-4.jpg" alt="PAD Office Survival Guide Ch4: Configuring On Error to Skip Corrupted Files" loading="lazy">
+        
+        <h2>Step-by-Step Tutorial: Building a Bulletproof Automation Flow</h2>
+        <ol>
+          <li><strong>Get & Format Current Date:</strong> Add <code class="code-pill">Get current date and time</code>, then use <code class="code-pill">Convert datetime to text</code> to format it as <code class="code-pill">%FormattedDate%</code> (e.g., <code class="code-pill">%yyyy%%MM%%dd%</code>).</li>
+          <li><strong>Create Dynamic Output Directory:</strong> Use <code class="code-pill">Create folder</code> with destination path <code class="code-pill">C:\Reports\%FormattedDate%\</code>.</li>
+          <li><strong>Dynamic File Ingestion:</strong> Use <code class="code-pill">Get files in folder</code> to retrieve all Excel files regardless of irregular file names, then iterate through them using <code class="code-pill">For each %CurrentFile%</code>.</li>
+          <li><strong>Configure On Error Defense:</strong> In the <code class="code-pill">Launch Excel</code> action, click the <strong>On Error</strong> button and set:
+            <ul>
+              <li><strong>Advanced ➔ Flow run logic:</strong> <code class="code-pill">Continue flow run ➔ Go to next iteration</code>.</li>
+            </ul>
+          </li>
+        </ol>
+
+        <img src="assets/comic-4-5.jpg" alt="PAD Office Survival Guide Ch4: 19 Successful Files, 1 Handled Corrupt File" loading="lazy">
+        <img src="assets/comic-4-6.jpg" alt="PAD Office Survival Guide Ch4: Mission Accomplished and Leaving on Time" loading="lazy">
+        
+        <h2>Results: 19 Succeeded, 1 Handled, 0 Crashes!</h2>
+        <p>Xiaolin clicked <strong>Run</strong>! When the script hit the 1 corrupted file, the <strong>On Error Shield</strong> activated instantly: the damaged file was logged into the error report, and PAD proceeded smoothly to process the remaining 19 files without interruption.</p>
+        <p>The manager received the daily consolidated report right on schedule. Thanks to PAD's dynamic paths and exception handling, Xiaolin and Brother Mo enjoyed another peaceful, on-time dismissal!</p>
+        
+        <div class="chapter-nav">
+          <a href="pad-office-survival-guide-ch3.html">← Chapter 3: Web Scraping & Auto Email</a>
+          <a href="articles.html">All Articles ↑</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== Traditional Chinese Block ==================== -->
+    <div data-lang-block="zh-TW">
+      <header class="article-header">
+        <p class="eyebrow"><span></span> RPA / COMIC / TUTORIAL</p>
+        <h1>《PAD 辦公室生存記》第四章：流程守護者 —— 馴服系統異常與檔案路徑的動態魔法</h1>
+        <div class="article-meta">
+          <span>AUTHOR: Troy Su</span>
+          <span>DATE: 2026-08-25</span>
+          <span>READ: 5 MIN</span>
+        </div>
+      </header>
+      <div class="article-content">
+        <blockquote class="author-note">
+          <strong>作者：Troy Su</strong> | Power Automate Desktop (PAD) 與 RPA 自動化專家
+        </blockquote>
+        <p>當小林以為自己已經精通自動化時，真實職場的「混沌考驗」才正要開始！</p>
+        <p>業務經理再次推開大門丟下難題：<em>「小林！緊急交辦！這 20 家分公司的 Excel 報價檔名完全沒規則，而且要求每天產出的彙整結果必須自動存入『當日日期』的資料夾裡！很急！（順手嘛！）」</em></p>
+        <p>更可怕的是，如果這 20 份檔案中有一份損毀或格式錯誤，傳統自動化流程就會直接報錯中斷，前功盡棄！這時莫哥端著保溫杯登場：<em>「別慌！今天教你 RPA 的兩大防禦神技：<strong>動態日期路徑魔法</strong>與<strong>On Error 例外處理防護罩</strong>！」</em></p>
+        
+        <img src="assets/comic-4-1.jpg" alt="PAD 辦公室生存記 第四章第1頁：檔名混亂與當日日期資料夾的雙重考驗" loading="lazy">
+        <img src="assets/comic-4-2.jpg" alt="PAD 辦公室生存記 第四章第2頁：觀念解析 - EXCEPTION 例外處理防護罩與防火牆" loading="lazy">
+        
+        <h2>核心觀念：打造堅不可摧的自動化流程</h2>
+        
+        <h3>1. 動態路徑魔法 —— 自動生成日期與動態撈檔</h3>
+        <p>在實務中，輸出路徑每天都在變動（例如 <code class="code-pill">C:\Reports\20260825\</code>），且來源檔案名稱五花八門。透過 <code class="code-pill">取得目前的日期和時間</code> 轉換為文字變數 <code class="code-pill">%FormattedDate%</code>，再搭配 <code class="code-pill">取得資料夾中的檔案</code>，PAD 就能動態抓取所有檔案路徑，再也不用寫死固定字串！</p>
+
+        <h3>2. EXCEPTION 例外處理 —— 不掛掉的守護盾</h3>
+        <p>萬一 20 個檔案中有 1 個損壞或格式異常怎麼辦？如果沒有例外處理，整個流程會直接中斷掛掉。只要在關鍵積木設定 <code class="code-pill">On Error (錯誤時)</code>，PAD 就會將錯誤快照存入變數 <code class="code-pill">%LastError%</code>，自動跳過壞檔案並繼續處理下一個，絕不中途崩潰！</p>
+        
+        <img src="assets/comic-4-3.jpg" alt="PAD 辦公室生存記 第四章第3頁：實戰積木 - 動態路徑與日期資料夾建立" loading="lazy">
+        <img src="assets/comic-4-4.jpg" alt="PAD 辦公室生存記 第四章第4頁：On Error 魔法防禦設定" loading="lazy">
+        
+        <h2>實戰教學：4 步打造防禦型全自動流程</h2>
+        <ol>
+          <li><strong>取得並轉換當日日期：</strong>加入 <code class="code-pill">取得目前的日期和時間</code>，接著使用 <code class="code-pill">將日期時間轉換為文字</code>，將格式自訂為 <code class="code-pill">%yyyy%%MM%%dd%</code> 並存入變數 <code class="code-pill">%FormattedDate%</code>。</li>
+          <li><strong>動態建立日期資料夾：</strong>加入 <code class="code-pill">建立資料夾 (Create folder)</code>，將路徑設為 <code class="code-pill">C:\Reports\%FormattedDate%\</code>。</li>
+          <li><strong>動態獲取檔案清單：</strong>使用 <code class="code-pill">取得資料夾中的檔案</code> 撈出所有分公司報表，並用 <code class="code-pill">For each %CurrentFile%</code> 迴圈逐一處理。</li>
+          <li><strong>設定 On Error 防護罩：</strong>在 <code class="code-pill">啟動 Excel</code> 或讀取動作點開左下角 <strong>「錯誤時 (On Error)」</strong>，設定：
+            <ul>
+              <li><strong>進階設定 ➔ 流程執行邏輯：</strong>選擇 <code class="code-pill">繼續執行流程 ➔ 前往下一個反覆項目 (Go to next iteration)</code>。</li>
+            </ul>
+          </li>
+        </ol>
+
+        <img src="assets/comic-4-5.jpg" alt="PAD 辦公室生存記 第四章第5頁：例外處理實踐 - 壞檔案跳過，正常檔案全數完成" loading="lazy">
+        <img src="assets/comic-4-6.jpg" alt="PAD 辦公室生存記 第四章第6頁：任務達成！全自動化不掛掉，準時下班" loading="lazy">
+        
+        <h2>成果驗收：19 份成功處理、1 份損毀跳過，零中斷！</h2>
+        <p>小林按下執行按鈕！當機器人跑到損毀的 Excel 檔案時，<strong>On Error 防護盾</strong>瞬間啟動：自動記錄錯誤、順暢跳過損毀檔案，並繼續把剩下的 19 份正常檔案完美彙整進當日的日期資料夾中！</p>
+        <p>業務主管看著準時出爐的報表驚嘆不已。學會動態路徑與例外處理的小林，與莫哥再次悠閒喝著咖啡，準時打卡下班！</p>
+
+        <div class="chapter-nav">
+          <a href="pad-office-survival-guide-ch3.html">← 第三章：網頁資料抓取與自動郵寄大作戰</a>
+          <a href="articles.html">返回專欄列表 ↑</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== Simplified Chinese Block ==================== -->
+    <div data-lang-block="zh-CN">
+      <header class="article-header">
+        <p class="eyebrow"><span></span> RPA / COMIC / TUTORIAL</p>
+        <h1>《PAD 办公室生存记》第四章：流程守护者 —— 驯服系统异常与文件路径的动态魔法</h1>
+        <div class="article-meta">
+          <span>AUTHOR: Troy Su</span>
+          <span>DATE: 2026-08-25</span>
+          <span>READ: 5 MIN</span>
+        </div>
+      </header>
+      <div class="article-content">
+        <blockquote class="author-note">
+          <strong>作者：Troy Su</strong> | Power Automate Desktop (PAD) 与 RPA 自动化专家
+        </blockquote>
+        <p>当小林以为自己已经精通自动化时，真实职场的“混沌考验”才正要开始！</p>
+        <p>业务经理再次推开大门丢下难题：<em>“小林！紧急交办！这 20 家分公司的 Excel 报价文件名完全没规则，而且要求每天产出的汇总结果必须自动存入‘当日日期’的文件夹里！很急！（顺手嘛！）”</em></p>
+        <p>更可怕的是，如果这 20 份文件中有一份损坏或格式错误，传统自动化流程就会直接报错中断，前功尽弃！这时莫哥端着保温杯登场：<em>“别慌！今天教你 RPA 的两大防御神技：<strong>动态日期路径魔法</strong>与<strong>On Error 异常处理防护罩</strong>！”</em></p>
+        
+        <img src="assets/comic-4-1.jpg" alt="PAD 办公室生存记 第四章第1页：文件名混乱与当日日期文件夹的双重考验" loading="lazy">
+        <img src="assets/comic-4-2.jpg" alt="PAD 办公室生存记 第四章第2页：观念解析 - EXCEPTION 异常处理防护罩与防火墙" loading="lazy">
+        
+        <h2>核心观念：打造坚不可摧的自动化流程</h2>
+        
+        <h3>1. 动态路径魔法 —— 自动生成日期与动态捞档</h3>
+        <p>在实务中，输出路径每天都在变动（例如 <code class="code-pill">C:\Reports\20260825\</code>），且来源文件名称五花八门。通过 <code class="code-pill">取得目前的日期和时间</code> 转换为文本变量 <code class="code-pill">%FormattedDate%</code>，再搭配 <code class="code-pill">取得文件夹中的文件</code>，PAD 就能动态抓取所有文件路径，再也不用写死固定字符串！</p>
+
+        <h3>2. EXCEPTION 异常处理 —— 不挂掉的守护盾</h3>
+        <p>万一 20 个文件中有 1 个损坏或格式异常怎么办？如果没有异常处理，整个流程会直接中断挂掉。只要在关键积木设定 <code class="code-pill">On Error (错误时)</code>，PAD 就会将错误快照存入变量 <code class="code-pill">%LastError%</code>，自动跳过坏文件并继续处理下一个，绝不中途崩溃！</p>
+        
+        <img src="assets/comic-4-3.jpg" alt="PAD 办公室生存记 第四章第3页：实战积木 - 动态路径与日期文件夹建立" loading="lazy">
+        <img src="assets/comic-4-4.jpg" alt="PAD 办公室生存记 第四章第4页：On Error 魔法防御设定" loading="lazy">
+        
+        <h2>实战教学：4 步打造防御型全自动流程</h2>
+        <ol>
+          <li><strong>取得并转换当日日期：</strong>加入 <code class="code-pill">取得目前的日期和时间</code>，接着使用 <code class="code-pill">将日期时间转换为文本</code>，将格式自定义为 <code class="code-pill">%yyyy%%MM%%dd%</code> 并存入变量 <code class="code-pill">%FormattedDate%</code>。</li>
+          <li><strong>动态建立日期文件夹：</strong>加入 <code class="code-pill">建立文件夹 (Create folder)</code>，将路径设为 <code class="code-pill">C:\Reports\%FormattedDate%\</code>。</li>
+          <li><strong>动态获取文件清单：</strong>使用 <code class="code-pill">取得文件夹中的文件</code> 捞出所有分公司报表，并用 <code class="code-pill">For each %CurrentFile%</code> 循环逐一处理。</li>
+          <li><strong>设定 On Error 防护罩：</strong>在 <code class="code-pill">启动 Excel</code> 或读取动作点开左下角 <strong>“错误时 (On Error)”</strong>，设定：
+            <ul>
+              <li><strong>进阶设定 ➔ 流程执行逻辑：</strong>选择 <code class="code-pill">继续执行流程 ➔ 前往下一个反覆项目 (Go to next iteration)</code>。</li>
+            </ul>
+          </li>
+        </ol>
+
+        <img src="assets/comic-4-5.jpg" alt="PAD 办公室生存记 第四章第5页：异常处理实践 - 坏文件跳过，正常文件全数完成" loading="lazy">
+        <img src="assets/comic-4-6.jpg" alt="PAD 办公室生存记 第四章第6页：任务达成！全自动化不挂掉，准时下班" loading="lazy">
+        
+        <h2>成果验收：19 份成功处理、1 份损坏跳过，零中断！</h2>
+        <p>小林按下执行按钮！当机器人跑到损坏的 Excel 文件时，<strong>On Error 防护盾</strong>瞬间启动：自动记录错误、顺畅跳过损坏文件，并继续把剩下的 19 份正常文件完美汇总进当日的日期文件夹中！</p>
+        <p>业务主管看着准时出炉的报表惊叹不已。学会动态路径与异常处理的小林，与莫哥再次悠闲喝着咖啡，准时打卡下班！</p>
+
+        <div class="chapter-nav">
+          <a href="pad-office-survival-guide-ch3.html">← 第三章：网页数据抓取与自动邮件大作战</a>
+          <a href="articles.html">返回专栏列表 ↑</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== Japanese Block ==================== -->
+    <div data-lang-block="ja">
+      <header class="article-header">
+        <p class="eyebrow"><span></span> RPA / COMIC / TUTORIAL</p>
+        <h1>PADオフィスサバイバルガイド 第四章：フローの守護者（例外処理と動的パスの魔法）</h1>
+        <div class="article-meta">
+          <span>AUTHOR: Troy Su</span>
+          <span>DATE: 2026-08-25</span>
+          <span>READ: 5 MIN</span>
+        </div>
+      </header>
+      <div class="article-content">
+        <blockquote class="author-note">
+          <strong>著者：Troy Su</strong> | Power Automate Desktop (PAD) および RPA 自動化エキスパート
+        </blockquote>
+        <p>自動化をマスターしたと思った小林に、現場のリアルな混沌が立ちはだかります！</p>
+        <p>営業部長が駆け込んできました：<em>「小林さん！緊急案件だ！20支店のExcel見積もりファイル名がバラバラで統一されていない！しかも本日の日付フォルダに自動分類して集計してくれ！（ついでに頼むよ！）」</em></p>
+        <p>さらにファイルが1つでも破損していればフロー全体がエラー停止してしまいます。そこで莫兄（モー・ガー）が登場：<em>「慌てないで！今日はRPAの2大防御技、<strong>動的日付パス</strong>と<strong>On Error例外処理シールド</strong>を伝授するよ！」</em></p>
+        
+        <img src="assets/comic-4-1.jpg" alt="PADオフィスサバイバルガイド 第4章 1/6" loading="lazy">
+        <img src="assets/comic-4-2.jpg" alt="PADオフィスサバイバルガイド 第4章 2/6" loading="lazy">
+        
+        <h2>核心概念：絶対に落ちない自動化フローの構築</h2>
+        
+        <h3>1. 動的パスの魔法 —— 日付の自動生成と動的ファイル取得</h3>
+        <p>日次レポートの保存先は毎日変動します（例: <code class="code-pill">C:\Reports\20260825\</code>）。<code class="code-pill">現在の日時を取得</code> から <code class="code-pill">日時のテキスト変換</code> を行い、<code class="code-pill">フォルダー内のファイルを取得</code> と組み合わせることで、ファイル名が不規則でも動的に全ファイルを取得できます。</p>
+
+        <h3>2. EXCEPTION 例外処理 —— 停止させない守護シールド</h3>
+        <p>20ファイル中1ファイルが破損していても、<code class="code-pill">On Error (エラー発生時)</code> を設定しておけば、PADがエラー詳細を変数 <code class="code-pill">%LastError%</code> に記録し、破損ファイルを自動スキップして次の処理へ進みます！</p>
+        
+        <img src="assets/comic-4-3.jpg" alt="PADオフィスサバイバルガイド 第4章 3/6" loading="lazy">
+        <img src="assets/comic-4-4.jpg" alt="PADオフィスサバイバルガイド 第4章 4/6" loading="lazy">
+        
+        <h2>実践ガイド：堅牢な自動化フローの4ステップ</h2>
+        <ol>
+          <li><strong>現在日付の取得と書式変換：</strong><code class="code-pill">現在の日時を取得</code> を配置し、<code class="code-pill">日時をテキストに変換</code> で <code class="code-pill">%yyyy%%MM%%dd%</code> 形式の変数 <code class="code-pill">%FormattedDate%</code> を生成。</li>
+          <li><strong>動的な日付フォルダ作成：</strong><code class="code-pill">フォルダーの作成</code> でパスを <code class="code-pill">C:\Reports\%FormattedDate%\</code> に指定。</li>
+          <li><strong>ファイル一覧の動的取得：</strong><code class="code-pill">フォルダー内のファイルを取得</code> で全ファイルを抽出し、<code class="code-pill">For each %CurrentFile%</code> でループ処理。</li>
+          <li><strong>On Error 例外処理の設定：</strong><code class="code-pill">Excel の起動</code> アクションで <strong>「エラー発生時 (On Error)」</strong> を開き、<code class="code-pill">フロー実行を続行 ➔ 次の反復に移動</code> に設定。</li>
+        </ol>
+
+        <img src="assets/comic-4-5.jpg" alt="PADオフィスサバイバルガイド 第4章 5/6" loading="lazy">
+        <img src="assets/comic-4-6.jpg" alt="PADオフィスサバイバルガイド 第4章 6/6" loading="lazy">
+        
+        <h2>成果：19件成功、1件破損スキップ、中断ゼロ！</h2>
+        <p>小林が実行ボタンを押すと、破損ファイルに遭遇した瞬間に <strong>On Error シールド</strong> が発動！エラーを記録してスムーズにスキップし、残り19ファイルを当日フォルダへ完璧に集計完了！小林と莫兄は今日も定時退社を達成しました！</p>
+
+        <div class="chapter-nav">
+          <a href="pad-office-survival-guide-ch3.html">← 第三章：Webスクレイピングと自動メール大作戦</a>
+          <a href="articles.html">記事一覧に戻る ↑</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== Korean Block ==================== -->
+    <div data-lang-block="ko">
+      <header class="article-header">
+        <p class="eyebrow"><span></span> RPA / COMIC / TUTORIAL</p>
+        <h1>PAD 오피스 서바이벌 가이드 4장: 프로세스 수호자 (예외 처리와 동적 경로 마법)</h1>
+        <div class="article-meta">
+          <span>AUTHOR: Troy Su</span>
+          <span>DATE: 2026-08-25</span>
+          <span>READ: 5 MIN</span>
+        </div>
+      </header>
+      <div class="article-content">
+        <blockquote class="author-note">
+          <strong>저자: Troy Su</strong> | Power Automate Desktop (PAD) 및 RPA 자동화 전문가
+        </blockquote>
+        <p>자동화를 완전히 정복했다고 생각한 순간, 현실 업무의 혼돈이 시작됩니다!</p>
+        <p>영업부장이 다급히 뛰어옵니다: <em>"샤오린! 긴급 과제야! 20개 지점의 Excel 견적 파일명이 제각각이야! 게다가 매일 '당일 날짜' 폴더를 자동 생성해서 취합 결과를 저장해야 해! 급해!"</em></p>
+        <p>게다가 파일 중 하나라도 손상되어 있다면 전체 프로세스가 중단될 위험이 있습니다. 이때 모 형(Mo-ge)이 등장합니다: <em>"당황하지 마! 오늘은 RPA의 2대 방어 스킬인 <strong>동적 날짜 경로 마법</strong>과 <strong>On Error 예외 처리 방패</strong>를 알려줄게!"</em></p>
+        
+        <img src="assets/comic-4-1.jpg" alt="PAD 오피스 서바이벌 가이드 4장 1/6" loading="lazy">
+        <img src="assets/comic-4-2.jpg" alt="PAD 오피스 서바이벌 가이드 4장 2/6" loading="lazy">
+        
+        <h2>핵심 개념: 절대 멈추지 않는 자동화 구축</h2>
+        
+        <h3>1. 동적 경로 마법 —— 날짜 자동 생성 및 파일 동적 수집</h3>
+        <p>실무에서 저장 경로는 매일 바뀝니다(예: <code class="code-pill">C:\Reports\20260825\</code>). <code class="code-pill">현재 날짜 및 시간 가져오기</code>로 텍스트 변수 <code class="code-pill">%FormattedDate%</code>를 만든 뒤 <code class="code-pill">폴더 내 파일 가져오기</code>를 결합하면 파일명이 불규칙해도 모든 파일을 동적으로 처리할 수 있습니다.</p>
+
+        <h3>2. EXCEPTION 예외 처리 —— 중단 없는 수호 방패</h3>
+        <p>20개 파일 중 1개가 손상되어도 <code class="code-pill">On Error (오류 발생 시)</code>를 설정해 두면 PAD가 오류를 변수 <code class="code-pill">%LastError%</code>에 기록하고 손상된 파일을 안전하게 건너뛰어 다음 작업을 이어갑니다!</p>
+        
+        <img src="assets/comic-4-3.jpg" alt="PAD 오피스 서바이벌 가이드 4장 3/6" loading="lazy">
+        <img src="assets/comic-4-4.jpg" alt="PAD 오피스 서바이벌 가이드 4장 4/6" loading="lazy">
+        
+        <h2>실전 튜토리얼: 방어형 완전 자동화 4단계</h2>
+        <ol>
+          <li><strong>현재 날짜 가져오기 및 변환:</strong> <code class="code-pill">현재 날짜 및 시간 가져오기</code> 후 <code class="code-pill">날짜/시간을 텍스트로 변환</code>으로 <code class="code-pill">%yyyy%%MM%%dd%</code> 형식 변수 <code class="code-pill">%FormattedDate%</code> 생성.</li>
+          <li><strong>동적 날짜 폴더 생성:</strong> <code class="code-pill">폴더 만들기</code>를 추가하여 경로를 <code class="code-pill">C:\Reports\%FormattedDate%\</code>로 지정.</li>
+          <li><strong>파일 목록 동적 수집:</strong> <code class="code-pill">폴더 내 파일 가져오기</code>로 보고서를 수집하고 <code class="code-pill">For each %CurrentFile%</code>로 루프 처리.</li>
+          <li><strong>On Error 예외 처리 설정:</strong> <code class="code-pill">Excel 시작</code> 작업의 <strong>'오류 발생 시 (On Error)'</strong>에서 <code class="code-pill">흐름 실행 계속 ➔ 다음 반복으로 이동</code> 설정.</li>
+        </ol>
+
+        <img src="assets/comic-4-5.jpg" alt="PAD 오피스 서바이벌 가이드 4장 5/6" loading="lazy">
+        <img src="assets/comic-4-6.jpg" alt="PAD 오피스 서바이벌 가이드 4장 6/6" loading="lazy">
+        
+        <h2>성공: 19개 성공, 1개 손상 파일 건너뜀, 무중단 완료!</h2>
+        <p>샤오린이 실행 버튼을 누르자 손상된 파일을 만난 순간 <strong>On Error 방패</strong>가 작동! 오류를 기록하고 손상 파일을 부드럽게 건너뛴 후 나머지 19개 파일을 완벽하게 당일 날짜 폴더에 취합했습니다! 샤오린과 모 형은 오늘도 여유롭게 칼퇴근합니다!</p>
+
+        <div class="chapter-nav">
+          <a href="pad-office-survival-guide-ch3.html">← 3장: 웹 스크래핑과 자동 이메일 대작전</a>
+          <a href="articles.html">게시글 목록으로 ↑</a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer section-wrap" style="border-top: 1px solid var(--line); margin-top: 80px;">
+    <a class="brand" href="index.html">
+      <span class="brand-mark">T</span>
+      <span>TROY'S<br><b>SMART AUTOMATION</b></span>
+    </a>
+    <p>© 2026 Troy's Smart Automation</p>
+  </footer>
+  
+  <script src="script.js?v=1.4"></script>
+</body>
+</html>

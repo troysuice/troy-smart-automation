@@ -76,6 +76,10 @@
     "art_6_desc": "Conquer 30 supplier websites with PAD Web Scraper and Auto Postman, paired with If condition gatekeepers to leave work on time!",
     "art_6_read_val": "5 Min Read",
     "art_6_link": "Read Comic",
+    "art_7_title": "PAD Office Survival Guide Ch.4: The Flow Guardian",
+    "art_7_desc": "Master PAD dynamic date paths and On Error exception shields to handle irregular names and corrupted files without crashing!",
+    "art_7_read_val": "5 Min Read",
+    "art_7_link": "Read Comic",
     "back_to_top": "BACK TO TOP ↑"
   },
   "zh-TW": {
@@ -155,6 +159,10 @@
     "art_6_desc": "掌握 PAD「網頁小精靈」與「自動郵差」，學會網頁表格擷取、If 條件門衛與 Outlook 自動發信，準時下班！",
     "art_6_read_val": "5 分鐘",
     "art_6_link": "看漫畫",
+    "art_7_title": "《PAD 辦公室生存記》第四章：流程守護者",
+    "art_7_desc": "掌握 PAD 動態日期路徑魔法與 On Error 例外處理防護罩，馴服檔名混亂與損毀壞檔，打造堅不可摧的自動化流程！",
+    "art_7_read_val": "5 分鐘",
+    "art_7_link": "看漫畫",
     "back_to_top": "回到頂部 ↑"
   },
   "zh-CN": {
@@ -234,6 +242,10 @@
     "art_6_desc": "掌握 PAD“网页小精灵”与“自动邮差”，学会网页表格提取、If 条件门卫与 Outlook 自动发信，准时下班！",
     "art_6_read_val": "5 分钟",
     "art_6_link": "看漫画",
+    "art_7_title": "《PAD 办公室生存记》第四章：流程守护者",
+    "art_7_desc": "掌握 PAD 动态日期路径魔法与 On Error 异常处理防护罩，驯服文件名混乱与损坏坏档，打造坚不可摧的自动化流程！",
+    "art_7_read_val": "5 分钟",
+    "art_7_link": "看漫画",
     "back_to_top": "回到顶部 ↑"
   },
   "ja": {
@@ -313,6 +325,10 @@
     "art_6_desc": "PAD「Webの妖精」と「自動郵便配達人」をマスターし、Webデータ抽出とIf条件分岐メールで定時退社！",
     "art_6_read_val": "5 分",
     "art_6_link": "マンガを読む",
+    "art_7_title": "PADオフィスサバイバルガイド 第四章：フローの守護者",
+    "art_7_desc": "PAD動的日付パスとOn Error例外処理シールドをマスターし、不規則ファイル名や破損ファイルにも屈しない強固な自動化を実現！",
+    "art_7_read_val": "5 分",
+    "art_7_link": "マンガを読む",
     "back_to_top": "トップへ戻る ↑"
   },
   "ko": {
@@ -392,6 +408,10 @@
     "art_6_desc": "PAD '웹 요정'과 '자동 우체부'를 마스터하여 30개 공급사 웹 스크래핑 및 If 조건부 이메일 자동 발송으로 칼퇴근하세요!",
     "art_6_read_val": "5 분",
     "art_6_link": "만화 보기",
+    "art_7_title": "PAD 오피스 서바이벌 가이드 4장: 프로세스 수호자",
+    "art_7_desc": "PAD 동적 날짜 경로 마법과 On Error 예외 처리 방패를 마스터하여 불규칙한 파일명과 손상 파일도 끄떡없는 견고한 자동화를 구축하세요!",
+    "art_7_read_val": "5 분",
+    "art_7_link": "만화 보기",
     "back_to_top": "맨 위로 이동 ↑"
   }
 };
