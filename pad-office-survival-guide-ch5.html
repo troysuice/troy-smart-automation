@@ -1,0 +1,513 @@
+﻿<!doctype html>
+<html lang="zh-TW">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  
+  <title>《PAD 辦公室生存記》第五章：智慧助手登場 —— 馴服動態篩選與人機互動魔法 | Troy Su 技術專欄 | Troy's Smart Automation</title>
+  <meta name="title" content="《PAD 辦公室生存記》第五章：智慧助手登場 —— 馴服動態篩選與人機互動魔法 | Troy Su 技術專欄 | Troy's Smart Automation" />
+  <meta name="description" content="主管每次要篩選的月份、價格門檻和寄送部門都不一樣？別再每次進流程改程式碼！跟著 Troy Su 掌握 PAD 自訂表單人機互動對話盒與多重條件決策，打造聽你指揮的智慧助理！" />
+  <meta name="keywords" content="PAD, Power Automate Desktop, 人機協作, 自訂表單, Display custom form, 多重條件判斷, Else If, 人機互動, RPA, 自動化教學漫畫, 辦公室生存記, Troy Su" />
+  <meta name="author" content="Troy Su" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://troysuice.github.io/troy-smart-automation/pad-office-survival-guide-ch5.html" />
+  <meta property="og:title" content="《PAD 辦公室生存記》第五章：智慧助手登場 —— 馴服動態篩選與人機互動魔法 | Troy Su" />
+  <meta property="og:description" content="主管每次要篩選的月份、價格門檻和寄送部門都不一樣？別再每次進流程改程式碼！跟著 Troy Su 掌握 PAD 自訂表單人機互動對話盒與多重條件決策，打造聽你指揮的智慧助理！" />
+  <meta property="og:image" content="https://troysuice.github.io/troy-smart-automation/assets/comic-5-1.jpg" />
+
+  <meta property="twitter:card" content="summary_large_image" />
+  <meta property="twitter:url" content="https://troysuice.github.io/troy-smart-automation/pad-office-survival-guide-ch5.html" />
+  <meta property="twitter:title" content="《PAD 辦公室生存記》第五章：智慧助手登場 —— 馴服動態篩選與人機互動魔法 | Troy Su" />
+  <meta property="twitter:description" content="主管每次要篩選的月份、價格門檻和寄送部門都不一樣？別再每次進流程改程式碼！跟著 Troy Su 掌握 PAD 自訂表單人機互動對話盒與多重條件決策，打造聽你指揮的智慧助理！" />
+  <meta property="twitter:image" content="https://troysuice.github.io/troy-smart-automation/assets/comic-5-1.jpg" />
+
+  <link rel="canonical" href="https://troysuice.github.io/troy-smart-automation/pad-office-survival-guide-ch5.html" />
+  
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "《PAD 辦公室生存記》第五章：智慧助手登場 —— 馴服動態篩選與人機互動魔法",
+    "image": [
+      "https://troysuice.github.io/troy-smart-automation/assets/comic-5-1.jpg"
+    ],
+    "author": {
+      "@type": "Person",
+      "name": "Troy Su"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Troy's Smart Automation"
+    },
+    "datePublished": "2026-08-26",
+    "dateModified": "2026-08-26",
+    "description": "主管每次要篩選的月份、價格門檻和寄送部門都不一樣？別再每次進流程改程式碼！跟著 Troy Su 掌握 PAD 自訂表單人機互動對話盒與多重條件決策，打造聽你指揮的智慧助理！",
+    "keywords": "PAD, Power Automate Desktop, 人機協作, 自訂表單, 多重條件判斷, RPA, 自動化教學漫畫"
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Noto+Sans+TC:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;700&family=Noto+Sans+KR:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css?v=1.1" />
+  <style>
+    .article-wrap {
+      padding: 120px 0 80px;
+      max-width: 760px;
+      margin: auto;
+    }
+    .article-header {
+      margin-bottom: 60px;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 40px;
+    }
+    .article-header h1 {
+      font-size: clamp(28px, 4vw, 42px);
+      line-height: 1.25;
+      margin: 20px 0;
+      letter-spacing: -0.5px;
+    }
+    .article-meta {
+      display: flex;
+      gap: 20px;
+      color: var(--muted);
+      font-family: "DM Mono", monospace;
+      font-size: 12px;
+      margin-top: 20px;
+    }
+    .article-content h2 {
+      font-size: 26px;
+      color: var(--lime);
+      margin: 50px 0 20px;
+      font-weight: 600;
+      border-left: 4px solid var(--lime);
+      padding-left: 12px;
+    }
+    .article-content h3 {
+      font-size: 20px;
+      color: var(--cyan);
+      margin: 36px 0 14px;
+    }
+    .article-content p {
+      font-size: 17px;
+      line-height: 1.85;
+      color: var(--text);
+      margin-bottom: 24px;
+    }
+    .article-content ul, .article-content ol {
+      font-size: 16px;
+      line-height: 1.8;
+      color: var(--muted);
+      margin-bottom: 32px;
+      padding-left: 24px;
+    }
+    .article-content li {
+      margin-bottom: 12px;
+    }
+    .article-content li strong {
+      color: var(--text);
+    }
+    .article-content img {
+      width: 100%;
+      border-radius: 8px;
+      border: 1px solid var(--line);
+      margin: 32px 0;
+      display: block;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+    }
+    .back-btn {
+      display: inline-block;
+      margin-bottom: 40px;
+      color: var(--cyan);
+      text-decoration: none;
+      font-family: "DM Mono", monospace;
+      font-size: 12px;
+      letter-spacing: 1px;
+    }
+    .back-btn:hover {
+      text-decoration: underline;
+    }
+    blockquote.author-note {
+      border-left: 4px solid var(--accent);
+      padding-left: 1rem;
+      margin-bottom: 2rem;
+      color: var(--text-muted);
+      background: rgba(255,255,255,0.03);
+      padding: 1rem;
+      border-radius: 0 8px 8px 0;
+    }
+    .chapter-nav {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      margin-top: 60px;
+      padding-top: 30px;
+      border-top: 1px solid var(--line);
+      font-family: "DM Mono", monospace;
+      font-size: 13px;
+    }
+    .chapter-nav a {
+      color: var(--cyan);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .chapter-nav a:hover {
+      text-decoration: underline;
+    }
+    .code-pill {
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--lime);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: "DM Mono", monospace;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="noise" aria-hidden="true"></div>
+  
+  <header class="site-header">
+    <a class="brand" href="index.html" aria-label="Home">
+      <span class="brand-mark">T</span>
+      <span>TROY'S<br><b>SMART AUTOMATION</b></span>
+    </a>
+    <button class="menu-toggle" aria-controls="main-nav" aria-expanded="false">
+      <span></span><span></span><span></span><i data-i18n="menu">Menu</i>
+    </button>
+    <nav id="main-nav" class="main-nav" aria-label="Main Navigation">
+      <a href="index.html#about" data-i18n="nav_about">About Troy</a>
+      <a href="index.html#expertise" data-i18n="nav_expertise">Expertise</a>
+      <a href="index.html#work" data-i18n="nav_work">Selected Work</a>
+      <a href="index.html#software" data-i18n="nav_software">Software</a>
+      <a href="articles.html" data-i18n="nav_articles">Insights</a>
+      <a class="nav-cta" href="index.html#contact"><span data-i18n="nav_contact">Start Planning</span> <span>↗</span></a>
+      <div class="lang-selector-wrapper">
+        <select id="lang-select" class="lang-select" aria-label="Select Language">
+          <option value="en">English</option>
+          <option value="zh-TW">繁體中文</option>
+          <option value="zh-CN">简体中文</option>
+          <option value="ja">日本語</option>
+          <option value="ko">한국어</option>
+        </select>
+      </div>
+    </nav>
+  </header>
+
+  <main class="article-wrap">
+    <a href="articles.html" class="back-btn">← BACK TO ARTICLES</a>
+    
+    <!-- ==================== English Block ==================== -->
+    <div data-lang-block="en">
+      <header class="article-header">
+        <p class="eyebrow"><span></span> RPA / COMIC / TUTORIAL</p>
+        <h1>PAD Office Survival Guide Ch.5: Smart Assistant (Human-in-the-Loop & Dynamic Filters)</h1>
+        <div class="article-meta">
+          <span>AUTHOR: Troy Su</span>
+          <span>DATE: 2026-08-26</span>
+          <span>READ: 5 MIN</span>
+        </div>
+      </header>
+      <div class="article-content">
+        <blockquote class="author-note">
+          <strong>Author: Troy Su</strong> | Power Automate Desktop (PAD) & RPA Automation Expert
+        </blockquote>
+        <p>In the real office, business rules change every single day! Just as Xiaolin sat down, the manager dropped another twist: <em>"Xiaolin! Filter these 30 supplier price sheets by different months and custom price thresholds, then generate separate reports for different departments! Very urgent!"</em></p>
+        <p>Xiaolin gasped: <em>"If the criteria change every time, do I have to modify the script parameters manually every day? What if I make a typo?!"</em></p>
+        <p>Brother Mo smiled: <em>"RPA is not here to replace you—it's here to take your orders! Today, let's build a <strong>Human-in-the-Loop Smart Assistant</strong> using Custom Forms and Multi-Condition Branching!"</em></p>
+        
+        <img src="assets/comic-5-1.jpg" alt="PAD Office Survival Guide Ch5: Dynamic Criteria and Human-in-the-Loop Challenge" loading="lazy">
+        <img src="assets/comic-5-2.jpg" alt="PAD Office Survival Guide Ch5: Building Smart Custom Form Dialogs" loading="lazy">
+        
+        <h2>Core Concepts: Human-in-the-Loop & Multi-Condition Decisions</h2>
+        
+        <h3>1. Smart Input Dialogs — Custom Forms (Display Custom Form)</h3>
+        <p>Instead of hardcoding rules into your workflow or editing actions daily, create an interactive GUI dialog. When the flow starts, a pop-up collects parameters such as Month, Price Threshold, and Target Department into variable <code class="code-pill">%CustomFormData%</code> dynamically.</p>
+
+        <h3>2. Multi-Branch Decision Tree — Advanced If / Else If</h3>
+        <p>Feed user inputs into multi-branch logic:</p>
+        <ul>
+          <li><code class="code-pill">If (Month == %MonthInput% && Price > %ThresholdInput%)</code> ➔ High-Price Alert for Management</li>
+          <li><code class="code-pill">Else If (Month == 'November' && Department != 'Sales')</code> ➔ Standard Department Summary</li>
+          <li><code class="code-pill">Else</code> ➔ Routine Archiving</li>
+        </ul>
+        
+        <img src="assets/comic-5-3.jpg" alt="PAD Office Survival Guide Ch5: Multi-Condition Branching and Dynamic Decision Making" loading="lazy">
+        <img src="assets/comic-5-4.jpg" alt="PAD Office Survival Guide Ch5: Connecting Form Inputs with Loops and Exception Shields" loading="lazy">
+        
+        <h2>Step-by-Step Tutorial: Building the Interactive Assistant</h2>
+        <ol>
+          <li><strong>Design Custom Form:</strong> Add <code class="code-pill">Display custom form</code> to create input fields for Month, Price Threshold, and a dropdown for Department. Output values are stored in <code class="code-pill">%CustomFormData%</code>.</li>
+          <li><strong>Pass Parameters into Loop:</strong> In the <code class="code-pill">For each %CurrentFile%</code> loop, use the dynamic inputs from the form to filter rows in each supplier workbook.</li>
+          <li><strong>Branch Logic with If / Else If:</strong> Route each filtered result to specific email templates and department recipients based on the form selections.</li>
+          <li><strong>Integrate Exception Shield:</strong> Keep the <code class="code-pill">On Error</code> protection enabled on Excel actions so damaged files are safely bypassed without interrupting the run.</li>
+        </ol>
+
+        <img src="assets/comic-5-5.jpg" alt="PAD Office Survival Guide Ch5: Full Automation in Action with Human Guidance" loading="lazy">
+        <img src="assets/comic-5-6.jpg" alt="PAD Office Survival Guide Ch5: Perfect Execution and On-Time Dismissal" loading="lazy">
+        
+        <h2>Results: Maximum Flexibility, Zero Code Edits, On-Time Dismissal!</h2>
+        <p>Xiaolin just filled in the prompt dialog ("October", "1500 USD", "Sales"), clicked Submit, and watched PAD process all 30 files, filter out high-price items, handle corrupted files seamlessly, and email the reports to respective departments!</p>
+        <p>The manager was amazed by the instantaneous turnaround. Xiaolin and Brother Mo picked up their boba tea and walked out of the office on time with a huge smile!</p>
+        
+        <div class="chapter-nav">
+          <a href="pad-office-survival-guide-ch4.html">← Chapter 4: The Flow Guardian</a>
+          <a href="articles.html">All Articles ↑</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== Traditional Chinese Block ==================== -->
+    <div data-lang-block="zh-TW">
+      <header class="article-header">
+        <p class="eyebrow"><span></span> RPA / COMIC / TUTORIAL</p>
+        <h1>《PAD 辦公室生存記》第五章：智慧助手登場 —— 馴服動態篩選與人機互動魔法</h1>
+        <div class="article-meta">
+          <span>AUTHOR: Troy Su</span>
+          <span>DATE: 2026-08-26</span>
+          <span>READ: 5 MIN</span>
+        </div>
+      </header>
+      <div class="article-content">
+        <blockquote class="author-note">
+          <strong>作者：Troy Su</strong> | Power Automate Desktop (PAD) 與 RPA 自動化專家
+        </blockquote>
+        <p>在真實職場中，商業邏輯與主管的需求總是天天在變！小林剛坐下，業務經理又丟來新任務：<em>「小林！這 30 家供應商的報價單，這次要篩選出特定月份、特定價格門檻的商品，並將結果產生新的 Excel 報表寄給不同部門！很急！（順手嘛！）」</em></p>
+        <p>小林倒抽一口氣：<em>「每次篩選條件和寄送部門都不一樣，難道我每天都要進流程後台手動修改 If 積木參數嗎？萬一改錯一個字不就全毀了？！」</em></p>
+        <p>莫哥笑著端著茶走過來：<em>「別慌！RPA 不是要取代你，而是聽你指揮！今天就來打造<strong>人機協作魔法介面</strong>，結合自訂表單與多重條件決策，讓流程隨時依你的指令靈活應變！」</em></p>
+        
+        <img src="assets/comic-5-1.jpg" alt="PAD 辦公室生存記 第五章第1頁：動態條件篩選與人機協作新挑戰" loading="lazy">
+        <img src="assets/comic-5-2.jpg" alt="PAD 辦公室生存記 第五章第2頁：智慧輸入魔法 - 打造自訂表單對話盒" loading="lazy">
+        
+        <h2>核心觀念：人機協作（Human-in-the-Loop）與進階多重條件</h2>
+        
+        <h3>1. 智慧輸入對話盒 —— 自訂表單（Display Custom Form）</h3>
+        <p>與其每次手動改流程程式碼，不如在流程啟動時彈出一個直覺的 UI 輸入視窗！透過「顯示自訂表單」動作，讓使用者自由填入「月份」、「價格門檻」並從下拉選單挑選「寄送部門」，所有參數自動收進變數 <code class="code-pill">%CustomFormData%</code>！</p>
+
+        <h3>2. 多重決策樹 —— If / Else If 進階門衛</h3>
+        <p>將表單取得的動態變數帶入多重邏輯判斷：</p>
+        <ul>
+          <li><code class="code-pill">If (月份 == %MonthInput% && 價格 > %ThresholdInput%)</code> ➔ 觸發高價警示並寄送主管</li>
+          <li><code class="code-pill">Else If (月份 == '11月' && 部門 != '業務部')</code> ➔ 產出一般月報寄送對應部門</li>
+          <li><code class="code-pill">Else</code> ➔ 執行一般日常歸檔</li>
+        </ul>
+        
+        <img src="assets/comic-5-3.jpg" alt="PAD 辦公室生存記 第五章第3頁：進階多重條件與對話決策" loading="lazy">
+        <img src="assets/comic-5-4.jpg" alt="PAD 辦公室生存記 第五章第4頁：表單參數與迴圈、例外防護全整合" loading="lazy">
+        
+        <h2>實戰教學：4 步打造人機協作智慧助理</h2>
+        <ol>
+          <li><strong>建立自訂表單對話盒：</strong>加入 <code class="code-pill">顯示自訂表單 (Display custom form)</code> 動作，設計「月份輸入框」、「價格門檻輸入框」與「部門下拉選單」，將輸入值存入 <code class="code-pill">%CustomFormData%</code>。</li>
+          <li><strong>動態套入檔案迴圈：</strong>在 <code class="code-pill">For each %CurrentFile%</code> 迴圈中，利用表單輸入的變數動態比對 30 家供應商報價單中的資料行。</li>
+          <li><strong>設定 If / Else If 多重門衛：</strong>依據篩選結果與指定部門，動態組裝 Excel 彙整表與寄送郵件主旨。</li>
+          <li><strong>搭配 On Error 例外防護：</strong>延續前一章的例外處理機制，即使遇到損毀檔案也能自動記錄並跳過，流程整體穩定不中斷！</li>
+        </ol>
+
+        <img src="assets/comic-5-5.jpg" alt="PAD 辦公室生存記 第五章第5頁：人機協作實踐 - 全自動決策與分發發信" loading="lazy">
+        <img src="assets/comic-5-6.jpg" alt="PAD 辦公室生存記 第五章第6頁：任務達成！智慧助理不掛掉，準時下班" loading="lazy">
+        
+        <h2>成果驗收：靈活應變零改動，準時喝珍奶下班！</h2>
+        <p>小林在彈出的對話盒中填入「10月」、「1500元」、「業務部」並按下確定，PAD 隨即自動依指示過濾 30 份報價、精準抽出符合項目、生成專屬報表並發送給業務部！遇到 1 份損毀檔案也自動跳過，全程零失誤！</p>
+        <p>業務主管驚嘆小林的驚人應變效率。完全掌握「人機協作」與「例外防護」的小林，與莫哥拿著珍奶，再次開心準時下班！</p>
+
+        <div class="chapter-nav">
+          <a href="pad-office-survival-guide-ch4.html">← 第四章：流程守護者</a>
+          <a href="articles.html">返回專欄列表 ↑</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== Simplified Chinese Block ==================== -->
+    <div data-lang-block="zh-CN">
+      <header class="article-header">
+        <p class="eyebrow"><span></span> RPA / COMIC / TUTORIAL</p>
+        <h1>《PAD 办公室生存记》第五章：智慧助手登场 —— 驯服动态筛选与人机交互魔法</h1>
+        <div class="article-meta">
+          <span>AUTHOR: Troy Su</span>
+          <span>DATE: 2026-08-26</span>
+          <span>READ: 5 MIN</span>
+        </div>
+      </header>
+      <div class="article-content">
+        <blockquote class="author-note">
+          <strong>作者：Troy Su</strong> | Power Automate Desktop (PAD) 与 RPA 自动化专家
+        </blockquote>
+        <p>在真实职场中，业务逻辑与主管的需求总是天天在变！小林刚坐下，业务经理又丢来新任务：<em>“小林！这 30 家供应商的报价单，这次要筛选出特定月份、特定价格门槛的商品，并将结果产生新的 Excel 报表寄给不同部门！很急！（顺手嘛！）”</em></p>
+        <p>小林倒抽一口气：<em>“每次筛选条件和寄送部门都不一样，难道我每天都要进流程后台手动修改 If 积木参数吗？万一改错一个字不就全毁了？！”</em></p>
+        <p>莫哥笑着端着茶走过来：<em>“别慌！RPA 不是要取代你，而是听你指挥！今天就来打造<strong>人机协作魔法界面</strong>，结合自定义表单与多重条件决策，让流程随时依你的指令灵活应变！”</em></p>
+        
+        <img src="assets/comic-5-1.jpg" alt="PAD 办公室生存记 第五章第1页：动态条件筛选与人机协作新挑战" loading="lazy">
+        <img src="assets/comic-5-2.jpg" alt="PAD 办公室生存记 第五章第2页：智慧输入魔法 - 打造自定义表单对话框" loading="lazy">
+        
+        <h2>核心观念：人机协作（Human-in-the-Loop）与进阶多重条件</h2>
+        
+        <h3>1. 智慧输入对话框 —— 自定义表单（Display Custom Form）</h3>
+        <p>与其每次手动改流程代码，不如在流程启动时弹出一个直观的 UI 输入窗口！通过“显示自定义表单”动作，让使用者自由填入“月份”、“价格门槛”并从下拉菜单挑选“寄送部门”，所有参数自动收进变量 <code class="code-pill">%CustomFormData%</code>！</p>
+
+        <h3>2. 多重决策树 —— If / Else If 进阶门卫</h3>
+        <p>将表单取得的动态变量带入多重逻辑判断：</p>
+        <ul>
+          <li><code class="code-pill">If (月份 == %MonthInput% && 价格 > %ThresholdInput%)</code> ➔ 触发高价警示并寄送主管</li>
+          <li><code class="code-pill">Else If (月份 == '11月' && 部门 != '业务部')</code> ➔ 产出一般月报寄送对应部门</li>
+          <li><code class="code-pill">Else</code> ➔ 执行一般日常归档</li>
+        </ul>
+        
+        <img src="assets/comic-5-3.jpg" alt="PAD 办公室生存记 第五章第3页：进阶多重条件与对话决策" loading="lazy">
+        <img src="assets/comic-5-4.jpg" alt="PAD 办公室生存记 第五章第4页：表单参数与循环、例外防护全整合" loading="lazy">
+        
+        <h2>实战教学：4 步打造人机协作智慧助理</h2>
+        <ol>
+          <li><strong>建立自定义表单对话框：</strong>加入 <code class="code-pill">显示自定义表单 (Display custom form)</code> 动作，设计“月份输入框”、“价格门槛输入框”与“部门下拉菜单”，将输入值存入 <code class="code-pill">%CustomFormData%</code>。</li>
+          <li><strong>动态套入文件循环：</strong>在 <code class="code-pill">For each %CurrentFile%</code> 循环中，利用表单输入的变量动态比对 30 家供应商报价单中的数据行。</li>
+          <li><strong>设定 If / Else If 多重门卫：</strong>依据筛选结果与指定部门，动态组装 Excel 汇总表与寄送邮件主题。</li>
+          <li><strong>搭配 On Error 异常防护：</strong>延续前一章的异常处理机制，即使遇到损坏文件也能自动记录并跳过，流程整体稳定不中断！</li>
+        </ol>
+
+        <img src="assets/comic-5-5.jpg" alt="PAD 办公室生存记 第五章第5页：人机协作实践 - 全自动决策与分发发信" loading="lazy">
+        <img src="assets/comic-5-6.jpg" alt="PAD 办公室生存记 第五章第6页：任务达成！智慧助理不挂掉，准时下班" loading="lazy">
+        
+        <h2>成果验收：灵活应变零改动，准时喝奶茶下班！</h2>
+        <p>小林在弹出的对话框中填入“10月”、“1500元”、“业务部”并按下确定，PAD 随后自动依指示过滤 30 份报价、精准抽出符合项目、生成专属报表并发送给业务部！遇到 1 份损坏文件也自动跳过，全程零失误！</p>
+        <p>业务主管惊叹小林的惊人应变效率。完全掌握“人机协作”与“异常防护”的小林，与莫哥拿着奶茶，再次开心准时下班！</p>
+
+        <div class="chapter-nav">
+          <a href="pad-office-survival-guide-ch4.html">← 第四章：流程守护者</a>
+          <a href="articles.html">返回专栏列表 ↑</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== Japanese Block ==================== -->
+    <div data-lang-block="ja">
+      <header class="article-header">
+        <p class="eyebrow"><span></span> RPA / COMIC / TUTORIAL</p>
+        <h1>PADオフィスサバイバルガイド 第五章：スマートアシスタント登場（動的フィルタと人機協調の魔法）</h1>
+        <div class="article-meta">
+          <span>AUTHOR: Troy Su</span>
+          <span>DATE: 2026-08-26</span>
+          <span>READ: 5 MIN</span>
+        </div>
+      </header>
+      <div class="article-content">
+        <blockquote class="author-note">
+          <strong>著者：Troy Su</strong> | Power Automate Desktop (PAD) および RPA 自動化エキスパート
+        </blockquote>
+        <p>実際のビジネス現場では、業務ルールや指示は日々変わります！営業部長がまた新たな課題を持ってきました：<em>「小林さん！30社の見積もりから、月別・指定金額以上の商品を抽出して各部署へ個別送付してくれ！急ぎで！」</em></p>
+        <p>小林は叫びます：<em>「条件が変わるたびにフローを開いてIfアクションを手動修正するなんて、ミスが怖くてやってられません！」</em></p>
+        <p>莫兄（モー・ガー）がアドバイス：<em>「RPAは人間の指示に従う相棒だ！今日はカスタムフォームを活用した<strong>人機協調スマートアシスタント</strong>を作ろう！」</em></p>
+        
+        <img src="assets/comic-5-1.jpg" alt="PADオフィスサバイバルガイド 第5章 1/6" loading="lazy">
+        <img src="assets/comic-5-2.jpg" alt="PADオフィスサバイバルガイド 第5章 2/6" loading="lazy">
+        
+        <h2>核心概念：人機協調（Human-in-the-Loop）と多重条件分岐</h2>
+        
+        <h3>1. スマート入力ダイアログ —— カスタムフォーム（Display Custom Form）</h3>
+        <p>毎回コードを書き換える代わりに、実行時にパラメータ（対象月・価格閾値・送信先部署）を入力するUIダイアログを表示し、変数 <code class="code-pill">%CustomFormData%</code> に格納します。</p>
+
+        <h3>2. 多重条件分岐 —— If / Else If の高度な制御</h3>
+        <p>フォームの動的入力を条件分岐に渡します：</p>
+        <ul>
+          <li><code class="code-pill">If (対象月 == %MonthInput% && 価格 > %ThresholdInput%)</code> ➔ 高額アラートメール送付</li>
+          <li><code class="code-pill">Else If (対象月 == '11月' && 部署 != '営業部')</code> ➔ 通常月報を他部署へ送付</li>
+          <li><code class="code-pill">Else</code> ➔ 通常アーカイブ処理</li>
+        </ul>
+        
+        <img src="assets/comic-5-3.jpg" alt="PADオフィスサバイバルガイド 第5章 3/6" loading="lazy">
+        <img src="assets/comic-5-4.jpg" alt="PADオフィスサバイバルガイド 第5章 4/6" loading="lazy">
+        
+        <h2>実践ガイド：人機協調フローの4ステップ</h2>
+        <ol>
+          <li><strong>カスタムフォームの作成：</strong><code class="code-pill">カスタム フォームを表示</code> アクションで月、金額、部署の入力欄を設計。</li>
+          <li><strong>ループ内での動的照合：</strong><code class="code-pill">For each %CurrentFile%</code> 内で、フォーム入力値を用いて各ファイルを動的フィルタリング。</li>
+          <li><strong>If / Else If による送信先分岐：</strong>条件に応じてExcelファイルを生成し、対応部署へ自動メール送信。</li>
+          <li><strong>On Error 例外処理の併用：</strong>破損ファイルがあっても自動スキップして処理を継続。</li>
+        </ol>
+
+        <img src="assets/comic-5-5.jpg" alt="PADオフィスサバイバルガイド 第5章 5/6" loading="lazy">
+        <img src="assets/comic-5-6.jpg" alt="PADオフィスサバイバルガイド 第5章 6/6" loading="lazy">
+        
+        <h2>成果：柔軟な対応力でミスゼロ、定時退社！</h2>
+        <p>ダイアログに必要な条件を入力するだけで、PADが自動で30社をフィルタリングして個別送信を完了！破損ファイルも自動処理され、小林と莫兄は今日もタピオカミルクティーを手に定時退社しました！</p>
+
+        <div class="chapter-nav">
+          <a href="pad-office-survival-guide-ch4.html">← 第四章：フローの守護者</a>
+          <a href="articles.html">記事一覧に戻る ↑</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== Korean Block ==================== -->
+    <div data-lang-block="ko">
+      <header class="article-header">
+        <p class="eyebrow"><span></span> RPA / COMIC / TUTORIAL</p>
+        <h1>PAD 오피스 서바이벌 가이드 5장: 스마트 비서 등장 (동적 필터링과 인간-로봇 협업)</h1>
+        <div class="article-meta">
+          <span>AUTHOR: Troy Su</span>
+          <span>DATE: 2026-08-26</span>
+          <span>READ: 5 MIN</span>
+        </div>
+      </header>
+      <div class="article-content">
+        <blockquote class="author-note">
+          <strong>저자: Troy Su</strong> | Power Automate Desktop (PAD) 및 RPA 자동화 전문가
+        </blockquote>
+        <p>실제 업무 현장에서는 요구사항이 매일 바뀝니다! 영업부장이 또 긴급 업무를 던집니다: <em>"샤오린! 30개 공급사 단가표에서 특정 월, 특정 금액 이상의 상품을 필터링해 각 부서로 각각 발송해 줘! 급해!"</em></p>
+        <p>샤오린이 당황합니다: <em>"조건이 매번 바뀌는데, 매일 플로우 백엔드에 들어가 If 블록 파라미터를 수정해야 하나요? 오타라도 나면 어떡하죠?!"</em></p>
+        <p>모 형(Mo-ge)이 웃으며 말합니다: <em>"RPA는 너의 지시를 따르는 조력자야! 사용자 정의 폼을 활용한 <strong>인간-로봇 협업 스마트 비서</strong>를 만들어 보자!"</em></p>
+        
+        <img src="assets/comic-5-1.jpg" alt="PAD 오피스 서바이벌 가이드 5장 1/6" loading="lazy">
+        <img src="assets/comic-5-2.jpg" alt="PAD 오피스 서바이벌 가이드 5장 2/6" loading="lazy">
+        
+        <h2>핵심 개념: 인간-로봇 협업(Human-in-the-Loop)과 다중 조건 분기</h2>
+        
+        <h3>1. 스마트 입력 대화상자 —— 사용자 정의 폼 (Display Custom Form)</h3>
+        <p>매번 코드를 수정하는 대신, 실행 시 파라미터(대상 월, 금액 기준, 발송 부서)를 묻는 UI 대화창을 띄워 변수 <code class="code-pill">%CustomFormData%</code>에 즉시 저장합니다.</p>
+
+        <h3>2. 다중 조건 분기 —— If / Else If 고급 제어</h3>
+        <p>대화상자에서 받은 동적 변수를 다중 조건문에 전달합니다:</p>
+        <ul>
+          <li><code class="code-pill">If (월 == %MonthInput% && 금액 > %ThresholdInput%)</code> ➔ 고가 경고 메일 발송</li>
+          <li><code class="code-pill">Else If (월 == '11월' && 부서 != '영업부')</code> ➔ 해당 부서로 월보 발송</li>
+          <li><code class="code-pill">Else</code> ➔ 일반 보관 처리</li>
+        </ul>
+        
+        <img src="assets/comic-5-3.jpg" alt="PAD 오피스 서바이벌 가이드 5장 3/6" loading="lazy">
+        <img src="assets/comic-5-4.jpg" alt="PAD 오피스 서바이벌 가이드 5장 4/6" loading="lazy">
+        
+        <h2>실전 튜토리얼: 인간-로봇 협업 4단계</h2>
+        <ol>
+          <li><strong>사용자 정의 폼 생성:</strong> <code class="code-pill">사용자 지정 양식 표시</code>로 월, 금액, 부서 입력창을 디자인.</li>
+          <li><strong>루프 내 동적 필터링:</strong> <code class="code-pill">For each %CurrentFile%</code> 루프 안에서 폼 입력값으로 30개사 데이터를 동적 비교.</li>
+          <li><strong>If / Else If 조건 분기:</strong> 조건에 따라 Excel 보고서를 생성하고 해당 부서로 자동 이메일 전송.</li>
+          <li><strong>On Error 예외 처리 결합:</strong> 손상된 파일이 있어도 건너뛰고 안정적으로 전체 실행 유지.</li>
+        </ol>
+
+        <img src="assets/comic-5-5.jpg" alt="PAD 오피스 서바이벌 가이드 5장 5/6" loading="lazy">
+        <img src="assets/comic-5-6.jpg" alt="PAD 오피스 서바이벌 가이드 5장 6/6" loading="lazy">
+        
+        <h2>성공: 코드 수정 없이 완벽 처리, 정시 퇴근!</h2>
+        <p>대화상자에 조건만 입력하면 PAD가 알아서 30개 파일을 필터링하고 부서별 발송까지 완벽히 마칩니다! 샤오린과 모 형은 오늘도 버블티를 들고 기분 좋게 정시 퇴근합니다!</p>
+
+        <div class="chapter-nav">
+          <a href="pad-office-survival-guide-ch4.html">← 4장: 프로세스 수호자</a>
+          <a href="articles.html">게시글 목록으로 ↑</a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer section-wrap" style="border-top: 1px solid var(--line); margin-top: 80px;">
+    <a class="brand" href="index.html">
+      <span class="brand-mark">T</span>
+      <span>TROY'S<br><b>SMART AUTOMATION</b></span>
+    </a>
+    <p>© 2026 Troy's Smart Automation</p>
+  </footer>
+  
+  <script src="script.js?v=1.4"></script>
+</body>
+</html>
