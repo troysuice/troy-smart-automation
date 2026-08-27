@@ -84,6 +84,10 @@
     "art_8_desc": "Build a Human-in-the-Loop Smart Assistant using Custom Forms and multi-branch condition trees to handle dynamic criteria effortlessly!",
     "art_8_read_val": "5 Min Read",
     "art_8_link": "Read Comic",
+    "art_9_title": "PAD Office Survival Guide Ch.6 (Finale): Conquering Legacy Systems",
+    "art_9_desc": "Master PAD desktop UI automation and window penetration to control 20-year-old legacy systems without APIs and become an RPA Master!",
+    "art_9_read_val": "6 Min Read",
+    "art_9_link": "Read Comic",
     "back_to_top": "BACK TO TOP ↑"
   },
   "zh-TW": {
@@ -171,6 +175,10 @@
     "art_8_desc": "掌握 PAD 自訂表單人機互動對話盒與多重條件決策，靈活應對動態篩選與分發需求，打造聽你指揮的智慧助理！",
     "art_8_read_val": "5 分鐘",
     "art_8_link": "看漫畫",
+    "art_9_title": "《PAD 辦公室生存記》第六章（完結篇）：突破老舊系統防線",
+    "art_9_desc": "掌握 PAD 桌面 UI 自動化與視窗穿透魔法，無 API 也能操控 20 年前古董系統，全流程大串接邁向自動化大師！",
+    "art_9_read_val": "6 分鐘",
+    "art_9_link": "看漫畫",
     "back_to_top": "回到頂部 ↑"
   },
   "zh-CN": {
@@ -258,6 +266,10 @@
     "art_8_desc": "掌握 PAD 自定义表单人机交互对话框与多重条件决策，灵活应对动态筛选与分发需求，打造听你指挥的智慧助理！",
     "art_8_read_val": "5 分钟",
     "art_8_link": "看漫画",
+    "art_9_title": "《PAD 办公室生存记》第六章（完结篇）：突破老旧系统防线",
+    "art_9_desc": "掌握 PAD 桌面 UI 自动化与窗口穿透魔法，无 API 也能操控 20 年前古董系统，全流程大串接迈向自动化大师！",
+    "art_9_read_val": "6 分钟",
+    "art_9_link": "看漫画",
     "back_to_top": "回到顶部 ↑"
   },
   "ja": {
@@ -345,6 +357,10 @@
     "art_8_desc": "カスタムフォームによる人機協調UIと多重条件分岐をマスターし、変動する指示や条件に柔軟に対応するスマートアシスタントを構築！",
     "art_8_read_val": "5 分",
     "art_8_link": "マンガを読む",
+    "art_9_title": "PADオフィスサバイバルガイド 第六章（完結編）：レガシーシステム攻略",
+    "art_9_desc": "PADデスクトップUI自動化をマスターし、APIのない20年前のレガシーシステムを完全攻略して自動化マスターへ！",
+    "art_9_read_val": "6 分",
+    "art_9_link": "マンガを読む",
     "back_to_top": "トップへ戻る ↑"
   },
   "ko": {
@@ -432,6 +448,10 @@
     "art_8_desc": "사용자 정의 폼 기반의 인간-로봇 협업과 다중 조건 분기를 마스터하여 매일 바뀌는 필터링 조건도 척척 처리하는 스마트 비서를 구축하세요!",
     "art_8_read_val": "5 분",
     "art_8_link": "만화 보기",
+    "art_9_title": "PAD 오피스 서바이벌 가이드 6장 (완결편): 레거시 시스템 정복",
+    "art_9_desc": "PAD 데스크톱 UI 자동화와 창 투과 마법을 마스터하여 API 없는 20년 전 구형 시스템을 완벽 제어하고 자동화 마스터로 거듭나세요!",
+    "art_9_read_val": "6 분",
+    "art_9_link": "만화 보기",
     "back_to_top": "맨 위로 이동 ↑"
   }
 };

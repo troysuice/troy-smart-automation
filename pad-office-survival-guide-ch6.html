@@ -1,0 +1,584 @@
+﻿<!doctype html>
+<html lang="zh-TW">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  
+  <title>《PAD 辦公室生存記》第六章（完結篇）：突破老舊系統防線 —— 桌面 UI 自動化實戰與終極串接 | Troy Su 技術專欄 | Troy's Smart Automation</title>
+  <meta name="title" content="《PAD 辦公室生存記》第六章（完結篇）：突破老舊系統防線 —— 桌面 UI 自動化實戰與終極串接 | Troy Su 技術專欄 | Troy's Smart Automation" />
+  <meta name="description" content="20 年前的老舊系統沒有 API、按鈕小難操作？跟著 Troy Su 掌握 PAD「桌面 UI 選取器」與「視窗穿透魔法」，整合 Excel、自訂表單、例外處理與自動發信，打造終極無人值守自動化流程！" />
+  <meta name="keywords" content="PAD, Power Automate Desktop, UI 自動化, UI 選取器, 桌面自動化, 老舊系統自動化, RPA, 自動化教學漫畫, 辦公室生存記, Troy Su" />
+  <meta name="author" content="Troy Su" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://troysuice.github.io/troy-smart-automation/pad-office-survival-guide-ch6.html" />
+  <meta property="og:title" content="《PAD 辦公室生存記》第六章（完結篇）：突破老舊系統防線 —— 桌面 UI 自動化實戰與終極串接 | Troy Su" />
+  <meta property="og:description" content="20 年前的老舊系統沒有 API、按鈕小難操作？跟著 Troy Su 掌握 PAD「桌面 UI 選取器」與「視窗穿透魔法」，整合 Excel、自訂表單、例外處理與自動發信，打造終極無人值守自動化流程！" />
+  <meta property="og:image" content="https://troysuice.github.io/troy-smart-automation/assets/comic-6-1.jpg" />
+
+  <meta property="twitter:card" content="summary_large_image" />
+  <meta property="twitter:url" content="https://troysuice.github.io/troy-smart-automation/pad-office-survival-guide-ch6.html" />
+  <meta property="twitter:title" content="《PAD 辦公室生存記》第六章（完結篇）：突破老舊系統防線 —— 桌面 UI 自動化實戰與終極串接 | Troy Su" />
+  <meta property="twitter:description" content="20 年前的老舊系統沒有 API、按鈕小難操作？跟著 Troy Su 掌握 PAD「桌面 UI 選取器」與「視窗穿透魔法」，整合 Excel、自訂表單、例外處理與自動發信，打造終極無人值守自動化流程！" />
+  <meta property="twitter:image" content="https://troysuice.github.io/troy-smart-automation/assets/comic-6-1.jpg" />
+
+  <link rel="canonical" href="https://troysuice.github.io/troy-smart-automation/pad-office-survival-guide-ch6.html" />
+  
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "《PAD 辦公室生存記》第六章（完結篇）：突破老舊系統防線 —— 桌面 UI 自動化實戰與終極串接",
+    "image": [
+      "https://troysuice.github.io/troy-smart-automation/assets/comic-6-1.jpg"
+    ],
+    "author": {
+      "@type": "Person",
+      "name": "Troy Su"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Troy's Smart Automation"
+    },
+    "datePublished": "2026-08-27",
+    "dateModified": "2026-08-27",
+    "description": "20 年前的老舊系統沒有 API、按鈕小難操作？跟著 Troy Su 掌握 PAD「桌面 UI 選取器」與「視窗穿透魔法」，整合 Excel、自訂表單、例外處理與自動發信，打造終極無人值守自動化流程！",
+    "keywords": "PAD, Power Automate Desktop, UI 自動化, UI 選取器, 桌面自動化, RPA, 自動化教學漫畫"
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Noto+Sans+TC:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;700&family=Noto+Sans+KR:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css?v=1.1" />
+  <style>
+    .article-wrap {
+      padding: 120px 0 80px;
+      max-width: 760px;
+      margin: auto;
+    }
+    .article-header {
+      margin-bottom: 60px;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 40px;
+    }
+    .article-header h1 {
+      font-size: clamp(28px, 4vw, 42px);
+      line-height: 1.25;
+      margin: 20px 0;
+      letter-spacing: -0.5px;
+    }
+    .article-meta {
+      display: flex;
+      gap: 20px;
+      color: var(--muted);
+      font-family: "DM Mono", monospace;
+      font-size: 12px;
+      margin-top: 20px;
+    }
+    .article-content h2 {
+      font-size: 26px;
+      color: var(--lime);
+      margin: 50px 0 20px;
+      font-weight: 600;
+      border-left: 4px solid var(--lime);
+      padding-left: 12px;
+    }
+    .article-content h3 {
+      font-size: 20px;
+      color: var(--cyan);
+      margin: 36px 0 14px;
+    }
+    .article-content p {
+      font-size: 17px;
+      line-height: 1.85;
+      color: var(--text);
+      margin-bottom: 24px;
+    }
+    .article-content ul, .article-content ol {
+      font-size: 16px;
+      line-height: 1.8;
+      color: var(--muted);
+      margin-bottom: 32px;
+      padding-left: 24px;
+    }
+    .article-content li {
+      margin-bottom: 12px;
+    }
+    .article-content li strong {
+      color: var(--text);
+    }
+    .article-content img {
+      width: 100%;
+      border-radius: 8px;
+      border: 1px solid var(--line);
+      margin: 32px 0;
+      display: block;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+    }
+    .back-btn {
+      display: inline-block;
+      margin-bottom: 40px;
+      color: var(--cyan);
+      text-decoration: none;
+      font-family: "DM Mono", monospace;
+      font-size: 12px;
+      letter-spacing: 1px;
+    }
+    .back-btn:hover {
+      text-decoration: underline;
+    }
+    blockquote.author-note {
+      border-left: 4px solid var(--accent);
+      padding-left: 1rem;
+      margin-bottom: 2rem;
+      color: var(--text-muted);
+      background: rgba(255,255,255,0.03);
+      padding: 1rem;
+      border-radius: 0 8px 8px 0;
+    }
+    .chapter-nav {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      margin-top: 60px;
+      padding-top: 30px;
+      border-top: 1px solid var(--line);
+      font-family: "DM Mono", monospace;
+      font-size: 13px;
+    }
+    .chapter-nav a {
+      color: var(--cyan);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .chapter-nav a:hover {
+      text-decoration: underline;
+    }
+    .code-pill {
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--lime);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: "DM Mono", monospace;
+      font-size: 14px;
+    }
+    .series-finish-box {
+      margin: 40px 0;
+      padding: 24px;
+      background: rgba(163, 230, 53, 0.06);
+      border: 1px solid var(--lime);
+      border-radius: 8px;
+    }
+    .series-finish-box h3 {
+      color: var(--lime);
+      margin-top: 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="noise" aria-hidden="true"></div>
+  
+  <header class="site-header">
+    <a class="brand" href="index.html" aria-label="Home">
+      <span class="brand-mark">T</span>
+      <span>TROY'S<br><b>SMART AUTOMATION</b></span>
+    </a>
+    <button class="menu-toggle" aria-controls="main-nav" aria-expanded="false">
+      <span></span><span></span><span></span><i data-i18n="menu">Menu</i>
+    </button>
+    <nav id="main-nav" class="main-nav" aria-label="Main Navigation">
+      <a href="index.html#about" data-i18n="nav_about">About Troy</a>
+      <a href="index.html#expertise" data-i18n="nav_expertise">Expertise</a>
+      <a href="index.html#work" data-i18n="nav_work">Selected Work</a>
+      <a href="index.html#software" data-i18n="nav_software">Software</a>
+      <a href="articles.html" data-i18n="nav_articles">Insights</a>
+      <a class="nav-cta" href="index.html#contact"><span data-i18n="nav_contact">Start Planning</span> <span>↗</span></a>
+      <div class="lang-selector-wrapper">
+        <select id="lang-select" class="lang-select" aria-label="Select Language">
+          <option value="en">English</option>
+          <option value="zh-TW">繁體中文</option>
+          <option value="zh-CN">简体中文</option>
+          <option value="ja">日本語</option>
+          <option value="ko">한국어</option>
+        </select>
+      </div>
+    </nav>
+  </header>
+
+  <main class="article-wrap">
+    <a href="articles.html" class="back-btn">← BACK TO ARTICLES</a>
+    
+    <!-- ==================== English Block ==================== -->
+    <div data-lang-block="en">
+      <header class="article-header">
+        <p class="eyebrow"><span></span> RPA / COMIC / TUTORIAL / FINALE</p>
+        <h1>PAD Office Survival Guide Ch.6 (Finale): Conquering Legacy Desktop Systems</h1>
+        <div class="article-meta">
+          <span>AUTHOR: Troy Su</span>
+          <span>DATE: 2026-08-27</span>
+          <span>READ: 6 MIN</span>
+        </div>
+      </header>
+      <div class="article-content">
+        <blockquote class="author-note">
+          <strong>Author: Troy Su</strong> | Power Automate Desktop (PAD) & RPA Automation Expert
+        </blockquote>
+        <p>In the final showdown of workplace automation, the ultimate boss emerges: the dreaded <strong>20-year-old Legacy ERP System</strong>!</p>
+        <p>The manager drops a stack of forms onto the desk: <em>"Xiaolin! Input all consolidated price records into this legacy desktop database system! The buttons are tiny, the interface is ancient, and there is no modern API! Very urgent!"</em></p>
+        <p>Xiaolin gasps: <em>"A legacy desktop app with no API? If I click the wrong coordinate or type into the wrong box, the data gets corrupted!"</em></p>
+        <p>Brother Mo smiles calmly: <em>"Don't panic, Xiaolin. This is where true RPA shines! With PAD's <strong>UI Selector Eye</strong> and <strong>Window Focus Magic</strong>, we can manipulate any desktop application as easily as a human!"</em></p>
+        
+        <img src="assets/comic-6-1.jpg" alt="PAD Office Survival Guide Ch6: Legacy Desktop ERP Challenge" loading="lazy">
+        <img src="assets/comic-6-2.jpg" alt="PAD Office Survival Guide Ch6: UI Selector and Window Penetration Magic" loading="lazy">
+        
+        <h2>Core Concepts: UI Automation & Window Element Targeting</h2>
+        
+        <h3>1. UI Selector — Giving Eyes to Your Robot</h3>
+        <p>In legacy software without APIs, PAD uses the <strong>UI Element Selector</strong>. By holding <code class="code-pill">Ctrl + Left Click</code>, PAD automatically inspects and locks onto UI controls (buttons, input fields, dropdowns, table cells) within the Windows desktop hierarchy.</p>
+
+        <h3>2. Window Focus & Input Simulation</h3>
+        <p>To ensure 100% precision regardless of window positions or screen resolution:</p>
+        <ul>
+          <li><code class="code-pill">Focus window</code> ➔ Brings the legacy app to the foreground.</li>
+          <li><code class="code-pill">Populate text field in window</code> ➔ Types values directly into target controls without relying on screen coordinates.</li>
+          <li><code class="code-pill">Press button in window</code> ➔ Triggers the submit action reliably.</li>
+        </ul>
+        
+        <img src="assets/comic-6-3.jpg" alt="PAD Office Survival Guide Ch6: Window Focusing and UI Element Population" loading="lazy">
+        <img src="assets/comic-6-4.jpg" alt="PAD Office Survival Guide Ch6: Mouse Simulation and Element Waiting" loading="lazy">
+        
+        <h2>Step-by-Step Tutorial: End-to-End Grand Integration</h2>
+        <ol>
+          <li><strong>Focus Target Window:</strong> Add <code class="code-pill">Focus window</code> to target the legacy application title.</li>
+          <li><strong>Populate Fields with Variables:</strong> Use <code class="code-pill">Populate text field in window</code> to map Excel variables (<code class="code-pill">%CurrentRow['ClientID']%</code>, <code class="code-pill">%CurrentRow['Price']%</code>) into corresponding text boxes.</li>
+          <li><strong>Submit & Wait:</strong> Add <code class="code-pill">Press button in window</code> to click "Save/Submit", followed by <code class="code-pill">Wait for window content</code> to ensure database processing is complete.</li>
+          <li><strong>Grand Integration:</strong> Combine everything we've learned across all 6 chapters:
+            <ul>
+              <li><strong>Ch.1–2:</strong> Dynamic Excel reading & For Each loops</li>
+              <li><strong>Ch.3:</strong> Web scraping & automated emails</li>
+              <li><strong>Ch.4:</strong> Dynamic date paths & On Error exception shields</li>
+              <li><strong>Ch.5:</strong> Custom forms for interactive criteria input</li>
+              <li><strong>Ch.6:</strong> Full desktop UI automation & unattended orchestration!</li>
+            </ul>
+          </li>
+        </ol>
+
+        <img src="assets/comic-6-5.jpg" alt="PAD Office Survival Guide Ch6: The Grand End-to-End Workflow Integration" loading="lazy">
+        <img src="assets/comic-6-6.jpg" alt="PAD Office Survival Guide Ch6: Graduation! A True Workplace Automation Master" loading="lazy">
+        
+        <div class="series-finish-box">
+          <h3>🎉 Series Graduation: A Workplace Automation Master is Born!</h3>
+          <p>Xiaolin hits <strong>Run</strong>! In just minutes, PAD takes custom parameters, iterates 30 supplier files, skips corrupt items, inputs hundreds of records into the legacy ERP with zero errors, and delivers the finalized report to the manager's inbox!</p>
+          <p>The manager exclaims: <em>"Incredible speed and 100% accuracy! Xiaolin, you're off the hook—no overtime needed!"</em></p>
+          <p>Xiaolin and Brother Mo clink their boba tea cups, celebrating true liberation from repetitive office drudgery. You, too, are now equipped with the complete Power Automate Desktop toolkit!</p>
+        </div>
+
+        <div class="chapter-nav">
+          <a href="pad-office-survival-guide-ch5.html">← Chapter 5: Smart Assistant</a>
+          <a href="articles.html">All Articles ↑</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== Traditional Chinese Block ==================== -->
+    <div data-lang-block="zh-TW">
+      <header class="article-header">
+        <p class="eyebrow"><span></span> RPA / COMIC / TUTORIAL / 完結篇</p>
+        <h1>《PAD 辦公室生存記》第六章（完結篇）：突破老舊系統防線 —— 桌面 UI 自動化實戰與終極串接</h1>
+        <div class="article-meta">
+          <span>AUTHOR: Troy Su</span>
+          <span>DATE: 2026-08-27</span>
+          <span>READ: 6 MIN</span>
+        </div>
+      </header>
+      <div class="article-content">
+        <blockquote class="author-note">
+          <strong>作者：Troy Su</strong> | Power Automate Desktop (PAD) 與 RPA 自動化專家
+        </blockquote>
+        <p>在辦公室自動化的終極對決中，終極大魔王終於登場了——那就是公司裡那套<strong>「20 年前開發的老舊桌面 ERP 系統」</strong>！</p>
+        <p>業務經理抱著整疊資料走進來：<em>「小林！把剛剛彙整的所有報價數據，逐筆輸入到這套老舊資料庫系統裡！這系統按鈕超小、沒有任何 API 可以串接，改錯一個參數就全毀了！很急！（順手嘛！）」</em></p>
+        <p>小林倒抽一口涼氣：<em>「沒有 API 的古董桌面軟體？如果手動點錯座標或填錯欄位，資料庫就整個亂掉了！」</em></p>
+        <p>莫哥端著保溫杯從容微笑：<em>「別慌！這正是 RPA 最強大的拿手絕活！利用 PAD 的<strong>『UI 選取器眼睛』</strong>與<strong>『視窗穿透魔法』</strong>，任何老舊軟體都能像真人操作一樣精準駕馭！」</em></p>
+        
+        <img src="assets/comic-6-1.jpg" alt="PAD 辦公室生存記 第六章第1頁：突破20年前老舊系統防線" loading="lazy">
+        <img src="assets/comic-6-2.jpg" alt="PAD 辦公室生存記 第六章第2頁：UI選取器與視窗穿透魔法" loading="lazy">
+        
+        <h2>核心觀念：UI 自動化與視窗元素鎖定</h2>
+        
+        <h3>1. UI 選取器（UI Selector）—— 替機器人裝上透視眼</h3>
+        <p>面對沒有 API 的老舊軟體，PAD 提供了強大的「UI 元素選取器」。只要在畫面上按住 <code class="code-pill">Ctrl + 左鍵</code>，PAD 就能穿透介面，精準抓取按鈕、文字輸入框、下拉選單或表格元件的階層屬性，不再依賴不穩定的螢幕座標！</p>
+
+        <h3>2. 聚焦視窗與文字填入模擬</h3>
+        <p>為了確保在不同螢幕解析度或視窗位置下都能百分之百精準執行：</p>
+        <ul>
+          <li><code class="code-pill">聚焦視窗 (Focus window)</code> ➔ 將目標老系統視窗置頂並啟用焦點。</li>
+          <li><code class="code-pill">在視窗中填入文字欄位 (Populate text field)</code> ➔ 將 Excel 數據直接注入目標欄位。</li>
+          <li><code class="code-pill">按一下視窗中的按鈕 (Press button in window)</code> ➔ 穩定觸發存檔與送出動作。</li>
+        </ul>
+        
+        <img src="assets/comic-6-3.jpg" alt="PAD 辦公室生存記 第六章第3頁：聚焦視窗與UI元素文字填入" loading="lazy">
+        <img src="assets/comic-6-4.jpg" alt="PAD 辦公室生存記 第六章第4頁：模擬鍵鼠操作與等待UI元素載入" loading="lazy">
+        
+        <h2>實戰教學：全六章精華「終極全流程大串接」</h2>
+        <ol>
+          <li><strong>聚焦目標老舊視窗：</strong>加入 <code class="code-pill">聚焦視窗</code> 動作，鎖定老系統視窗標題。</li>
+          <li><strong>動態填入資料：</strong>使用 <code class="code-pill">在視窗中填入文字欄位</code>，將變數資料（例如 <code class="code-pill">%CurrentRow['客戶代碼']%</code>、<code class="code-pill">%CurrentRow['價格']%</code>）動態寫入對應輸入框。</li>
+          <li><strong>點擊送出與等待確認：</strong>加入 <code class="code-pill">按一下視窗中的按鈕</code> 點擊「存檔」，搭配 <code class="code-pill">等待視窗內容</code> 確保資料庫寫入完畢。</li>
+          <li><strong>六部曲全流程大整合：</strong>將全系列學會的所有技巧一氣呵成串接：
+            <ul>
+              <li><strong>第1–2章：</strong>Excel 動態讀寫與 For Each 迴圈批次處理</li>
+              <li><strong>第3章：</strong>網頁資料自動爬取與 Outlook 動態發信</li>
+              <li><strong>第4章：</strong>動態日期路徑歸檔與 On Error 例外防護盾</li>
+              <li><strong>第5章：</strong>自訂表單人機互動對話盒與多重條件決策</li>
+              <li><strong>第6章：</strong>老舊系統桌面 UI 自動化與終極無人排程！</li>
+            </ul>
+          </li>
+        </ol>
+
+        <img src="assets/comic-6-5.jpg" alt="PAD 辦公室生存記 第六章第5頁：全流程大串接 - 從Excel到老舊系統自動輸入" loading="lazy">
+        <img src="assets/comic-6-6.jpg" alt="PAD 辦公室生存記 第六章第6頁：完結篇！職場自動化大師誕生，全流程完美執行" loading="lazy">
+        
+        <div class="series-finish-box">
+          <h3>🎉 全劇終：職場自動化大師正式誕生！</h3>
+          <p>小林深吸一口氣按下 <strong>執行 (Run)</strong>！只見電腦如行雲流水般彈出表單、動態過濾 30 份報表、自動跳過損壞檔案、在 20 年前老舊系統中以閃電般速度自動輸入每一筆紀錄，最後將彙整報告秒速發送給主管！</p>
+          <p>業務主管看著毫無差錯的完美報表驚呼：<em>「這份報告準時又準確，小林最近效率驚人啊……不用加班了，不錯不錯！」</em></p>
+          <p>小林與莫哥碰著珍奶開心大笑，徹底告別加班地獄。恭喜你跟著小林一起走完全程，你也已經掌握了 Power Automate Desktop 的完整核心實戰技能！</p>
+        </div>
+
+        <div class="chapter-nav">
+          <a href="pad-office-survival-guide-ch5.html">← 第五章：智慧助手登場</a>
+          <a href="articles.html">返回專欄列表 ↑</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== Simplified Chinese Block ==================== -->
+    <div data-lang-block="zh-CN">
+      <header class="article-header">
+        <p class="eyebrow"><span></span> RPA / COMIC / TUTORIAL / 完结篇</p>
+        <h1>《PAD 办公室生存记》第六章（完结篇）：突破老旧系统防线 —— 桌面 UI 自动化实战与终极串接</h1>
+        <div class="article-meta">
+          <span>AUTHOR: Troy Su</span>
+          <span>DATE: 2026-08-27</span>
+          <span>READ: 6 MIN</span>
+        </div>
+      </header>
+      <div class="article-content">
+        <blockquote class="author-note">
+          <strong>作者：Troy Su</strong> | Power Automate Desktop (PAD) 与 RPA 自动化专家
+        </blockquote>
+        <p>在办公室自动化的终极对决中，终极终极大魔王终于登场了——那就是公司里那套<strong>“20 年前开发的老旧桌面 ERP 系统”</strong>！</p>
+        <p>业务经理抱着整叠资料走进来：<em>“小林！把刚刚汇总的所有报价数据，逐笔输入到这套老旧数据库系统里！这系统按钮超小、没有任何 API 可以串接，改错一个参数就全毁了！很急！（顺手嘛！）”</em></p>
+        <p>小林倒抽一口凉气：<em>“没有 API 的古董桌面软件？如果手动点错坐标或填错栏位，数据库就整个乱掉了！”</em></p>
+        <p>莫哥端着保温杯从容微笑：<em>“别慌！这正是 RPA 最强大的拿手绝活！利用 PAD 的<strong>‘UI 选取器眼睛’</strong>与<strong>‘窗口穿透魔法’</strong>，任何老旧软件都能像真人操作一样精准驾驭！”</em></p>
+        
+        <img src="assets/comic-6-1.jpg" alt="PAD 办公室生存记 第六章第1页：突破20年前老旧系统防线" loading="lazy">
+        <img src="assets/comic-6-2.jpg" alt="PAD 办公室生存记 第六章第2页：UI选取器与窗口穿透魔法" loading="lazy">
+        
+        <h2>核心观念：UI 自动化与窗口元素锁定</h2>
+        
+        <h3>1. UI 选取器（UI Selector）—— 替机器人装上透视眼</h3>
+        <p>面对没有 API 的老旧软件，PAD 提供了强大的“UI 元素选取器”。只要在画面上按住 <code class="code-pill">Ctrl + 左键</code>，PAD 就能穿透界面，精准抓取按钮、文本输入框、下拉菜单或表格元件的阶层属性，不再依赖不稳定的屏幕坐标！</p>
+
+        <h3>2. 聚焦窗口与文本填入模拟</h3>
+        <p>为了确保在不同屏幕分辨率或窗口位置下都能百分之百精准执行：</p>
+        <ul>
+          <li><code class="code-pill">聚焦窗口 (Focus window)</code> ➔ 将目标老系统窗口置顶并启用焦点。</li>
+          <li><code class="code-pill">在窗口中填入文本栏位 (Populate text field)</code> ➔ 将 Excel 数据直接注入目标栏位。</li>
+          <li><code class="code-pill">按一下窗口中的按钮 (Press button in window)</code> ➔ 稳定触发存盘与送出动作。</li>
+        </ul>
+        
+        <img src="assets/comic-6-3.jpg" alt="PAD 办公室生存记 第六章第3页：聚焦窗口与UI元素文本填入" loading="lazy">
+        <img src="assets/comic-6-4.jpg" alt="PAD 办公室生存记 第六章第4页：模拟键鼠操作与等待UI元素载入" loading="lazy">
+        
+        <h2>实战教学：全六章精华“终极全流程大串接”</h2>
+        <ol>
+          <li><strong>聚焦目标老旧窗口：</strong>加入 <code class="code-pill">聚焦窗口</code> 动作，锁定老系统窗口标题。</li>
+          <li><strong>动态填入数据：</strong>使用 <code class="code-pill">在窗口中填入文本栏位</code>，将变量数据（例如 <code class="code-pill">%CurrentRow['客户代码']%</code>、<code class="code-pill">%CurrentRow['价格']%</code>）动态写入对应输入框。</li>
+          <li><strong>点击送出与等待确认：</strong>加入 <code class="code-pill">按一下窗口中的按钮</code> 点击“存盘”，搭配 <code class="code-pill">等待窗口内容</code> 确保数据库写入完毕。</li>
+          <li><strong>六部曲全流程大整合：</strong>将全系列学会的所有技巧一气呵成串接：
+            <ul>
+              <li><strong>第1–2章：</strong>Excel 动态读写与 For Each 循环批量处理</li>
+              <li><strong>第3章：</strong>网页数据自动爬取与 Outlook 动态发信</li>
+              <li><strong>第4章：</strong>动态日期路径归档与 On Error 异常防护盾</li>
+              <li><strong>第5章：</strong>自定义表单人机交互对话框与多重条件决策</li>
+              <li><strong>第6章：</strong>老旧系统桌面 UI 自动化与终极无人排程！</li>
+            </ul>
+          </li>
+        </ol>
+
+        <img src="assets/comic-6-5.jpg" alt="PAD 办公室生存记 第六章第5页：全流程大串接 - 从Excel到老旧系统自动输入" loading="lazy">
+        <img src="assets/comic-6-6.jpg" alt="PAD 办公室生存记 第六章第6页：完结篇！职场自动化大师诞生，全流程完美执行" loading="lazy">
+        
+        <div class="series-finish-box">
+          <h3>🎉 全剧终：职场自动化大师正式诞生！</h3>
+          <p>小林深吸一口气按下 <strong>执行 (Run)</strong>！只见电脑如行云流水般弹出表单、动态过滤 30 份报表、自动跳过损坏文件、在 20 年前老旧系统中以闪电般速度自动输入每一条记录，最后将汇总报告秒速发送给主管！</p>
+          <p>业务主管看着毫无差错的完美报表惊呼：<em>“这份报告准时又准确，小林最近效率惊人啊……不用加班了，不错不错！”</em></p>
+          <p>小林与莫哥碰着奶茶开心大笑，彻底告别加班地狱。恭喜你跟着小林一起走完全程，你也已经掌握了 Power Automate Desktop 的完整核心实战技能！</p>
+        </div>
+
+        <div class="chapter-nav">
+          <a href="pad-office-survival-guide-ch5.html">← 第五章：智慧助手登场</a>
+          <a href="articles.html">返回专栏列表 ↑</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== Japanese Block ==================== -->
+    <div data-lang-block="ja">
+      <header class="article-header">
+        <p class="eyebrow"><span></span> RPA / COMIC / TUTORIAL / 完結編</p>
+        <h1>PADオフィスサバイバルガイド 第六章（完結編）：レガシーシステム攻略と究極の全体連携</h1>
+        <div class="article-meta">
+          <span>AUTHOR: Troy Su</span>
+          <span>DATE: 2026-08-27</span>
+          <span>READ: 6 MIN</span>
+        </div>
+      </header>
+      <div class="article-content">
+        <blockquote class="author-note">
+          <strong>著者：Troy Su</strong> | Power Automate Desktop (PAD) および RPA 自動化エキスパート
+        </blockquote>
+        <p>オフィス自動化の最終決戦に、最強のボスが登場しました。それは社内の<strong>「20年前に作られたレガシーデスクトップERPシステム」</strong>です！</p>
+        <p>営業部長が資料を持って駆け込んできます：<em>「小林さん！集計した見積もりデータをこのレガシーシステムに1件ずつ手入力してくれ！ボタンは小さくAPIも何もない！急ぎで！」</em></p>
+        <p>小林は叫びます：<em>「APIのない古文書のようなソフト！？クリック位置や入力欄を間違えたらデータが崩壊してしまいます！」</em></p>
+        <p>莫兄（モー・ガー）が微笑みます：<em>「慌てないで！これこそRPAの真骨頂だ。PADの<strong>『UIセレクターの眼』</strong>と<strong>『ウィンドウフォーカス魔法』</strong>を使えば、どんなレガシーシステムも人間のように正確に操作できるよ！」</em></p>
+        
+        <img src="assets/comic-6-1.jpg" alt="PADオフィスサバイバルガイド 第6章 1/6" loading="lazy">
+        <img src="assets/comic-6-2.jpg" alt="PADオフィスサバイバルガイド 第6章 2/6" loading="lazy">
+        
+        <h2>核心概念：デスクトップUI自動化とUI要素ターゲティング</h2>
+        
+        <h3>1. UIセレクター —— ロボットに「眼」を与える</h3>
+        <p>APIのないシステムに対し、PADは「UI要素セレクター」を提供します。<code class="code-pill">Ctrl + 左クリック</code> で対象ボタンやテキスト欄をロックし、画面座標に依存しない安定したUIツリー構造で要素を特定します。</p>
+
+        <h3>2. ウィンドウフォーカスと入力シミュレーション</h3>
+        <ul>
+          <li><code class="code-pill">ウィンドウにフォーカスする</code> ➔ レガシーアプリを最前面に表示。</li>
+          <li><code class="code-pill">ウィンドウ内のテキスト フィールドに入力する</code> ➔ データを直接テキストボックスへ注入。</li>
+          <li><code class="code-pill">ウィンドウ内のボタンを押す</code> ➔ 保存や送信アクションを確実に実行。</li>
+        </ul>
+        
+        <img src="assets/comic-6-3.jpg" alt="PADオフィスサバイバルガイド 第6章 3/6" loading="lazy">
+        <img src="assets/comic-6-4.jpg" alt="PADオフィスサバイバルガイド 第6章 4/6" loading="lazy">
+        
+        <h2>実践ガイド：全6章のエッセンスを束ねる究極の連携</h2>
+        <ol>
+          <li><strong>ウィンドウフォーカス：</strong><code class="code-pill">ウィンドウにフォーカスする</code> で対象レガシーシステムを指定。</li>
+          <li><strong>データの自動入力：</strong><code class="code-pill">ウィンドウ内のテキスト フィールドに入力する</code> でExcelの変数値を注入。</li>
+          <li><strong>保存と処理待ち：</strong><code class="code-pill">ウィンドウ内のボタンを押す</code> ➔ <code class="code-pill">ウィンドウのコンテンツを待機する</code>。</li>
+          <li><strong>全フローの大統合：</strong>全6章で学んだ技術をひとつに結合：
+            <ul>
+              <li><strong>第1–2章：</strong>Excel動的読込とFor Eachループ</li>
+              <li><strong>第3章：</strong>WebスクレイピングとOutlook自動送信</li>
+              <li><strong>第4章：</strong>動的日付パスとOn Error例外処理</li>
+              <li><strong>第5章：</strong>カスタムフォームによる人機協調UI</li>
+              <li><strong>第6章：</strong>デスクトップUI自動化と無人スケジューリング！</li>
+            </ul>
+          </li>
+        </ol>
+
+        <img src="assets/comic-6-5.jpg" alt="PADオフィスサバイバルガイド 第6章 5/6" loading="lazy">
+        <img src="assets/comic-6-6.jpg" alt="PADオフィスサバイバルガイド 第6章 6/6" loading="lazy">
+        
+        <div class="series-finish-box">
+          <h3>🎉 完結：自動化マスターの誕生！</h3>
+          <p>小林が <strong>実行 (Run)</strong> をクリック！PADは条件入力を受け取り、30社分をフィルタし、破損ファイルをスキップし、レガシーシステムへ電光石火で入力を完了させ、瞬時にレポートを送信しました！</p>
+          <p>営業部長は大絶賛：<em>「ミスなく超高速だ！小林さん、残業なしで上がっていいよ！」</em></p>
+          <p>タピオカミルクティーを手に笑顔で退社する小林と莫兄。全編を通して学んだあなたも、立派な自動化マスターです！</p>
+        </div>
+
+        <div class="chapter-nav">
+          <a href="pad-office-survival-guide-ch5.html">← 第五章：スマートアシスタント登場</a>
+          <a href="articles.html">記事一覧に戻る ↑</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== Korean Block ==================== -->
+    <div data-lang-block="ko">
+      <header class="article-header">
+        <p class="eyebrow"><span></span> RPA / COMIC / TUTORIAL / 완결편</p>
+        <h1>PAD 오피스 서바이벌 가이드 6장 (완결편): 레거시 시스템 정복과 궁극의 전체 연동</h1>
+        <div class="article-meta">
+          <span>AUTHOR: Troy Su</span>
+          <span>DATE: 2026-08-27</span>
+          <span>READ: 6 MIN</span>
+        </div>
+      </header>
+      <div class="article-content">
+        <blockquote class="author-note">
+          <strong>저자: Troy Su</strong> | Power Automate Desktop (PAD) 및 RPA 자동화 전문가
+        </blockquote>
+        <p>오피스 자동화의 최종 결전에서 끝판왕이 등장했습니다. 바로 회사의 <strong>"20년 전 구축된 레거시 데스크톱 ERP 시스템"</strong>입니다!</p>
+        <p>영업부장이 서류 뭉치를 들고 옵니다: <em>"샤오린! 취합된 단가 데이터를 이 레거시 시스템에 일일이 입력해 줘! 버튼도 작고 API도 없어! 급해!"</em></p>
+        <p>샤오린이 경악합니다: <em>"API도 없는 고대 유물 소프트웨어라고요?! 좌표나 입력창을 잘못 클릭하면 데이터가 엉망이 돼요!"</em></p>
+        <p>모 형(Mo-ge)이 미소를 짓습니다: <em>"당황하지 마! 이게 바로 RPA의 진정한 필살기야! PAD의 <strong>'UI 선택기 눈'</strong>과 <strong>'창 포커스 마법'</strong>으로 어떤 구형 시스템도 사람처럼 정확히 다룰 수 있어!"</em></p>
+        
+        <img src="assets/comic-6-1.jpg" alt="PAD 오피스 서바이벌 가이드 6장 1/6" loading="lazy">
+        <img src="assets/comic-6-2.jpg" alt="PAD 오피스 서바이벌 가이드 6장 2/6" loading="lazy">
+        
+        <h2>핵심 개념: 데스크톱 UI 자동화와 UI 요소 타겟팅</h2>
+        
+        <h3>1. UI 선택기 (UI Selector) —— 로봇에게 눈을 달아주기</h3>
+        <p>API가 없는 시스템에서도 화면에서 <code class="code-pill">Ctrl + 좌클릭</code>만 누르면 PAD가 버튼, 텍스트 상자, 드롭다운의 계층 속성을 인식하여 좌표 오차 없는 안정적인 자동화를 보장합니다.</p>
+
+        <h3>2. 창 포커스 및 텍스트 입력 시뮬레이션</h3>
+        <ul>
+          <li><code class="code-pill">창에 포커스</code> ➔ 구형 시스템 창을 활성화.</li>
+          <li><code class="code-pill">창의 텍스트 필드 채우기</code> ➔ Excel 데이터를 대상 텍스트 상자에 직접 입력.</li>
+          <li><code class="code-pill">창의 단추 누르기</code> ➔ 저장 및 전송 동작 실행.</li>
+        </ul>
+        
+        <img src="assets/comic-6-3.jpg" alt="PAD 오피스 서바이벌 가이드 6장 3/6" loading="lazy">
+        <img src="assets/comic-6-4.jpg" alt="PAD 오피스 서바이벌 가이드 6장 4/6" loading="lazy">
+        
+        <h2>실전 튜토리얼: 전 6장 핵심 '궁극의 엔드투엔드 연동'</h2>
+        <ol>
+          <li><strong>창 포커스 설정:</strong> <code class="code-pill">창에 포커스</code>로 대상 레거시 프로그램을 활성화.</li>
+          <li><strong>동적 데이터 입력:</strong> <code class="code-pill">창의 텍스트 필드 채우기</code>로 Excel 변수값을 입력.</li>
+          <li><strong>저장 및 완료 대기:</strong> <code class="code-pill">창의 단추 누르기</code> ➔ <code class="code-pill">창 내용 대기</code>.</li>
+          <li><strong>전 시리즈 대통합:</strong> 6편의 모든 기술을 하나로 결합:
+            <ul>
+              <li><strong>1–2장:</strong> Excel 동적 읽기/쓰기 및 For Each 루프</li>
+              <li><strong>3장:</strong> 웹 스크래핑 및 Outlook 자동 이메일 발송</li>
+              <li><strong>4장:</strong> 동적 날짜 경로 생성 및 On Error 예외 처리</li>
+              <li><strong>5장:</strong> 사용자 정의 폼 기반 인간-로봇 협업</li>
+              <li><strong>6장:</strong> 데스크톱 UI 자동화 및 무인 자동화 완성!</li>
+            </ul>
+          </li>
+        </ol>
+
+        <img src="assets/comic-6-5.jpg" alt="PAD 오피스 서바이벌 가이드 6장 5/6" loading="lazy">
+        <img src="assets/comic-6-6.jpg" alt="PAD 오피스 서바이벌 가이드 6장 6/6" loading="lazy">
+        
+        <div class="series-finish-box">
+          <h3>🎉 전편 완결: 오피스 자동화 마스터 탄생!</h3>
+          <p>샤오린이 <strong>실행 (Run)</strong>을 누르자 PAD가 조건 입력창을 띄우고, 30개사를 필터링하고, 손상 파일을 건너뛰고, 20년 전 구형 시스템에 번개 같은 속도로 데이터를 입력한 뒤 보고서를 발송했습니다!</p>
+          <p>영업부장의 극찬: <em>"완벽한 속도와 정확도야! 샤오린, 오늘 야근 없이 퇴근해!"</em></p>
+          <p>버블티를 들고 환하게 웃으며 퇴근하는 샤오린과 모 형. 전 과정을 완주한 여러분도 이제 진정한 자동화 마스터입니다!</p>
+        </div>
+
+        <div class="chapter-nav">
+          <a href="pad-office-survival-guide-ch5.html">← 5장: 스마트 비서 등장</a>
+          <a href="articles.html">게시글 목록으로 ↑</a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer section-wrap" style="border-top: 1px solid var(--line); margin-top: 80px;">
+    <a class="brand" href="index.html">
+      <span class="brand-mark">T</span>
+      <span>TROY'S<br><b>SMART AUTOMATION</b></span>
+    </a>
+    <p>© 2026 Troy's Smart Automation</p>
+  </footer>
+  
+  <script src="script.js?v=1.4"></script>
+</body>
+</html>
